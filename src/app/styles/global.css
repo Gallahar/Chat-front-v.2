@@ -1,0 +1,19 @@
+@import './reset.css';
+
+@font-face {
+	font-family: 'Neuropol';
+	font-style: normal;
+	font-weight: 400;
+	src: url('./fonts/NeuropolXSb-Regular.woff2');
+}
+@font-face {
+	font-family: 'Stolzl';
+	font-style: normal;
+	font-weight: 400;
+	src: url('./fonts/Stolzl-Regular.woff2');
+}
+
+body {
+	font-family: 'Stolzl';
+	font-weight: 400;
+}
