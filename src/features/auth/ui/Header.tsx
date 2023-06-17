@@ -1,10 +1,13 @@
+import { HeaderMenu } from '@/entities/auth/ui'
 import { Astronaut } from '@/shared/assets/icons/Astronaut'
 import { Logo } from '@/shared/assets/icons/logo'
 import { styled } from '@mui/material'
 import { ButtonBase } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const StyledHeader = styled('header')`
+	position: relative;
 	margin-top: 10px;
 	width: 100%;
 	padding: 24px 28px;
@@ -23,17 +26,28 @@ const StyledHeader = styled('header')`
 	}
 `
 
-
-
 export const Header = () => {
+	const nav = useNavigate()
+	const [showMenu, setShowMenu] = useState(false)
+	const navigateHandler = (path: string) => {
+		setShowMenu(false)
+		nav(path)
+	}
+
 	return (
 		<StyledHeader>
 			<Link to="/">
 				<Logo />
 			</Link>
-			<ButtonBase>
+			<ButtonBase onClick={() => setShowMenu((prev) => !prev)}>
 				<Astronaut />
 			</ButtonBase>
+			{showMenu && (
+				<HeaderMenu
+					toRegister={() => navigateHandler('register')}
+					toLogin={() => navigateHandler('login')}
+				/>
+			)}
 		</StyledHeader>
 	)
 }

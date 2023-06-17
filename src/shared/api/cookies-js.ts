@@ -1,4 +1,4 @@
-import { IUser } from '@/shared/types/user.interface'
+import { User } from '@/shared/types/user.interface'
 import Cookies from 'js-cookie'
 
 export const getCookiesData = (key: string) => {
@@ -6,10 +6,14 @@ export const getCookiesData = (key: string) => {
 	return data ? JSON.parse(data) : null
 }
 
-export const setUser = (user: IUser) => {
+export const setUser = (user: User) => {
 	Cookies.set('user', JSON.stringify(user))
 }
 
 export const setAccessToken = (token: string) => {
 	Cookies.set('accessToken', token)
+}
+
+export const removeAccessToken = () => {
+	Cookies.remove('accessToken')
 }

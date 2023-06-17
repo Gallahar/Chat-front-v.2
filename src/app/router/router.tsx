@@ -1,4 +1,4 @@
-import { AuthLayout } from '@/entities/auth/ui'
+import { AuthLayout } from '@/widgets/auth/ui'
 import { Login } from '@/pages/Login'
 import { Register } from '@/pages/Register'
 import { Home } from '@/pages/Home'

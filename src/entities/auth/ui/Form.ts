@@ -1,14 +1,30 @@
-import { styled } from "@mui/material";
+import { styled, keyframes } from '@mui/material'
 
-export const StyledForm = styled('form')`
+const appear = keyframes`
+from{
+opacity: 0;
+transform: translateY(100%);
+}
+
+to{
+opacity: 1;
+transform: translateX(0);
+}
+`
+
+export const StyledForm = styled('form')<{ hidden: boolean }>`
 	width: 100%;
 	max-width: 452px;
 	background: #ffffff;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
-    padding: 30px;
+	padding: 30px;
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
-    margin: 0 auto;
+	margin: 0 auto;
+	transition: all 0.2s ease-in-out;
+	animation: ${appear} 0.3s ease-in-out;
+	transform: translateY(${(props) => (props.hidden ? '100%' : 0)});
+	opacity: ${(props) => (props.hidden ? 0 : 1)};
 `

@@ -1,13 +1,18 @@
 import { useAuthForm } from '@/entities/auth/lib/hooks'
 import { StyledForm } from '@/entities/auth/ui/Form'
-import { Button, Input } from '@/shared/ui'
+import { PrimaryButton, Input } from '@/shared/ui'
+import { FC } from 'react'
 
-export const LoginForm = () => {
+interface LoginFormProps {
+	closed: boolean
+}
+
+export const LoginForm: FC<LoginFormProps> = ({ closed }) => {
 	const { fields, errors, onSubmit } = useAuthForm()
 	const { email, password } = fields
 
 	return (
-		<StyledForm onSubmit={onSubmit}>
+		<StyledForm hidden={closed} onSubmit={onSubmit}>
 			<Input
 				{...email}
 				label="E-mail address"
@@ -18,7 +23,7 @@ export const LoginForm = () => {
 				label="Password"
 				error={errors.password?.message}
 			/>
-			<Button type="submit">Log in</Button>
+			<PrimaryButton type="submit">Log in</PrimaryButton>
 		</StyledForm>
 	)
 }

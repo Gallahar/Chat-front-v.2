@@ -3,8 +3,9 @@ import { SearchGradient } from '@/shared/assets/icons/SearchGradient'
 import { SignUpGradient } from '@/shared/assets/icons/SignUpGradient'
 import { SocialGradient } from '@/shared/assets/icons/SocialGradient'
 import { styled } from '@mui/material'
+import { FC } from 'react'
 
-const StyledList = styled('div')`
+const StyledList = styled('div')<{ hidden: boolean }>`
 	margin-top: 70px;
 	width: 100%;
 	display: grid;
@@ -12,6 +13,9 @@ const StyledList = styled('div')`
 	grid-auto-rows: 240px;
 	justify-content: space-between;
 	align-content: center;
+	transition: all 0.2s ease-in-out;
+	transform: translateY(${(props) => (props.hidden ? '100%' : 0)});
+	opacity: ${(props) => (props.hidden ? 0 : 1)};
 `
 
 const list = [
@@ -20,9 +24,13 @@ const list = [
 	{ title: 'Free social', svg: <SocialGradient /> },
 ]
 
-export const CardsList = () => {
+interface TitleCardListProps {
+	hidden: boolean
+}
+
+export const TitleCardsList: FC<TitleCardListProps> = ({ hidden }) => {
 	return (
-		<StyledList>
+		<StyledList hidden={hidden}>
 			{list.map(({ title, svg }) => (
 				<TitleCard key={title} title={title}>
 					{svg}

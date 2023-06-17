@@ -9,6 +9,6 @@ const StyledButton = styled(ButtonBase)`
 	background-image: linear-gradient(90deg, #00f0ff 0%, #00ff1a 100%);
 `
 
-export const Button: FC<ButtonProps> = ({ children,...rest }) => {
+export const PrimaryButton: FC<ButtonProps> = ({ children,...rest }) => {
 	return <StyledButton {...rest}>{children}</StyledButton>
 }
