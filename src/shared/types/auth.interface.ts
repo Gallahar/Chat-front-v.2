@@ -1,14 +1,14 @@
 import { Chat } from './chat.interface'
 import { User } from './user.interface'
 
-type Token = {
+type Tokens = {
 	accessToken: string
 }
 
 export interface AuthResponse {
-	tokens: Token
+	tokens: Tokens
 	user: User
-	chats: Chat[] | []
+	chats: Chat[]
 }
 
 export interface AuthData {
@@ -16,4 +16,3 @@ export interface AuthData {
 	username?: string
 	password: string
 }
-

@@ -1,5 +1,5 @@
-import { Message } from "./message.interface"
-import { User } from "./user.interface"
+import { Message } from './message.interface'
+import { User } from './user.interface'
 
 export interface Chat {
 	_id: string
@@ -7,4 +7,9 @@ export interface Chat {
 	updatedAt: string
 	messages: Message[]
 	users: User[]
+}
+
+export interface StartChatDto {
+	fromUserId: string
+	toUserId: string
 }

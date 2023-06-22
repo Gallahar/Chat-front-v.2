@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom'
 
 const SpeechBlockWrapper = styled('div')<{ animated?: boolean }>`
 	display: flex;
+	color: var(--text-white);
+	font-family: var(--font-family-secondary);
 	margin-top: ${(props) => (props.animated ? 46 : 58)}px;
 	margin-left: ${(props) => (props.animated ? 59 : 78)}px;
 	transition: margin 0.3s ease-in-out;
@@ -23,15 +25,11 @@ const SpeechImg = styled('img')<{ animated?: boolean }>`
 `
 
 const Greeting = styled('h2')<{ animated?: boolean }>`
-	font-family: 'Neuropol';
-	color: #fff;
 	line-height: 150%;
 	font-size: ${(props) => (props.animated ? 50 : 76)}px;
 	transition: font-size 0.3s ease-in-out;
 `
 const Speech = styled('p')<{ animated?: boolean }>`
-	font-family: 'Neuropol';
-	color: #fff;
 	line-height: 150%;
 	max-width: ${(props) => (props.animated ? 235 : 350)}px;
 	font-size: ${(props) => (props.animated ? 16 : 24)}px;

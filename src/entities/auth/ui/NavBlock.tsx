@@ -19,7 +19,7 @@ const StyledText = styled('p')`
 	padding: 8px;
 	font-size: 20px;
 	line-height: 150%;
-	color: #424242;
+	color: var(--text-grey);
 `
 
 export const NavBlock: FC<NavBlockProps> = ({
@@ -28,9 +28,9 @@ export const NavBlock: FC<NavBlockProps> = ({
 }) => {
 	return (
 		<NavBlockWrapper>
-			<PrimaryButton onClick={onClickLogin}>Log in</PrimaryButton>
+			<PrimaryButton onClick={onClickLogin}>Sign in</PrimaryButton>
 			<StyledText>or</StyledText>
-			<PrimaryButton onClick={onClickRegister}>Register</PrimaryButton>
+			<PrimaryButton onClick={onClickRegister}>Sign up</PrimaryButton>
 		</NavBlockWrapper>
 	)
 }

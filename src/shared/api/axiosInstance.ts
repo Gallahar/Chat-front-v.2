@@ -4,8 +4,8 @@ import axiosInstance, {
 	AxiosResponse,
 } from 'axios'
 
-import { IAuthResponse } from '@/shared/types/auth.interface'
-import { getCookiesData, setAccessToken } from './cookies-js'
+import { AuthResponse } from '@/shared/types/auth.interface'
+import { getAccessToken, setAccessToken } from '../lib/utils/cookieService'
 
 const axios = axiosInstance.create({
 	baseURL: import.meta.env.VITE_PUBLIC_API_BASE_URL,
@@ -17,7 +17,7 @@ axios.interceptors.request.use(
 	async (
 		config: InternalAxiosRequestConfig
 	): Promise<InternalAxiosRequestConfig> => {
-		const accessToken = getCookiesData('accessToken')
+		const accessToken = getAccessToken()
 		if (config.headers && accessToken) {
 			config.headers.Authorization = `Bearer ${accessToken}`
 		}
@@ -33,7 +33,7 @@ const onRejectedResponse = async (
 		error.response?.status === 401
 	) {
 		try {
-			const response: AxiosResponse<IAuthResponse> = await axios.post(
+			const response: AxiosResponse<AuthResponse> = await axios.post(
 				'auth/refresh',
 				{
 					withCredentials: true,
@@ -50,13 +50,13 @@ const onRejectedResponse = async (
 }
 
 const onFulfilledResponse = async (
-	response: AxiosResponse<IAuthResponse>
+	response: AxiosResponse<AuthResponse>
 ): Promise<AxiosResponse> => {
 	updateCookie(response)
 	return response
 }
 
-const updateCookie = (response: AxiosResponse<IAuthResponse>) => {
+const updateCookie = (response: AxiosResponse<AuthResponse>) => {
 	const data = response?.data
 	if (data.tokens) {
 		setAccessToken(data.tokens.accessToken)

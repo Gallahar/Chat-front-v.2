@@ -6,9 +6,10 @@ const StyledButton = styled(ButtonBase)`
 	border-radius: 20px;
 	width: 100%;
 	padding: 18px 0;
-	background-image: linear-gradient(90deg, #00f0ff 0%, #00ff1a 100%);
+	color: var(--text-black);
+	background-image: var(--gr-primary);
 `
 
-export const PrimaryButton: FC<ButtonProps> = ({ children,...rest }) => {
+export const PrimaryButton: FC<ButtonProps> = ({ children, ...rest }) => {
 	return <StyledButton {...rest}>{children}</StyledButton>
 }

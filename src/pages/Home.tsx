@@ -1,5 +1,5 @@
 import { NavBlock } from '@/entities/auth/ui/NavBlock'
-import { TitleCardsList } from '@/widgets/Auth/ui'
+import { TitleCardsList } from '@/widgets/auth/ui'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 

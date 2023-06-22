@@ -5,15 +5,15 @@ import { FC } from 'react'
 
 
 interface RegistrationFormProps {
-	closed: boolean
+	hidden: boolean
 }
 
-export const RegistrationForm: FC<RegistrationFormProps> = ({closed}) => {
+export const RegistrationForm: FC<RegistrationFormProps> = ({ hidden }) => {
 	const { errors, fields, onSubmit } = useAuthForm(true)
 	const { email, password, username } = fields
 
 	return (
-		<StyledForm hidden={closed} onSubmit={onSubmit}>
+		<StyledForm hidden={hidden} onSubmit={onSubmit}>
 			<Input
 				{...username}
 				label="Username"

@@ -1,21 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { authApi } from '../api'
-import { removeAccessToken, setAccessToken } from '@/shared/api'
+import {
+	removeAccessToken,
+	removeUser,
+	setAccessToken,
+} from '@/shared/lib/utils/cookieService'
 
-interface AuthSlice {
+interface AuthState {
 	isAuth: boolean
 }
 
-const initialState: AuthSlice = {
+const initialState: AuthState = {
 	isAuth: false,
 }
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
 	name: 'authSlice',
 	initialState,
 	reducers: {
 		logout: (state) => {
 			removeAccessToken()
+			removeUser()
 			state.isAuth = false
 		},
 	},
@@ -33,6 +38,17 @@ export const authSlice = createSlice({
 					state.isAuth = true
 					setAccessToken(payload.tokens.accessToken)
 				}
+			),
+			builder.addMatcher(
+				authApi.endpoints.refresh.matchFulfilled,
+				(state, { payload }) => {
+					state.isAuth = true
+					setAccessToken(payload.tokens.accessToken)
+				}
 			)
 	},
 })
+
+export default authSlice.reducer
+
+export const { logout } = authSlice.actions

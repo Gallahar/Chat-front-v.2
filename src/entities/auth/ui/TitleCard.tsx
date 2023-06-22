@@ -2,9 +2,9 @@ import { styled } from '@mui/material'
 import { FC, PropsWithChildren } from 'react'
 
 const CardWrapper = styled('div')`
-	background: #fff;
-  
-  max-width: 340px;
+	background: var(--bg-white);
+
+	max-width: 340px;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
 	display: flex;

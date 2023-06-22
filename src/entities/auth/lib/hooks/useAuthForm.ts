@@ -1,9 +1,10 @@
 import { emailRegexp } from '@/shared/lib/constants/regexp'
 import { AuthData } from '@/shared/types/auth.interface'
 import { InputProps } from '@/shared/ui/Input'
-import { FormEventHandler } from 'react'
+import { FormEventHandler, useEffect } from 'react'
 import { FieldErrors, useForm } from 'react-hook-form'
 import { useLoginMutation, useRegisterMutation } from '../../api'
+import { useNavigate } from 'react-router-dom'
 
 interface AuthFieldValues {
 	email: string
@@ -23,16 +24,23 @@ interface AuthFormReturn {
 }
 
 export const useAuthForm = (isRegisterForm?: boolean): AuthFormReturn => {
+	const nav = useNavigate()
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<AuthData>({ reValidateMode: 'onChange', mode: 'onChange' })
+	const [registerRequest, { isSuccess: isRegisterSuccess }] =
+		useRegisterMutation() // todo: use toast notification about error/ success
+	const [loginRequest, { isSuccess: isLoginSuccess }] = useLoginMutation()
 
-	const [registerRequest] = useRegisterMutation()    // todo: use toast notification about error/ success
-	const [loginRequest] = useLoginMutation()
+	useEffect(() => {
+		if (isRegisterSuccess || isLoginSuccess) {
+			nav('/chat')
+		}
+	}, [isRegisterSuccess, isLoginSuccess, nav])
 
-	const onSubmit = handleSubmit((data) => {
+	const onSubmit = handleSubmit(async (data) => {
 		if (isRegisterForm) {
 			registerRequest(data)
 		} else {

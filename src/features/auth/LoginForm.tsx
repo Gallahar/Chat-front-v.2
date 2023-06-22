@@ -4,15 +4,15 @@ import { PrimaryButton, Input } from '@/shared/ui'
 import { FC } from 'react'
 
 interface LoginFormProps {
-	closed: boolean
+	hidden: boolean
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ closed }) => {
+export const LoginForm: FC<LoginFormProps> = ({ hidden }) => {
 	const { fields, errors, onSubmit } = useAuthForm()
 	const { email, password } = fields
 
 	return (
-		<StyledForm hidden={closed} onSubmit={onSubmit}>
+		<StyledForm hidden={hidden} onSubmit={onSubmit}>
 			<Input
 				{...email}
 				label="E-mail address"

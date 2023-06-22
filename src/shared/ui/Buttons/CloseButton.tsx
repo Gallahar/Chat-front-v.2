@@ -3,7 +3,7 @@ import { ButtonBase, styled, ButtonProps } from '@mui/material'
 import { FC } from 'react'
 
 const StyledCloseButton = styled(ButtonBase)`
-	background: #ffffff;
+	background: var(--bg-white);
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 100px;
 	padding: 13px;
