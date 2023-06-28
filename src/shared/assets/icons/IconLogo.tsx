@@ -1,8 +1,7 @@
-import { FC, SVGProps } from "react"
+import { FC, SVGProps } from 'react'
 
-
-export const Logo:FC<SVGProps<SVGSVGElement>> = (props) => {
-  return (
+export const IconLogo: FC<SVGProps<SVGSVGElement>> = (props) => {
+	return (
 		<svg
 			{...props}
 			width="128"
@@ -33,5 +32,5 @@ export const Logo:FC<SVGProps<SVGSVGElement>> = (props) => {
 				</linearGradient>
 			</defs>
 		</svg>
-  )
+	)
 }

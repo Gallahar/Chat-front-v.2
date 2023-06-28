@@ -13,7 +13,7 @@ interface EllipseProps {
 export const Ellipse = styled('div')<EllipseProps>`
 	background: rgba(116, 130, 255, ${(props) => props.opacity || 0.6});
 	filter: blur(${(props) => props.blur || 30}px);
-	border-radius: 100px;
+	border-radius: 1000px;
 	position: ${(props) => props.position || 'absolute'};
 	max-width: ${(props) => props.maxWidth || 400}px;
 	width: ${(props) => props.size}px;

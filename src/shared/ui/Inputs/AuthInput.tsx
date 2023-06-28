@@ -47,7 +47,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	inputVariant?: 'auth' | 'chat'
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const AuthInput = forwardRef<HTMLInputElement, InputProps>(
 	({ error, label, inputVariant, ...rest }, ref) => {
 		return (
 			<StyledInputWrapper inputVariant={inputVariant}>

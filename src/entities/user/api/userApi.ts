@@ -1,9 +1,15 @@
-import { FindUserDto, UpdateAvatar, UpdateUsername, User } from '@/shared/types/user.interface'
+import {
+	FindUserDto,
+	UpdateAvatar,
+	UpdateUsername,
+	User,
+	UserData,
+} from '@/shared/types/user.interface'
 import { baseApi } from '../../../shared/api/baseApi'
 
 export const userApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
-		findUsers: builder.query<User[], FindUserDto>({
+		findUsers: builder.query<UserData[], FindUserDto>({
 			query: ({ value, param }) => ({
 				url: `/user/find?value=${value}&search_by=${param}`,
 				method: 'GET',
@@ -40,5 +46,5 @@ export const {
 	useFindUsersQuery,
 	useFindUserByIdQuery,
 	useUpdateAvatarMutation,
-	useUpdateUsernameMutation
+	useUpdateUsernameMutation,
 } = userApi

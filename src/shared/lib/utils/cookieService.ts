@@ -1,3 +1,4 @@
+import { Chat } from '@/shared/types/chat.interface'
 import { User } from '@/shared/types/user.interface'
 import Cookies from 'js-cookie'
 
@@ -41,4 +42,17 @@ export const setAccessToken = (token: string) => {
 
 export const removeAccessToken = () => {
 	Cookies.remove('accessToken')
+}
+
+export const getCurrentChat = (): Chat | null => {
+	const currentChat = Cookies.get('currentChat')
+	return currentChat ? JSON.parse(currentChat) : null
+}
+
+export const setCurrentChat = (chat: Chat) => {
+	Cookies.set('currentChat', JSON.stringify(chat))
+}
+
+export const removeCurrentChat = () => {
+	Cookies.remove('currentChat')
 }

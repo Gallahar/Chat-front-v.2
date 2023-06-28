@@ -1,8 +1,14 @@
+import { Chat } from './chat.interface'
+
 export interface User {
 	_id: string
 	email: string
 	username: string
 	avatar: string
+}
+
+export interface UserData extends User {
+	chat: Chat | null
 }
 
 export interface UpdateAvatar {

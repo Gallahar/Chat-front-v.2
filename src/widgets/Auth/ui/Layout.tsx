@@ -4,7 +4,7 @@ import planet from '@/shared/assets/images/auth/planet.png'
 import bgCosmic from '@/shared/assets/images/auth/bgСosmic.png'
 import { Ellipse } from '@/shared/ui'
 import { Outlet } from 'react-router-dom'
-import { Header } from '@/shared/ui'
+import { Header } from '@/features/header'
 import { SpeechBlock } from '@/entities/auth/ui/SpeechBlock'
 
 const LayoutWrapper = styled('section')`
@@ -52,7 +52,7 @@ export const AuthLayout = () => {
 			<Ellipse size={332} top={-1} right={22} blur={150} />
 			<BgCosmic draggable={false} src={bgCosmic} />
 			<Container>
-				<Header headerType="auth" />
+				<Header />
 				<SpeechBlock />
 				<Outlet />
 			</Container>

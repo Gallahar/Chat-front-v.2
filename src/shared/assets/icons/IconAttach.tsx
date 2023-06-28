@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react'
 
-export const AttachSvg: FC<SVGProps<SVGSVGElement>> = (props) => {
+export const IconAttach: FC<SVGProps<SVGSVGElement>> = (props) => {
 	return (
 		<svg
 			{...props}

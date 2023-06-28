@@ -1,4 +1,5 @@
-export { Input } from './Input'
+export * from './Inputs'
 export * from './Buttons'
 export { Ellipse } from './Ellipse'
-export * from '../../features/Header'
+export { FullScreenLoader } from './Loaders/FullScreenLoader'
+export { Text } from './Typography/Text'

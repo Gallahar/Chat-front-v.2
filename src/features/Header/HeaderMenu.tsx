@@ -1,20 +1,20 @@
 import { styled, keyframes, ButtonBase } from '@mui/material'
-import { FC } from 'react'
+import React, { FC } from 'react'
 
 const appear = keyframes`
-from{
+	from{
     opacity: 0;
-}
-to{
+    }
+	to{
     opacity: 1
-}`
+	}`
 
-const MenuWrapper = styled('div')<{ headerType: 'auth' | 'chat' }>`
+const MenuWrapper = styled('div')<{ isAuth: boolean }>`
 	display: flex;
 	flex-direction: column;
 	justify-items: center;
 	align-items: center;
-	right: ${(props) => (props.headerType === 'chat' ? 30 : 0)}px;
+	right: ${(props) => (props.isAuth ? 30 : 0)}px;
 	bottom: -145px;
 	position: absolute;
 	color: #fff;
@@ -33,27 +33,36 @@ const MenuWrapper = styled('div')<{ headerType: 'auth' | 'chat' }>`
 		font-size: 22px;
 		line-height: 150%;
 	}
+	z-index: 1;
 `
 
 interface HeaderMenuProps {
-	onClickOptionFirst: () => void
-	onClickOptionSecond: () => void
-	headerType?: 'auth' | 'chat'
+	handleLoginClick: () => void
+	handleRegisterClick: () => void
+	handleLogout: () => void
+	handleToggleSettings: () => void
+	isAuth: boolean
 }
 
 export const HeaderMenu: FC<HeaderMenuProps> = ({
-	headerType = 'auth',
-	onClickOptionFirst,
-	onClickOptionSecond,
+	isAuth,
+	handleLoginClick,
+	handleRegisterClick,
+	handleLogout,
+	handleToggleSettings,
 }) => {
-	return (
-		<MenuWrapper headerType={headerType}>
-			<ButtonBase onClick={onClickOptionFirst}>
-				{headerType === 'auth' ? 'Sign in' : 'Settings'}
-			</ButtonBase>
-			<ButtonBase onClick={onClickOptionSecond}>
-				{headerType === 'auth' ? 'Sign up' : 'Log out'}
-			</ButtonBase>
-		</MenuWrapper>
-	)
+	const renderButtons = () =>
+		isAuth ? (
+			<>
+				<ButtonBase onClick={handleToggleSettings}>Settings</ButtonBase>
+				<ButtonBase onClick={handleLogout}>Log out</ButtonBase>
+			</>
+		) : (
+			<>
+				<ButtonBase onClick={handleLoginClick}>Sign in</ButtonBase>
+				<ButtonBase onClick={handleRegisterClick}>Sign up</ButtonBase>
+			</>
+		)
+
+	return <MenuWrapper isAuth={isAuth}>{renderButtons()}</MenuWrapper>
 }

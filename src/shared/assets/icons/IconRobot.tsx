@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react'
 
-export const EmojiRobot: FC<SVGProps<SVGSVGElement>> = (props) => {
+export const IconRobot: FC<SVGProps<SVGSVGElement>> = (props) => {
 	return (
 		<svg
 			{...props}

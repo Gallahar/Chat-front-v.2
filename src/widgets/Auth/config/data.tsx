@@ -1,9 +1,8 @@
-import { SearchGradient } from '@/shared/assets/icons/SearchGradient'
-import { SignUpGradient } from '@/shared/assets/icons/SignUpGradient'
-import { SocialGradient } from '@/shared/assets/icons/SocialGradient'
+import {IconSearchGradient,IconSignUpGradient,IconSocialGradient } from '@/shared/assets/icons'
+
 
 export const svgList = [
-	{ title: 'Sign up fast', svg: <SignUpGradient /> },
-	{ title: 'Comfortable search', svg: <SearchGradient /> },
-	{ title: 'Free social', svg: <SocialGradient /> },
+	{ title: 'Sign up fast', svg: <IconSignUpGradient /> },
+	{ title: 'Comfortable search', svg: <IconSearchGradient /> },
+	{ title: 'Free social', svg: <IconSocialGradient /> },
 ]

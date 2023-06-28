@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react'
 
-export const SignUpGradient: FC<SVGProps<SVGSVGElement>> = (props) => {
+export const IconSignUpGradient: FC<SVGProps<SVGSVGElement>> = (props) => {
 	return (
 		<svg
 			{...props}

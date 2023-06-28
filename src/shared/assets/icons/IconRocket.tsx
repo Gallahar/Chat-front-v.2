@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react'
 
-export const RocketSvg: FC<SVGProps<SVGSVGElement>> = (props) => {
+export const IconRocket: FC<SVGProps<SVGSVGElement>> = (props) => {
 	return (
 		<svg
 			{...props}

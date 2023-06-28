@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react'
 
-export const CrossSvg: FC<SVGProps<SVGSVGElement>> = (props) => {
+export const IconCross: FC<SVGProps<SVGSVGElement>> = (props) => {
 	return (
 		<svg
 			{...props}

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { authApi } from '../api'
 import {
 	removeAccessToken,
+	removeCurrentChat,
 	removeUser,
 	setAccessToken,
 } from '@/shared/lib/utils/cookieService'
@@ -21,6 +22,7 @@ const authSlice = createSlice({
 		logout: (state) => {
 			removeAccessToken()
 			removeUser()
+			removeCurrentChat()
 			state.isAuth = false
 		},
 	},

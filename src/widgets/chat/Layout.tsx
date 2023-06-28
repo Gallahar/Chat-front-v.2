@@ -1,10 +1,18 @@
 import { styled } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import backgroundImage from '@/shared/assets/images/auth/background.png'
-import { Header } from '@/shared/ui'
 import { Footer } from '@/entities/chat/ui/Footer'
 import { SideBar } from '@/widgets/user/SideBar'
 import { ChatForm } from '@/features/chat/ChatForm'
+import { Header } from '@/features/header'
+import {
+	closeConnection,
+	openConnection,
+} from '@/entities/chat/model/chatSlice'
+import { selectUser } from '@/entities/user'
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
+import { useEffect } from 'react'
+import { Ellipse } from '@/shared/ui'
 
 const LayoutWrapper = styled('section')`
 	overflow: hidden;
@@ -27,7 +35,7 @@ const Container = styled('div')`
 `
 
 const Layout = styled('div')`
-	min-height: 680px;
+	min-height: 620px;
 	display: grid;
 	grid-template:
 		'header header header header' max-content
@@ -43,12 +51,28 @@ const Layout = styled('div')`
 `
 
 export const ChatLayout = () => {
+	const dispatch = useAppDispatch()
+	const userId = useAppSelector(selectUser)._id
+
+	useEffect(() => {
+		dispatch(openConnection({ userId }))
+
+		return () => {
+			dispatch(closeConnection())
+		}
+	}, [])
+
 	return (
 		<LayoutWrapper>
+			<Ellipse right={75} top={6} size={84} />
+			<Ellipse right={45} top={0} size={60} opacity={0.7} />
+			<Ellipse right={20} top={-4} size={250} blur={150} />
+			<Ellipse right={65} top={40} size={332} blur={150} />
+			<Ellipse right={18} top={60} size={200} blur={100} />
 			<Container>
 				<Layout>
-					<Header headerType="chat" />
-					<SideBar></SideBar>
+					<Header />
+					<SideBar />
 					<Outlet />
 					<Footer>
 						<ChatForm />

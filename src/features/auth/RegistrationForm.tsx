@@ -1,8 +1,7 @@
 import { useAuthForm } from '@/entities/auth/lib/hooks'
 import { StyledForm } from '@/entities/auth/ui/Form'
-import { Input, PrimaryButton } from '@/shared/ui'
+import { AuthInput, PrimaryButton } from '@/shared/ui'
 import { FC } from 'react'
-
 
 interface RegistrationFormProps {
 	hidden: boolean
@@ -14,17 +13,17 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ hidden }) => {
 
 	return (
 		<StyledForm hidden={hidden} onSubmit={onSubmit}>
-			<Input
+			<AuthInput
 				{...username}
 				label="Username"
 				error={errors.username?.message}
 			/>
-			<Input
+			<AuthInput
 				{...email}
 				label="E-mail address"
 				error={errors.email?.message}
 			/>
-			<Input
+			<AuthInput
 				{...password}
 				label="Password"
 				error={errors.password?.message}

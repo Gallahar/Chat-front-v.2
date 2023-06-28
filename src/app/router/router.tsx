@@ -6,6 +6,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { ChatLayout } from '@/widgets/chat/Layout'
 import { Chat } from '@/pages/Chat'
 import { ProtectedRoute } from '@/features/auth/ProtectedRoute'
+import { ChatRoom } from '@/pages/ChatRoom'
 
 export const router = createBrowserRouter([
 	{
@@ -24,7 +25,9 @@ export const router = createBrowserRouter([
 		),
 		children: [
 			{ path: '/chat', element: <Chat /> },
-			// { path: '/chat/:room', element: <ChatRoom /> },
+			{ path: '/chat/:id', element: <ChatRoom /> },
 		],
 	},
 ])
+
+

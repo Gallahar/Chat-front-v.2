@@ -1,5 +1,5 @@
-import { SearchIcon } from '@/shared/assets/icons/SearchIcon'
-import { Input } from '@/shared/ui'
+import { SearchIcon } from '@/shared/assets/icons/IconSearch'
+import { ChatInput } from '@/shared/ui'
 import { styled } from '@mui/material'
 import { ChangeEvent, FC } from 'react'
 
@@ -16,11 +16,10 @@ interface SearchBarProps {
 export const SearchBar: FC<SearchBarProps> = ({ onChange }) => {
 	return (
 		<SearchWrapper>
-			<Input
+			<ChatInput
 				type="text"
 				placeholder="Enter username or e-mail"
 				onChange={onChange}
-				inputVariant="chat"
 			/>
 			<SearchIcon />
 		</SearchWrapper>

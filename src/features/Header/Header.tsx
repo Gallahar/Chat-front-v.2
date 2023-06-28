@@ -1,6 +1,5 @@
 import { HeaderMenu } from './HeaderMenu'
-import { Astronaut } from '@/shared/assets/icons/Astronaut'
-import { Logo } from '@/shared/assets/icons/logo'
+import { IconLogo, IconAstronaut } from '@/shared/assets/icons'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { useDelayedNavigate } from '@/shared/lib/hooks/useDelayedNavigate'
 import { Avatar } from '@mui/material'
@@ -14,71 +13,74 @@ import {
 	StyledHeader,
 	UserActionWrapper,
 	UserInfoContainer,
-} from './Header.style'
+} from './header.style.ts'
 import { SettingsForm } from '../user/SettingsForm'
 
-interface HeaderProps {
-	headerType: 'auth' | 'chat'
-}
-
-export const Header: FC<HeaderProps> = ({ headerType = 'auth' }) => {
+export const Header: FC = () => {
 	const dispatch = useAppDispatch()
 	const [showSettings, setShowSettings] = useState(false)
 	const { closed, delayedNavigateHandler, setClosed } = useDelayedNavigate()
 	const isAuth = useAppSelector(selectAuth)
 	const { avatar, username } = useAppSelector(selectUser)
 
-	const handleClickSettings = () => {
-		setClosed(false)
-		setShowSettings(true)
+	const toggleMenu = () => {
+		if (showSettings) {
+			return setShowSettings(false)
+		}
+		setClosed((prev) => !prev)
 	}
 
-	const handleClickLogout = () => {
+	const handleRegisterClick = () => {
+		delayedNavigateHandler('register')
+	}
+
+	const handleLoginClick = () => {
+		delayedNavigateHandler('login')
+	}
+
+	const handleToggleSettings = () => {
+		setClosed(false)
+		setShowSettings((prev) => !prev)
+	}
+
+	const handleLogout = () => {
 		setClosed(false)
 		dispatch(logout())
 	}
 
+	const renderLogo = () =>
+		isAuth ? (
+			<IconLogo />
+		) : (
+			<Link to="/">
+				<IconLogo />
+			</Link>
+		)
+
+	const renderUser = () =>
+		isAuth && (
+			<UserInfoContainer>
+				<Avatar src={avatar} />
+				<Text Size={18} text={username} />
+			</UserInfoContainer>
+		)
+
 	return (
-		<StyledHeader HeaderType={headerType}>
-			{headerType === 'auth' ? (
-				<Link to="/">
-					<Logo />
-				</Link>
-			) : (
-				<Logo />
-			)}
+		<StyledHeader isAuth={isAuth}>
+			{renderLogo()}
 			<UserActionWrapper>
-				{isAuth && (
-					<UserInfoContainer>
-						<Avatar src={avatar} />
-						<Text Size={18} text={username} />
-					</UserInfoContainer>
-				)}
-				<ButtonBase
-					onClick={() => {
-						if (showSettings) {
-							setShowSettings(false)
-							return
-						}
-						setClosed((prev) => !prev)
-					}}
-				>
-					<Astronaut />
+				{renderUser()}
+				<ButtonBase onClick={toggleMenu}>
+					<IconAstronaut />
 				</ButtonBase>
 			</UserActionWrapper>
 			{closed && (
 				<HeaderMenu
-					onClickOptionFirst={
-						headerType === 'auth'
-							? () => delayedNavigateHandler('register')
-							: handleClickSettings
-					}
-					onClickOptionSecond={
-						headerType === 'auth'
-							? () => delayedNavigateHandler('login')
-							: handleClickLogout
-					}
-					headerType={headerType}
+					handleLoginClick={handleLoginClick}
+					handleRegisterClick={handleRegisterClick}
+					handleToggleSettings={handleToggleSettings}
+					handleLogout={handleLogout}
+					isAuth={isAuth}
 				/>
 			)}
 			{showSettings && <SettingsForm />}

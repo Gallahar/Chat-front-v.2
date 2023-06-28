@@ -34,7 +34,7 @@ const onRejectedResponse = async (
 	) {
 		try {
 			const response: AxiosResponse<AuthResponse> = await axios.post(
-				'auth/refresh',
+				'/api/auth/refresh',
 				{
 					withCredentials: true,
 				}

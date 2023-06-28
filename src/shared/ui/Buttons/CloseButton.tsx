@@ -1,4 +1,4 @@
-import { CrossSvg } from '@/shared/assets/icons/CrossSvg'
+import { IconCross } from '@/shared/assets/icons'
 import { ButtonBase, styled, ButtonProps } from '@mui/material'
 import { FC } from 'react'
 
@@ -13,7 +13,7 @@ const StyledCloseButton = styled(ButtonBase)`
 export const CloseButton: FC<ButtonProps> = (props) => {
 	return (
 		<StyledCloseButton {...props}>
-			<CrossSvg />
+			<IconCross />
 		</StyledCloseButton>
 	)
 }

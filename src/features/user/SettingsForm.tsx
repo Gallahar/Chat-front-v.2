@@ -1,6 +1,8 @@
 import { useSettingsForm } from '@/entities/user/hooks/useSettingsForm'
-import { useFile } from '@/shared/lib/hooks/useUpload'
-import { Input, PrimaryButton } from '@/shared/ui'
+import { selectUser } from '@/entities/user/model'
+import { useAppSelector } from '@/shared/lib/hooks/redux'
+import { useFile } from '@/shared/lib/hooks/useFile'
+import { ChatInput, PrimaryButton, SecondaryButton } from '@/shared/ui'
 import { Avatar, styled } from '@mui/material'
 import { useRef, useState } from 'react'
 
@@ -14,16 +16,18 @@ const StyledForm = styled('form')`
 	position: absolute;
 	right: 30px;
 	top: 100px;
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(255, 255, 255, 0.1);
 	background-blend-mode: soft-light;
-	box-shadow: inset 0px 4px 4px rgba(255, 255, 255, 0.15),
-		inset 0px 0px 68px rgba(255, 255, 255, 0.05);
+	box-shadow: 0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset,
+		0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset;
 	backdrop-filter: contrast(120%) brightness(150%) blur(20px);
 	border-radius: 20px;
+	z-index: 1;
 `
 
 export const SettingsForm = () => {
-	const { fileUrl, onChangeInputFile } = useFile('avatar')
+	const initialUrl = useAppSelector(selectUser).avatar
+	const { fileUrl, onChangeInputFile } = useFile('avatar', initialUrl)
 	const { error, onChangeUserName, onSubmit, username } =
 		useSettingsForm(fileUrl)
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -32,16 +36,13 @@ export const SettingsForm = () => {
 	return (
 		<StyledForm onSubmit={onSubmit}>
 			<Avatar src={fileUrl} sx={{ width: '218px', height: '218px' }} />
-			<PrimaryButton onClick={()=>inputRef?.current?.click()}
+			<SecondaryButton
+				onClick={() => inputRef?.current?.click()}
 				type="submit"
-				sx={{
-					fontSize: '15px',
-					padding: '9px 0',
-					borderRadius: '10px',
-				}}
+				isAuth={true}
 			>
 				Change Avatar
-			</PrimaryButton>
+			</SecondaryButton>
 			<input
 				ref={inputRef}
 				type="file"
@@ -49,25 +50,19 @@ export const SettingsForm = () => {
 				hidden
 			/>
 			{showInput ? (
-				<Input
+				<ChatInput
 					value={username}
 					error={error}
 					onChange={onChangeUserName}
-					label="New username"
-					inputVariant="chat"
 				/>
 			) : (
-				<PrimaryButton
+				<SecondaryButton
 					onClick={() => setShowInput(true)}
 					type="button"
-					sx={{
-						fontSize: '15px',
-						padding: '9px 0',
-						borderRadius: '10px',
-					}}
+					isAuth={true}
 				>
 					Change username
-				</PrimaryButton>
+				</SecondaryButton>
 			)}
 			<PrimaryButton
 				type="submit"

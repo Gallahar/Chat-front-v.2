@@ -1,4 +1,5 @@
 import { PrimaryButton } from '@/shared/ui/Buttons'
+import { SecondaryButton } from '@/shared/ui/Buttons'
 import { styled } from '@mui/material'
 import { FC } from 'react'
 
@@ -30,7 +31,7 @@ export const NavBlock: FC<NavBlockProps> = ({
 		<NavBlockWrapper>
 			<PrimaryButton onClick={onClickLogin}>Sign in</PrimaryButton>
 			<StyledText>or</StyledText>
-			<PrimaryButton onClick={onClickRegister}>Sign up</PrimaryButton>
+			<SecondaryButton onClick={onClickRegister}>Sign up</SecondaryButton>
 		</NavBlockWrapper>
 	)
 }

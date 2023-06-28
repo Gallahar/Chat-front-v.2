@@ -1,6 +1,4 @@
-import { ChangeEvent, useState } from 'react'
-import { useAppSelector } from './redux'
-import { selectUser } from '@/entities/user/model'
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
 import {
 	useDeleteFileMutation,
 	useUploadFileMutation,
@@ -10,13 +8,13 @@ interface UseFileReturn {
 	onChangeInputFile: (e: ChangeEvent<HTMLInputElement>) => Promise<void>
 	onDeleteInputFile: () => Promise<void>
 	fileUrl: string
+	setFileUrl: Dispatch<SetStateAction<string>>
 }
 
-export const useFile = (folder: string): UseFileReturn => {
+export const useFile = (folder: string,initialUrl?:string): UseFileReturn => {
 	const [uploadFile] = useUploadFileMutation()
 	const [deleteFile] = useDeleteFileMutation()
-	const initialUrl = useAppSelector(selectUser).avatar
-	const [fileUrl, setFileUrl] = useState(initialUrl)
+	const [fileUrl, setFileUrl] = useState(initialUrl??'')
 	const [fileName, setFileName] = useState('')
 
 	const onChangeInputFile = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +33,8 @@ export const useFile = (folder: string): UseFileReturn => {
 
 	const onDeleteInputFile = async () => {
 		await deleteFile(fileName)
-		setFileUrl(initialUrl)
+		setFileUrl(initialUrl??'')
 	}
 
-	return { fileUrl, onChangeInputFile, onDeleteInputFile }
+	return { fileUrl, onChangeInputFile, onDeleteInputFile, setFileUrl }
 }

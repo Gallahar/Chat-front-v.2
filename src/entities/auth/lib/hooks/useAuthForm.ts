@@ -1,6 +1,6 @@
 import { emailRegexp } from '@/shared/lib/constants/regexp'
 import { AuthData } from '@/shared/types/auth.interface'
-import { InputProps } from '@/shared/ui/Input'
+import { InputProps } from '@/shared/ui/Inputs'
 import { FormEventHandler, useEffect } from 'react'
 import { FieldErrors, useForm } from 'react-hook-form'
 import { useLoginMutation, useRegisterMutation } from '../../api'
