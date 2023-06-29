@@ -16,14 +16,19 @@ const StyledForm = styled('form')`
 	gap: 19px;
 `
 
-const AttachmentFilePreview = styled('img')`
-	top: -240px;
+const AttachmentFilesWrapper = styled('div')`
+	position: absolute;
+	top: -130px;
 	left: -20px;
+	display: flex;
+	gap: 5	px;
+`
+
+const AttachmentFilePreview = styled('img')`
 	border: 2px solid grey;
 	border-radius: 20px;
-	position: absolute;
 	width: 100px;
-	height: 200px;
+	height: 100px;
 `
 
 interface ChatFormValues {
@@ -31,7 +36,10 @@ interface ChatFormValues {
 }
 
 export const ChatForm = () => {
-	const { fileUrl, onChangeInputFile, setFileUrl } = useFile('message')
+	const { fileList, onChangeInputFile, setFileList } = useFile(
+		'message',
+		'chat'
+	)
 	const user = useAppSelector(selectUser)._id
 	const { id: chatId } = useParams()
 	const dispatch = useAppDispatch()
@@ -49,19 +57,19 @@ export const ChatForm = () => {
 			return alert('please select someone to send a message')
 		}
 		const trimmedInput = data.text.trim()
-		if (trimmedInput) {
+		if (trimmedInput || fileList.length > 0) {
 			dispatch(
 				sendNewMessage({
 					...data,
 					user,
 					chatId,
-					attachedFiles: fileUrl ? [fileUrl] : [],
+					attachedFiles: fileList,
 				})
 			)
 		}
 
 		reset()
-		setFileUrl('')
+		setFileList([])
 	})
 
 	return (
@@ -79,11 +87,17 @@ export const ChatForm = () => {
 				hidden
 				onChange={onChangeInputFile}
 			/>
-			<ChatInput {...register('text', { required: true })} />
+			<ChatInput {...register('text')} />
 			<ButtonBase type="submit">
 				<IconRocket />
 			</ButtonBase>
-			{fileUrl && <AttachmentFilePreview src={fileUrl} />}
+			{fileList.length > 0 && (
+				<AttachmentFilesWrapper>
+					{fileList.map((file) => (
+						<AttachmentFilePreview key={file} src={file} />
+					))}
+				</AttachmentFilesWrapper>
+			)}
 		</StyledForm>
 	)
 }

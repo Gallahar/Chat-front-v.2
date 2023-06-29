@@ -6,8 +6,11 @@ import { FC } from 'react'
 import { selectUser } from '../model'
 import { Chat, ChatStart } from '@/shared/types/chat.interface'
 import { getDate } from '@/shared/lib/utils/getDate'
+import { useParams } from 'react-router-dom'
 
-const CardWrapper = styled('div')`
+const CardWrapper = styled('div')<{ selected: boolean }>`
+	background: ${(props) =>
+		props.selected ? 'var(--bg-selectedMessage)' : 'transparent'};
 	display: grid;
 	grid-template-columns: 58px 175px auto;
 	grid-template-rows: 1fr;
@@ -28,14 +31,15 @@ interface UserCardProps {
 }
 
 export const UserCard: FC<UserCardProps> = ({ userData, onClickCard }) => {
+	const { id } = useParams()
 	const { _id: fromUserId } = useAppSelector(selectUser)
 	const { _id: toUserId, avatar, username, chat } = userData
-
+	const selectedUser = chat?._id === id
 	const lastMessage = chat?.messages[chat.messages.length - 1] || null
-	const fromYou = lastMessage?.user === fromUserId
 
 	return (
 		<CardWrapper
+			selected={selectedUser}
 			onClick={() => onClickCard({ fromUserId, toUserId }, chat)}
 		>
 			<Avatar sx={{ width: '58px', height: '58px' }} src={avatar} />
@@ -60,7 +64,9 @@ export const UserCard: FC<UserCardProps> = ({ userData, onClickCard }) => {
 				</Typography>
 			</Box>
 			{lastMessage && (
-				<StyledDate>{getDate(lastMessage.createdAt, 'time')}</StyledDate>
+				<StyledDate>
+					{getDate(lastMessage.createdAt, 'time')}
+				</StyledDate>
 			)}
 		</CardWrapper>
 	)

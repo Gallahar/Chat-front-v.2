@@ -63,7 +63,7 @@ export const ChatLayout = () => {
 	}, [])
 
 	return (
-		<LayoutWrapper>
+		<LayoutWrapper id="chat">
 			<Ellipse right={75} top={6} size={84} />
 			<Ellipse right={45} top={0} size={60} opacity={0.7} />
 			<Ellipse right={20} top={-4} size={250} blur={150} />

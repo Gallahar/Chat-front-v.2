@@ -27,7 +27,7 @@ const StyledForm = styled('form')`
 
 export const SettingsForm = () => {
 	const initialUrl = useAppSelector(selectUser).avatar
-	const { fileUrl, onChangeInputFile } = useFile('avatar', initialUrl)
+	const { fileUrl, onChangeInputFile } = useFile('avatar','settings', initialUrl)
 	const { error, onChangeUserName, onSubmit, username } =
 		useSettingsForm(fileUrl)
 	const inputRef = useRef<HTMLInputElement>(null)

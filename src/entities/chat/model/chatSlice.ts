@@ -8,7 +8,11 @@ import {
 	ChatStart,
 	CreateConnection,
 } from '@/shared/types/chat.interface'
-import { CreateMessage, Message } from '@/shared/types/message.interface'
+import {
+	CreateMessage,
+	DeleteMessageResponse,
+	Message,
+} from '@/shared/types/message.interface'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface ChatState {
@@ -62,6 +66,29 @@ const chatSlice = createSlice({
 			if (state.currentChat._id === state.chats[chatIdx]._id) {
 				state.currentChat.messages.push(action.payload)
 			}
+		},
+		deleteMessage: (
+			state,
+			action: PayloadAction<{ messageId: string }>
+		) => {
+			state.currentChat.messages = state.currentChat.messages.filter(
+				(message) => message._id !== action.payload.messageId
+			)
+			state.chats = state.chats.map((chat) =>
+				chat._id === state.currentChat._id ? state.currentChat : chat
+			)
+		},
+		receiveDeletedMessage: (
+			state,
+			action: PayloadAction<DeleteMessageResponse>
+		) => {
+			const chatIndex = state.chats.findIndex(
+				(chat) => chat._id === action.payload.chatId
+			)
+			state.currentChat.messages = state.currentChat.messages.filter(
+				(message) => message._id !== action.payload.messageId
+			)
+			state.chats[chatIndex].messages = state.currentChat.messages
 		},
 	},
 	extraReducers: (builder) => {
@@ -117,4 +144,6 @@ export const {
 	chooseChat,
 	sendNewMessage,
 	receiveNewMessage,
+	deleteMessage,
+	receiveDeletedMessage,
 } = chatSlice.actions

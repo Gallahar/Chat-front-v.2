@@ -7,9 +7,15 @@ import {
 	receiveNewChat,
 	sendNewMessage,
 	receiveNewMessage,
+	receiveDeletedMessage,
+	deleteMessage,
 } from './chatSlice'
 import { Chat, ChatActions } from '@/shared/types/chat.interface'
-import { Message, MessageActions } from '@/shared/types/message.interface'
+import {
+	DeleteMessageResponse,
+	Message,
+	MessageActions,
+} from '@/shared/types/message.interface'
 import { router } from '@/app/router/router'
 
 export const chatMiddleWare: Middleware = ({ dispatch }) => {
@@ -30,6 +36,13 @@ export const chatMiddleWare: Middleware = ({ dispatch }) => {
 				console.log(message)
 				dispatch(receiveNewMessage(message))
 			})
+
+			socket.on(
+				MessageActions.receive_delete,
+				(response: DeleteMessageResponse) => {
+					dispatch(receiveDeletedMessage(response))
+				}
+			)
 		}
 
 		if (startNewChat.match(action)) {
@@ -48,6 +61,11 @@ export const chatMiddleWare: Middleware = ({ dispatch }) => {
 				}
 			)
 		}
+
+		if (deleteMessage.match(action)) {
+			socket.emit(MessageActions.delete, action.payload)
+		}
+
 		if (closeConnection.match(action)) {
 			socket.close()
 		}

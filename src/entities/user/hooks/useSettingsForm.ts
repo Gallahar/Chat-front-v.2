@@ -5,12 +5,13 @@ import {
 	useUpdateAvatarMutation,
 	useUpdateUsernameMutation,
 } from '../api/userApi'
+import { isAxiosError } from 'axios'
 
 interface SettingsFormReturn {
 	username: string
 	onChangeUserName: (e: ChangeEvent<HTMLInputElement>) => void
 	error: string
-	onSubmit: (e:FormEvent<HTMLFormElement>) => Promise<void>
+	onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
 }
 
 export const useSettingsForm = (avatar: string): SettingsFormReturn => {
@@ -24,10 +25,10 @@ export const useSettingsForm = (avatar: string): SettingsFormReturn => {
 		setUsername(e.target.value)
 	}
 
-	const onSubmit = async (e:FormEvent<HTMLFormElement>) => {
+	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setError('')
-		if ( username.length < 4) {
+		if (username.length < 4) {
 			return setError('username should be at least 4 characters')
 		}
 
@@ -37,7 +38,9 @@ export const useSettingsForm = (avatar: string): SettingsFormReturn => {
 				updateUsername({ username }),
 			])
 		} catch (err) {
-			console.log(err)
+			if (isAxiosError(err)) {
+				setError(err.message)
+			}
 		}
 	}
 

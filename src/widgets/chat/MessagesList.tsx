@@ -1,12 +1,9 @@
-import {
-	selectCurrentChat,
-	selectFriend,
-} from '@/entities/chat/model/chatSelectors'
 import { selectUser } from '@/entities/user'
 import { useAppSelector } from '@/shared/lib/hooks/redux'
 import { Avatar, styled } from '@mui/material'
 import { Text } from '@/shared/ui'
-import { MessageCard } from '@/entities/chat/ui/MessageCard'
+import {selectCurrentChat, selectFriend } from '@/entities/chat'
+import { MessageCard} from '@/features/chat'
 
 const ListWrapper = styled('div')`
 	overflow-y: auto;

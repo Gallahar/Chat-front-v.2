@@ -23,6 +23,14 @@
 	--gr-border: linear-gradient(to right, #00f0ff, #00ff1a);
 	--font-family-primary: 'Stolzl';
 	--font-family-secondary: 'Neuropol';
+	--bg-selectedMessage: linear-gradient(
+		90deg,
+		rgba(0, 240, 255, 0) 7.29%,
+		#00f0ff 25.52%,
+		#00ff1a 57.29%,
+		rgba(0, 255, 26, 0.2) 78.65%,
+		rgba(0, 255, 26, 0) 100%
+	);
 }
 
 body {

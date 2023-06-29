@@ -8,6 +8,7 @@ const ChatRoomWrapper = styled('div')`
 	background: url(${backgroundImage});
 	border-radius: 20px;
 	max-height: 485px;
+	min-height: 485px;
 	overflow-y: auto;
 	z-index: 0;
 `
