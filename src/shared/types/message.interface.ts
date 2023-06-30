@@ -21,6 +21,11 @@ export interface DeleteMessageResponse {
 	chatId: string
 }
 
+export interface LikeMessage {
+	messageId: string
+	userId: string
+}
+
 export const enum MessageActions {
 	send_message = 'message/send',
 	receive_new = 'message/receive',

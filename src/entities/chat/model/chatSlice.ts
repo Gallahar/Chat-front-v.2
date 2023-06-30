@@ -11,6 +11,7 @@ import {
 import {
 	CreateMessage,
 	DeleteMessageResponse,
+	LikeMessage,
 	Message,
 } from '@/shared/types/message.interface'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
@@ -90,6 +91,34 @@ const chatSlice = createSlice({
 			)
 			state.chats[chatIndex].messages = state.currentChat.messages
 		},
+
+		likeMessage: (state, { payload }: PayloadAction<LikeMessage>) => {
+			const messageIdx = state.currentChat.messages.findIndex(
+				(message) => message._id === payload.messageId
+			)
+			if (
+				state.currentChat.messages[messageIdx].likedBy.includes(
+					payload.userId
+				)
+			) {
+				state.currentChat.messages[messageIdx].likedBy =
+					state.currentChat.messages[messageIdx].likedBy.filter(
+						(id) => id !== payload.userId
+					)
+			} else {
+				state.currentChat.messages[messageIdx].likedBy.push(
+					payload.userId
+				)
+			}
+		},
+		receiveLike: (state, { payload }: PayloadAction<Message>) => {
+			state.currentChat.messages = state.currentChat.messages.map(
+				(message) => (message._id === payload._id ? payload : message)
+			)
+			state.chats.map((chat) =>
+				chat._id === state.currentChat._id ? state.currentChat : chat
+			)
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addMatcher(
@@ -146,4 +175,6 @@ export const {
 	receiveNewMessage,
 	deleteMessage,
 	receiveDeletedMessage,
+	likeMessage,
+	receiveLike,
 } = chatSlice.actions

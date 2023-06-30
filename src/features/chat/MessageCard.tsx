@@ -1,53 +1,24 @@
-import { useAppSelector } from '@/shared/lib/hooks/redux'
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { Message } from '@/shared/types/message.interface'
 import { FC, useState } from 'react'
 import { selectUser } from '@/entities/user'
-import { Avatar, Snackbar, styled, Modal, ButtonBase } from '@mui/material'
+import { Avatar, Snackbar, Modal } from '@mui/material'
 import { getDate } from '@/shared/lib/utils/getDate'
 import type { MouseEvent } from 'react'
-import { ContextMenu, useContextMenu } from '@/entities/chat'
+import { ContextMenu, likeMessage, useContextMenu } from '@/entities/chat'
 import { createPortal } from 'react-dom'
 import { Text } from '@/shared/ui'
-
-const MessageWrapper = styled('div')<{ Position: boolean }>`
-	display: flex;
-	gap: 12px;
-	max-width: 611px;
-	justify-self: ${(props) => (props.Position ? 'start' : 'end')};
-`
-
-const StyledMessage = styled('div')<{ Position: boolean }>`
-	display: grid;
-	grid-template-columns: max-content auto;
-	grid-auto-rows: max-content;
-	gap:  20px;
-	padding: 7px 12px;
-	background: rgba(255, 255, 255, 0.7);
-	border-radius: ${(props) =>
-		props.Position ? '0px 10px 10px 10px' : '10px 0px 10px 10px'};
-`
-const StyledDate = styled('span')`
-	font-size: 13px;
-	line-height: 150%;
-	color: rgba(0, 0, 0, 0.5);
-	align-self: end;
-	justify-self: end;
-`
-
-const MessageContent = styled('p')`
-	max-width: 492px;
-	word-break: break-word;
-	color: var(--text-black);
-	font-size: 16px;
-	line-height: 150%;
-	letter-spacing: 0.02em;
-`
-
-const StyledFile = styled('img')`
-	max-height: 200px;
-	max-width: 200px;
-	border-radius: 10px;
-`
+import { IconHeart } from '@/shared/assets/icons/IconHeart'
+import {
+	MessageWrapper,
+	StyledMessage,
+	MessageContent,
+	DateWrapper,
+	LikeCount,
+	StyledDate,
+	StyledFile,
+	LikeHandler,
+} from './Message.style'
 
 interface MessageCardProps {
 	message: Message
@@ -55,10 +26,19 @@ interface MessageCardProps {
 }
 
 export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
+	const dispatch = useAppDispatch()
+	const [messageHovered, setMessageHovered] = useState(false)
 	const [snackBarAppearance, setSnackBarAppearance] = useState(false)
 	const [modalAvatar, setModalAvatar] = useState(false)
-	const currentUserId = useAppSelector(selectUser)._id
-	const { user: friendId, text, createdAt, attachedFiles } = message
+	const userId = useAppSelector(selectUser)._id
+	const {
+		user: friendId,
+		text,
+		createdAt,
+		attachedFiles,
+		likedBy,
+		_id: messageId,
+	} = message
 
 	const { clicked, coordinates, setClicked, setCoordinates } =
 		useContextMenu()
@@ -78,20 +58,44 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 		setModalAvatar(true)
 	}
 
+	const handleLike = () => {
+		dispatch(likeMessage({ userId, messageId }))
+	}
+
 	return (
 		<>
 			<MessageWrapper
+				onMouseEnter={() => setMessageHovered(true)}
+				onMouseLeave={() => setMessageHovered(false)}
 				onContextMenu={handleContextMenu}
-				Position={currentUserId !== friendId}
+				Position={userId !== friendId}
 			>
-				{currentUserId !== friendId && (
+				{userId !== friendId && (
 					<button onClick={handleOpenModal}>
 						<Avatar src={avatar} />
 					</button>
 				)}
-				<StyledMessage Position={currentUserId !== friendId}>
+				<StyledMessage Position={userId !== friendId}>
+					{messageHovered && (
+						<LikeHandler onClick={handleLike}>
+							<IconHeart fill="#DD2E44" width={15} height={15} />
+						</LikeHandler>
+					)}
 					<MessageContent>{text}</MessageContent>
-					<StyledDate>{getDate(createdAt, 'time')}</StyledDate>
+					<DateWrapper>
+						{likedBy.length > 0 && (
+							<IconHeart
+								onClick={handleLike}
+								fill="#DD2E44"
+								width={15}
+								height={15}
+							/>
+						)}
+						{likedBy.length > 0 && (
+							<LikeCount>{likedBy.length}</LikeCount>
+						)}
+						<StyledDate>{getDate(createdAt, 'time')}</StyledDate>
+					</DateWrapper>
 					{attachedFiles.length > 0 &&
 						attachedFiles.map((file) => (
 							<StyledFile key={file} src={file} />
