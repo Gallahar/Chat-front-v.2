@@ -1,4 +1,19 @@
-import { styled } from '@mui/material'
+import { styled, keyframes } from '@mui/material'
+
+const appear = keyframes`
+0%{
+	
+transform: scale(0);
+}
+50%{
+	
+transform: scale(0);
+}
+100%{
+	transform: scale(1);
+	
+}
+`
 
 export const MessageWrapper = styled('div')<{ Position: boolean }>`
 	display: flex;
@@ -10,7 +25,7 @@ export const MessageWrapper = styled('div')<{ Position: boolean }>`
 export const StyledMessage = styled('div')<{ Position: boolean }>`
 	position: relative;
 	display: grid;
-	grid-template-columns: max-content auto;
+	grid-template-columns: minmax(min-content, max-content) max-content;
 	grid-auto-rows: max-content;
 	gap: 20px;
 	padding: 7px 12px;
@@ -21,7 +36,7 @@ export const StyledMessage = styled('div')<{ Position: boolean }>`
 
 export const MessageContent = styled('p')`
 	max-width: 492px;
-	word-break: break-word;
+	word-break: break-all;
 	color: var(--text-black);
 	font-size: 16px;
 	line-height: 150%;
@@ -30,22 +45,22 @@ export const MessageContent = styled('p')`
 
 export const DateWrapper = styled('div')`
 	position: relative;
-	display: grid;
-	grid-template-columns: auto auto;
+	display: flex;
 	gap: 3px;
 	align-self: end;
 	justify-self: end;
 
 	> svg {
 		cursor: pointer;
+		flex-shrink: 0;
 	}
 `
 
 export const LikeCount = styled('span')`
 	font-size: 7px;
 	position: absolute;
-	left: 6px;
-	top: 2px;
+	left: 5px;
+	top: 4px;
 `
 
 export const StyledDate = styled('span')`
@@ -68,6 +83,7 @@ export const LikeHandler = styled('div')`
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
+	animation: ${appear} 0.5s ease-in;
 	border-radius: 50%;
 	background-color: var(--bg-white);
 	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);

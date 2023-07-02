@@ -1,11 +1,8 @@
-import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { Message } from '@/shared/types/message.interface'
-import { FC, useState } from 'react'
-import { selectUser } from '@/entities/user'
+import { FC } from 'react'
 import { Avatar, Snackbar, Modal } from '@mui/material'
 import { getDate } from '@/shared/lib/utils/getDate'
-import type { MouseEvent } from 'react'
-import { ContextMenu, likeMessage, useContextMenu } from '@/entities/chat'
+import { ContextMenu } from '@/entities/chat'
 import { createPortal } from 'react-dom'
 import { Text } from '@/shared/ui'
 import { IconHeart } from '@/shared/assets/icons/IconHeart'
@@ -19,6 +16,7 @@ import {
 	StyledFile,
 	LikeHandler,
 } from './Message.style'
+import { useMessageCard } from './hooks/useMessageCard'
 
 interface MessageCardProps {
 	message: Message
@@ -26,11 +24,6 @@ interface MessageCardProps {
 }
 
 export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
-	const dispatch = useAppDispatch()
-	const [messageHovered, setMessageHovered] = useState(false)
-	const [snackBarAppearance, setSnackBarAppearance] = useState(false)
-	const [modalAvatar, setModalAvatar] = useState(false)
-	const userId = useAppSelector(selectUser)._id
 	const {
 		user: friendId,
 		text,
@@ -40,33 +33,27 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 		_id: messageId,
 	} = message
 
-	const { clicked, coordinates, setClicked, setCoordinates } =
-		useContextMenu()
-
-	const handleContextMenu = (e: MouseEvent<HTMLDivElement>) => {
-		e.preventDefault()
-
-		setCoordinates({ x: e.clientX, y: e.clientY })
-		setClicked(true)
-	}
-
-	const handleCloseModal = () => {
-		setModalAvatar(false)
-	}
-
-	const handleOpenModal = () => {
-		setModalAvatar(true)
-	}
-
-	const handleLike = () => {
-		dispatch(likeMessage({ userId, messageId }))
-	}
+	const {
+		clicked,
+		coordinates,
+		handleCloseModal,
+		handleContextMenu,
+		handleMouseEnter,
+		handleMouseLeave,
+		handleLike,
+		handleOpenModal,
+		modalAvatar,
+		setSnackBarAppearance,
+		snackBarAppearance,
+		userId,
+		messageHovered,
+	} = useMessageCard(messageId)
 
 	return (
 		<>
 			<MessageWrapper
-				onMouseEnter={() => setMessageHovered(true)}
-				onMouseLeave={() => setMessageHovered(false)}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
 				onContextMenu={handleContextMenu}
 				Position={userId !== friendId}
 			>
@@ -78,7 +65,7 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 				<StyledMessage Position={userId !== friendId}>
 					{messageHovered && (
 						<LikeHandler onClick={handleLike}>
-							<IconHeart fill="#DD2E44" width={15} height={15} />
+							<IconHeart width={15} height={15} />
 						</LikeHandler>
 					)}
 					<MessageContent>{text}</MessageContent>
@@ -86,12 +73,11 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 						{likedBy.length > 0 && (
 							<IconHeart
 								onClick={handleLike}
-								fill="#DD2E44"
 								width={15}
 								height={15}
 							/>
 						)}
-						{likedBy.length > 0 && (
+						{likedBy.length > 1 && (
 							<LikeCount>{likedBy.length}</LikeCount>
 						)}
 						<StyledDate>{getDate(createdAt, 'time')}</StyledDate>

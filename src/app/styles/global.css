@@ -37,3 +37,25 @@ body {
 	font-family: var(--font-family-primary);
 	font-weight: 400;
 }
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #00f0ff #00ff1a;
+	scroll-behavior: smooth;
+}
+
+*::-webkit-scrollbar {
+	width: 6px;
+	border-radius: 20px;
+}
+
+*::-webkit-scrollbar-track {
+	background: linear-gradient(to bottom, #2ae4f1, #25ec39, #2ae4f1, #25ec39);
+	border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #00f0ff;
+	border-radius: 20px;
+	box-shadow: 0 0 4px 3px rgba(0, 0, 0, 0.5);
+}

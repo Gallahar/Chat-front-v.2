@@ -1,11 +1,12 @@
-import { sendNewMessage } from '@/entities/chat/model/chatSlice'
+import { editMessage, sendNewMessage } from '@/entities/chat/model/chatSlice'
+import { resetState, selectChatForm } from '@/entities/chatform'
 import { selectUser } from '@/entities/user'
 import { IconRocket, IconRobot, IconAttach } from '@/shared/assets/icons'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { useFile } from '@/shared/lib/hooks/useFile'
 import { ChatInput } from '@/shared/ui'
 import { ButtonBase, styled } from '@mui/material'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
@@ -21,7 +22,7 @@ const AttachmentFilesWrapper = styled('div')`
 	top: -130px;
 	left: -20px;
 	display: flex;
-	gap: 5	px;
+	gap: 5 px;
 `
 
 const AttachmentFilePreview = styled('img')`
@@ -36,28 +37,35 @@ interface ChatFormValues {
 }
 
 export const ChatForm = () => {
-	const { fileList, onChangeInputFile, setFileList } = useFile(
-		'message',
-		'chat'
-	)
-	const user = useAppSelector(selectUser)._id
-	const { id: chatId } = useParams()
-	const dispatch = useAppDispatch()
-	const inputRef = useRef<HTMLInputElement>(null)
-
 	const {
 		register,
 		formState: { isValid },
 		handleSubmit,
 		reset,
+		setFocus,
 	} = useForm<ChatFormValues>({ mode: 'onChange' })
+	const { defaultValue, mode } = useAppSelector(selectChatForm)
+	const { fileList, onChangeInputFile, setFileList } = useFile(
+		'message',
+		'chat',
+		defaultValue.attachedFiles
+	)
+	const user = useAppSelector(selectUser)._id
+	const { id: chatId } = useParams()
+	const dispatch = useAppDispatch()
+	const fileInputRef = useRef<HTMLInputElement>(null)
+
+	useEffect(() => {
+		setFocus('text')
+		setFileList(defaultValue.attachedFiles)
+	}, [mode])
 
 	const sendMessage = handleSubmit((data) => {
 		if (!chatId) {
-			return alert('please select someone to send a message')
+			return
 		}
-		const trimmedInput = data.text.trim()
-		if (trimmedInput || fileList.length > 0) {
+
+		if (mode === 'send') {
 			dispatch(
 				sendNewMessage({
 					...data,
@@ -66,6 +74,15 @@ export const ChatForm = () => {
 					attachedFiles: fileList,
 				})
 			)
+		} else {
+			dispatch(
+				editMessage({
+					messageId: defaultValue._id,
+					...data,
+					attachedFiles: fileList,
+				})
+			)
+			dispatch(resetState())
 		}
 
 		reset()
@@ -77,27 +94,25 @@ export const ChatForm = () => {
 			<IconRobot />
 			<ButtonBase
 				disabled={chatId === undefined}
-				onClick={() => inputRef?.current?.click()}
+				onClick={() => fileInputRef?.current?.click()}
 			>
 				<IconAttach />
 			</ButtonBase>
 			<input
 				type="file"
-				ref={inputRef}
+				ref={fileInputRef}
 				hidden
 				onChange={onChangeInputFile}
 			/>
-			<ChatInput {...register('text')} />
-			<ButtonBase type="submit">
+			<ChatInput {...register('text')} defaultValue={defaultValue.text} />
+			<ButtonBase disabled={chatId === undefined} type="submit">
 				<IconRocket />
 			</ButtonBase>
-			{fileList.length > 0 && (
-				<AttachmentFilesWrapper>
-					{fileList.map((file) => (
-						<AttachmentFilePreview key={file} src={file} />
-					))}
-				</AttachmentFilesWrapper>
-			)}
+			<AttachmentFilesWrapper>
+				{fileList.map((file) => (
+					<AttachmentFilePreview key={file} src={file} />
+				))}
+			</AttachmentFilesWrapper>
 		</StyledForm>
 	)
 }

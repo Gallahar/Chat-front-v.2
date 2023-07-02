@@ -16,12 +16,16 @@ interface UseFileReturn {
 export const useFile = (
 	folder: string,
 	type?: 'chat' | 'settings',
-	initialUrl?: string
+	initialValue?: string[] | string
 ): UseFileReturn => {
 	const [uploadFile] = useUploadFileMutation()
 	const [deleteFile] = useDeleteFileMutation()
-	const [fileUrl, setFileUrl] = useState(initialUrl ?? '')
-	const [fileList, setFileList] = useState<string[]>([])
+	const [fileUrl, setFileUrl] = useState(
+		typeof initialValue === 'string' ? initialValue : ''
+	)
+	const [fileList, setFileList] = useState<string[]>(
+		Array.isArray(initialValue) ? initialValue : []
+	)
 
 	const onChangeInputFile = async (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files
@@ -42,7 +46,11 @@ export const useFile = (
 
 	const onDeleteInputFile = async (url: string) => {
 		await deleteFile(url)
-		setFileUrl(initialUrl ?? '')
+		if (type === 'settings') {
+			setFileUrl('')
+		} else {
+			setFileList((prev) => prev.filter((fileUrl) => fileUrl !== url))
+		}
 	}
 
 	return {

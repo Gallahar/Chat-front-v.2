@@ -7,11 +7,18 @@ export interface Message {
 	attachedFiles: string[]
 	createdAt: string
 	updatedAt: string
+	editedByUser?: string
 }
 
 export interface CreateMessage {
 	chatId: string
 	user: string
+	text: string
+	attachedFiles: string[]
+}
+
+export interface EditMessage {
+	messageId: string
 	text: string
 	attachedFiles: string[]
 }

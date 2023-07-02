@@ -2,11 +2,13 @@ import { selectUser } from '@/entities/user'
 import { useAppSelector } from '@/shared/lib/hooks/redux'
 import { Avatar, styled } from '@mui/material'
 import { Text } from '@/shared/ui'
-import {selectCurrentChat, selectFriend } from '@/entities/chat'
-import { MessageCard} from '@/features/chat'
+import { selectCurrentChat, selectFriend } from '@/entities/chat'
+import { MessageCard } from '@/features/chat'
+import { useEffect, useRef } from 'react'
 
 const ListWrapper = styled('div')`
 	overflow-y: auto;
+	overflow-x: hidden;
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 12px;
@@ -35,6 +37,12 @@ export const MessagesList = () => {
 		selectFriend(state, currentUserId)
 	)
 
+	const lastMessageRef = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		lastMessageRef.current?.scrollIntoView()
+	}, [messages.length])
+
 	return (
 		<ListWrapper>
 			<ListHeadingWrapper>
@@ -49,6 +57,7 @@ export const MessagesList = () => {
 					avatar={avatar}
 				/>
 			))}
+			<div ref={lastMessageRef} />
 		</ListWrapper>
 	)
 }

@@ -6,10 +6,14 @@ const StyledButton = styled('button')<{ isAuth?: boolean }>`
 	position: relative;
 	font-size: ${(props) => (props.isAuth ? 15 : 22)}px;
 	padding: ${(props) => (props.isAuth ? 9 : 18)}px;
-
 	background-clip: padding-box;
 	display: inline-block;
-	
+	background-image: var(--gr-primary);
+	border-radius: ${(props) => (props.isAuth ? 10 : 20)}px;
+	background-repeat: no-repeat;
+	transition: background-size 0.5s ease-in-out, box-shadow 0.5s ease,
+		color 0.5s ease;
+	background-size: 0%;
 
 	&::before {
 		width: 100%;
@@ -25,6 +29,12 @@ const StyledButton = styled('button')<{ isAuth?: boolean }>`
 		content: '';
 		z-index: 1;
 		border-radius: ${(props) => (props.isAuth ? 10 : 20)}px;
+	}
+
+	&:hover {
+		background-size: 100%;
+		box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.2);
+		color: var(--text-black);
 	}
 `
 

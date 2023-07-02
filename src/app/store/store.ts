@@ -8,6 +8,7 @@ import { fileApi } from '@/shared/api/fileApi'
 import { userApi } from '@/entities/user'
 import chatSlice from '@/entities/chat/model/chatSlice'
 import { chatMiddleWare } from '@/entities/chat/model/chatMiddleware'
+import chatFormSlice from '@/entities/chatform/model/chatFormSlice'
 
 export const store = configureStore({
 	reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
 		authState: authSlice,
 		userState: userSlice,
 		chatState: chatSlice,
+		chatFormState: chatFormSlice
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({}).concat(baseApi.middleware, chatMiddleWare),

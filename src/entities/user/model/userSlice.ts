@@ -6,7 +6,7 @@ import {
 	changeUsername,
 	getUser,
 	setUser,
-} from '@/shared/lib/utils/cookieService'
+} from '@/shared/lib/utils/LocalStorageService'
 import { userApi } from '../api/userApi'
 
 interface UserState {
@@ -24,7 +24,7 @@ const initialState: UserState = {
 
 const userSlice = createSlice({
 	name: 'userSlice',
-	initialState: { user: getUser() ?? initialState } as UserState,
+	initialState: { user: getUser() ?? initialState.user } as UserState,
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addMatcher(

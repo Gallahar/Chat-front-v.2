@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 import { authApi } from '../api'
 import {
 	removeAccessToken,
-	removeCurrentChat,
-	removeUser,
 	setAccessToken,
 } from '@/shared/lib/utils/cookieService'
+import {
+	removeCurrentChat,
+	removeUser,
+} from '@/shared/lib/utils/LocalStorageService'
 
 interface AuthState {
 	isAuth: boolean

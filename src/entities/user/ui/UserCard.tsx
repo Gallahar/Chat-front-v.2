@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/shared/lib/hooks/redux'
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { UserData } from '@/shared/types/user.interface'
 import { Avatar, Box, Typography, styled } from '@mui/material'
 import { Text } from '@/shared/ui/Typography/Text'
@@ -6,11 +6,14 @@ import { FC } from 'react'
 import { selectUser } from '../model'
 import { Chat, ChatStart } from '@/shared/types/chat.interface'
 import { getDate } from '@/shared/lib/utils/getDate'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { chooseChat, startNewChat } from '@/entities/chat'
 
 const CardWrapper = styled('div')<{ selected: boolean }>`
-	background: ${(props) =>
-		props.selected ? 'var(--bg-selectedMessage)' : 'transparent'};
+	transition: background-size 0.7s ease-in-out;
+	background-image: var(--bg-selectedMessage);
+	background-repeat: no-repeat;
+	background-size: ${(props) => (props.selected ? 100 : 0)}%;
 	display: grid;
 	grid-template-columns: 58px 175px auto;
 	grid-template-rows: 1fr;
@@ -27,20 +30,30 @@ const StyledDate = styled('span')`
 
 interface UserCardProps {
 	userData: UserData
-	onClickCard: (dto: ChatStart, chat: Chat | null) => void
 }
 
-export const UserCard: FC<UserCardProps> = ({ userData, onClickCard }) => {
+export const UserCard: FC<UserCardProps> = ({ userData }) => {
 	const { id } = useParams()
+	const nav = useNavigate()
+	const dispatch = useAppDispatch()
 	const { _id: fromUserId } = useAppSelector(selectUser)
 	const { _id: toUserId, avatar, username, chat } = userData
 	const selectedUser = chat?._id === id
 	const lastMessage = chat?.messages[chat.messages.length - 1] || null
 
+	const handleClickCard = () => {
+		if (chat) {
+			dispatch(chooseChat(chat))
+			return nav(`/chat/${chat._id}`)
+		}
+
+		dispatch(startNewChat({ fromUserId, toUserId }))
+	}
+
 	return (
 		<CardWrapper
-			selected={selectedUser}
-			onClick={() => onClickCard({ fromUserId, toUserId }, chat)}
+			selected={selectedUser && id !== undefined}
+			onClick={handleClickCard}
 		>
 			<Avatar sx={{ width: '58px', height: '58px' }} src={avatar} />
 			<Box

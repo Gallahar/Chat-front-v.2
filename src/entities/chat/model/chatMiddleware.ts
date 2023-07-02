@@ -11,6 +11,8 @@ import {
 	deleteMessage,
 	likeMessage,
 	receiveLike,
+	receiveEditedMessage,
+	editMessage,
 } from './chatSlice'
 import { Chat, ChatActions } from '@/shared/types/chat.interface'
 import {
@@ -48,6 +50,10 @@ export const chatMiddleWare: Middleware = ({ dispatch }) => {
 			socket.on(MessageActions.receive_like, (response: Message) => {
 				dispatch(receiveLike(response))
 			})
+
+			socket.on(MessageActions.receive_edit, (response: Message) => {
+				dispatch(receiveEditedMessage(response))
+			})
 		}
 
 		if (startNewChat.match(action)) {
@@ -72,13 +78,11 @@ export const chatMiddleWare: Middleware = ({ dispatch }) => {
 		}
 
 		if (likeMessage.match(action)) {
-			socket.emit(
-				MessageActions.like,
-				action.payload,
-				(response: Message) => {
-					dispatch(receiveLike(response))
-				}
-			)
+			socket.emit(MessageActions.like, action.payload)
+		}
+
+		if (editMessage.match(action)) {
+			socket.emit(MessageActions.edit, action.payload)
 		}
 
 		if (closeConnection.match(action)) {

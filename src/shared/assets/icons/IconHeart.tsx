@@ -1,13 +1,13 @@
 import { FC, SVGProps } from 'react'
 
 interface IconHeaderProps extends SVGProps<SVGSVGElement> {
-	fill: string
+	fill?: string
 	width: number
 	height: number
 }
 
 export const IconHeart: FC<IconHeaderProps> = ({
-	fill,
+	fill = '#DD2E44',
 	width,
 	height,
 	...rest

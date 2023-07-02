@@ -1,9 +1,10 @@
-import { useAppDispatch } from '@/shared/lib/hooks/redux'
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { Message } from '@/shared/types/message.interface'
-import {  styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { deleteMessage } from '..'
-
+import { setMode } from '@/entities/chatform'
+import { selectUser } from '@/entities/user'
 
 type Coords = { x: number; y: number }
 
@@ -34,7 +35,7 @@ const ContextMenuItem = styled('button')`
 interface ContextMenuProps {
 	message: Message
 	coords: Coords
-    setSnackBar: Dispatch<SetStateAction<boolean>>
+	setSnackBar: Dispatch<SetStateAction<boolean>>
 }
 
 export const ContextMenu: FC<ContextMenuProps> = ({
@@ -42,10 +43,13 @@ export const ContextMenu: FC<ContextMenuProps> = ({
 	message,
 	setSnackBar,
 }) => {
-	const { _id: messageId, text } = message
+	const { _id: messageId, text, attachedFiles, user } = message
+	const currentUserId = useAppSelector(selectUser)._id
 	const dispatch = useAppDispatch()
 
-
+	const handleEdit = () => {
+		dispatch(setMode({ text, attachedFiles, _id: messageId }))
+	}
 
 	const handleDelete = () => {
 		dispatch(deleteMessage({ messageId }))
@@ -66,7 +70,9 @@ export const ContextMenu: FC<ContextMenuProps> = ({
 			<ContextMenuItem onClick={() => handleCopy(text)}>
 				Copy
 			</ContextMenuItem>
-			<ContextMenuItem>Change</ContextMenuItem>
+			{currentUserId === user && (
+				<ContextMenuItem onClick={handleEdit}>Edit</ContextMenuItem>
+			)}
 			<ContextMenuItem onClick={handleDelete}>Delete</ContextMenuItem>
 		</ContextMenuWrapper>
 	)

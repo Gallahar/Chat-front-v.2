@@ -2,7 +2,7 @@ import { authApi } from '@/entities/auth'
 import {
 	getCurrentChat,
 	setCurrentChat,
-} from '@/shared/lib/utils/cookieService'
+} from '@/shared/lib/utils/LocalStorageService'
 import {
 	Chat,
 	ChatStart,
@@ -11,6 +11,7 @@ import {
 import {
 	CreateMessage,
 	DeleteMessageResponse,
+	EditMessage,
 	LikeMessage,
 	Message,
 } from '@/shared/types/message.interface'
@@ -110,14 +111,55 @@ const chatSlice = createSlice({
 					payload.userId
 				)
 			}
-		},
-		receiveLike: (state, { payload }: PayloadAction<Message>) => {
-			state.currentChat.messages = state.currentChat.messages.map(
-				(message) => (message._id === payload._id ? payload : message)
-			)
-			state.chats.map((chat) =>
+			state.chats = state.chats.map((chat) =>
 				chat._id === state.currentChat._id ? state.currentChat : chat
 			)
+		},
+		receiveLike: (state, { payload }: PayloadAction<Message>) => {
+			state.chats
+				.find((chat) => chat._id === payload.chatId)
+				?.messages.forEach((message) =>
+					message._id === payload._id ? (message = payload) : message
+				)
+
+			if (state.currentChat._id === payload.chatId) {
+				state.currentChat.messages = state.currentChat.messages.map(
+					(message) =>
+						message._id === payload._id ? payload : message
+				)
+			}
+		},
+		editMessage: (state, { payload }: PayloadAction<EditMessage>) => {
+			state.currentChat.messages = state.currentChat.messages.map(
+				(message) =>
+					message._id === payload.messageId
+						? {
+								...message,
+								text: payload.text,
+								attachedFiles: payload.attachedFiles,
+								editedByUser: new Date()
+									.toLocaleTimeString()
+									.slice(0, 5),
+						  }
+						: message
+			)
+
+			state.chats = state.chats.map((chat) =>
+				chat._id === state.currentChat._id ? state.currentChat : chat
+			)
+		},
+		receiveEditedMessage: (state, { payload }: PayloadAction<Message>) => {
+			state.chats
+				.find((chat) => chat._id === payload.chatId)
+				?.messages.forEach((message) =>
+					message._id === payload._id ? (message = payload) : message
+				)
+			if (state.currentChat._id === payload.chatId) {
+				state.currentChat.messages = state.currentChat.messages.map(
+					(message) =>
+						message._id === payload._id ? payload : message
+				)
+			}
 		},
 	},
 	extraReducers: (builder) => {
@@ -177,4 +219,6 @@ export const {
 	receiveDeletedMessage,
 	likeMessage,
 	receiveLike,
+	editMessage,
+	receiveEditedMessage,
 } = chatSlice.actions

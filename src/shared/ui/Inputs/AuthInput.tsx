@@ -1,37 +1,32 @@
 import { styled } from '@mui/material'
 import { InputHTMLAttributes, forwardRef } from 'react'
 
-const StyledInputWrapper = styled('div')<{ inputVariant?: 'auth' | 'chat' }>`
+const StyledInputWrapper = styled('div')`
 	width: 100%;
 	position: relative;
 	border: none;
-	padding: ${(props) => (props.inputVariant === 'chat' ? 1 : 3)}px;
+	padding: 3px;
 	background: var(--gr-border);
-	border-radius: ${(props) => (props.inputVariant === 'chat' ? 10 : 20)}px;
+	border-radius: 20px;
 `
-const StyledLabel = styled('label')<{ labelVariant?: 'auth' | 'chat' }>`
+const StyledLabel = styled('label')`
 	position: absolute;
 	left: 25px;
 	padding: 0 10px;
 	top: -10px;
-	font-size: ${(props) => (props.labelVariant === 'chat' ? 12 : 16)}px;
+	font-size: 16px;
 	line-height: 150%;
-	color: ${(props) =>
-		props.labelVariant === 'chat' ? 'rgba(255, 255, 255, 0.5)' : '#1e1e1e'};
-	background-color: ${(props) =>
-		props.labelVariant === 'chat' ? 'rgb(48, 47, 47)' : 'var(--bg-white)'};
+	color: #1e1e1e;
+	background-color: var(--bg-white);
 `
 
-const StyledInput = styled('input')<{ inputVariant?: 'auth' | 'chat' }>`
+const StyledInput = styled('input')`
 	width: 100%;
-	color: ${(props) =>
-		props.inputVariant === 'chat' ? 'var(--text-white)' : 'inherit '};
-	border-radius: ${(props) => (props.inputVariant === 'chat' ? 10 : 16)}px;
-	padding: ${(props) =>
-		props.inputVariant === 'chat' ? '10px' : '22px 10px'};
+	color: inherit;
+	border-radius: 16px;
+	padding: 22px 10px;
 
-	background: ${(props) =>
-		props.inputVariant === 'chat' ? 'rgb(48, 47, 47)' : 'var(--bg-white)'};
+	background: var(--bg-white);
 `
 
 const StyledError = styled('p')`
@@ -44,24 +39,14 @@ const StyledError = styled('p')`
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string
 	error?: string
-	inputVariant?: 'auth' | 'chat'
 }
 
 export const AuthInput = forwardRef<HTMLInputElement, InputProps>(
-	({ error, label, inputVariant, ...rest }, ref) => {
+	({ error, label, ...rest }, ref) => {
 		return (
-			<StyledInputWrapper inputVariant={inputVariant}>
-				{label && (
-					<StyledLabel labelVariant={inputVariant}>
-						{label}
-					</StyledLabel>
-				)}
-				<StyledInput
-					inputVariant={inputVariant}
-					autoComplete="off"
-					{...rest}
-					ref={ref}
-				/>
+			<StyledInputWrapper>
+				{label && <StyledLabel>{label}</StyledLabel>}
+				<StyledInput autoComplete="off" {...rest} ref={ref} />
 				{error && <StyledError>{error}</StyledError>}
 			</StyledInputWrapper>
 		)
