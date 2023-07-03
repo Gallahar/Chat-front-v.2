@@ -27,6 +27,9 @@ const authSlice = createSlice({
 			removeCurrentChat()
 			state.isAuth = false
 		},
+		setAuth:(state)=>{
+			state.isAuth = true
+		}
 	},
 	extraReducers: (builder) => {
 		builder.addMatcher(

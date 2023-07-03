@@ -2,7 +2,7 @@ import { Message } from '@/shared/types/message.interface'
 import { FC } from 'react'
 import { Avatar, Snackbar, Modal } from '@mui/material'
 import { getDate } from '@/shared/lib/utils/getDate'
-import { ContextMenu } from '@/entities/chat'
+import { ContextMenu, useMessageCard } from '@/entities/chat'
 import { createPortal } from 'react-dom'
 import { Text } from '@/shared/ui'
 import { IconHeart } from '@/shared/assets/icons/IconHeart'
@@ -16,7 +16,7 @@ import {
 	StyledFile,
 	LikeHandler,
 } from './Message.style'
-import { useMessageCard } from './hooks/useMessageCard'
+
 
 interface MessageCardProps {
 	message: Message

@@ -4,7 +4,6 @@ import { Avatar, Box, Typography, styled } from '@mui/material'
 import { Text } from '@/shared/ui/Typography/Text'
 import { FC } from 'react'
 import { selectUser } from '../model'
-import { Chat, ChatStart } from '@/shared/types/chat.interface'
 import { getDate } from '@/shared/lib/utils/getDate'
 import { useNavigate, useParams } from 'react-router-dom'
 import { chooseChat, startNewChat } from '@/entities/chat'
@@ -25,6 +24,7 @@ const CardWrapper = styled('div')<{ selected: boolean }>`
 const StyledDate = styled('span')`
 	margin-top: 8px;
 	align-self: start;
+	justify-self: end;
 	font-size: 13px;
 `
 

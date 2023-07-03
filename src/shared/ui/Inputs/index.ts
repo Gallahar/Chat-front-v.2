@@ -1,2 +1,2 @@
-export { AuthInput } from './AuthInput'
+export * from './AuthInput'
 export { ChatInput } from './ChatInput'

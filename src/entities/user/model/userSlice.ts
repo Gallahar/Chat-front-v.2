@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { authApi } from '@/entities/auth/api'
 import { User } from '@/shared/types/user.interface'
 import {
@@ -25,7 +25,11 @@ const initialState: UserState = {
 const userSlice = createSlice({
 	name: 'userSlice',
 	initialState: { user: getUser() ?? initialState.user } as UserState,
-	reducers: {},
+	reducers: {
+		setUser:(state,{payload}:PayloadAction<User>)=>{
+			state.user = payload
+		}
+	},
 	extraReducers: (builder) => {
 		builder.addMatcher(
 			authApi.endpoints.login.matchFulfilled,

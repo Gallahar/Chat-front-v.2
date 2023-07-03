@@ -30,6 +30,7 @@ const chatFormSlice = createSlice({
 		},
 		resetState: (state) => {
 			state.defaultValue = initialState.defaultValue
+			state.mode = initialState.mode
 		},
 	},
 })

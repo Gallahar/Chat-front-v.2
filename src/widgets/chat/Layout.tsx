@@ -1,9 +1,8 @@
 import { styled } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import backgroundImage from '@/shared/assets/images/auth/background.png'
-import { Footer } from '@/entities/chat/ui/Footer'
+import { Footer } from '@/features/chat/Footer'
 import { SideBar } from '@/widgets/user/SideBar'
-import { ChatForm } from '@/features/chat/ChatForm'
 import { Header } from '@/features/header'
 import {
 	closeConnection,
@@ -74,9 +73,7 @@ export const ChatLayout = () => {
 					<Header />
 					<SideBar />
 					<Outlet />
-					<Footer>
-						<ChatForm />
-					</Footer>
+					<Footer />
 				</Layout>
 			</Container>
 		</LayoutWrapper>

@@ -1,4 +1,5 @@
-import { RefObject, useRef, useState } from 'react'
+import { RefObject, useRef } from 'react'
+import { getScrollValues } from '../utils/getScrollValues'
 
 export interface HookHandlers {
 	onClick: () => void
@@ -15,73 +16,58 @@ interface UseControlsReturn {
 }
 
 export const useControls = (threshold?: number): UseControlsReturn => {
-	const [longPress, setLongPress] = useState(false)
 	const listRef = useRef<HTMLDivElement>(null)
-	const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+	const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
 		undefined
 	)
 
-	const startPressTimer = () => {
-		timeoutRef.current = setTimeout(
-			() => setLongPress(true),
-			threshold ?? 300
-		)
+	const onActionStartUp = () => {
+		intervalRef.current = setInterval(handleClickUp, threshold ?? 100)
 	}
 
-	const onActionStart = () => {
-		startPressTimer()
+	const onActionStartDown = () => {
+		intervalRef.current = setInterval(handleClickDown, threshold ?? 100)
 	}
 
 	const onActionEnd = () => {
-		clearTimeout(timeoutRef.current)
+		clearInterval(intervalRef.current)
 	}
 
 	const handleClickDown = () => {
 		if (!listRef.current) return
-		if (longPress) {
-			listRef.current?.lastElementChild?.scrollIntoView()
-			return setLongPress(false)
-		}
-		const amount = listRef.current?.firstElementChild?.clientHeight ?? 0
-		const gap = window
-			.getComputedStyle(listRef.current)
-			.getPropertyValue('gap')
-			.slice(0, 2)
+		const { amount, currentScroll, gap } = getScrollValues(
+			listRef.current,
+			'gap'
+		)
 
-		const currentScroll = listRef.current?.scrollTop ?? 0
-		listRef.current?.scrollTo(0, currentScroll + amount + Number(gap))
+		listRef.current?.scrollTo(0, currentScroll + amount + gap)
 	}
 
 	const handleClickUp = () => {
 		if (!listRef.current) return
 
-		if (longPress) {
-			listRef.current?.firstElementChild?.scrollIntoView()
-			return setLongPress(false)
-		}
-		const amount = listRef.current?.firstElementChild?.clientHeight ?? 0
-		const gap = window
-			.getComputedStyle(listRef.current)
-			.getPropertyValue('gap')
-			.slice(0, 2)
-		const currentScroll = listRef.current?.scrollTop ?? 0
-		listRef.current?.scrollTo(0, currentScroll - (amount + Number(gap)))
+		const { amount, currentScroll, gap } = getScrollValues(
+			listRef.current,
+			'gap'
+		)
+
+		listRef.current?.scrollTo(0, currentScroll - (amount + gap))
 	}
 
 	return {
 		listRef,
 		upHandlers: {
 			onClick: handleClickUp,
-			onMouseDown: onActionStart,
+			onMouseDown: onActionStartUp,
 			onMouseUp: onActionEnd,
-			onTouchStart: onActionStart,
-			onTouchEnd: onActionStart,
+			onTouchStart: onActionStartUp,
+			onTouchEnd: onActionEnd,
 		},
 		downHandlers: {
 			onClick: handleClickDown,
-			onMouseDown: onActionStart,
+			onMouseDown: onActionStartDown,
 			onMouseUp: onActionEnd,
-			onTouchStart: onActionStart,
+			onTouchStart: onActionStartDown,
 			onTouchEnd: onActionEnd,
 		},
 	}

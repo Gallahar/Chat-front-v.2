@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { InputHTMLAttributes, forwardRef } from 'react'
+import { InputHTMLAttributes, ReactNode, forwardRef } from 'react'
 
 const StyledInputWrapper = styled('div')`
 	width: 100%;
@@ -41,12 +41,14 @@ const StyledError = styled('p')`
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	error?: string
+	children?: ReactNode
 }
 
 export const ChatInput = forwardRef<HTMLInputElement, InputProps>(
-	({ error, ...rest }, ref) => {
+	({ error, children, ...rest }, ref) => {
 		return (
 			<StyledInputWrapper>
+				{children}
 				<StyledInput autoComplete="off" {...rest} ref={ref} />
 				{error && <StyledError>{error}</StyledError>}
 			</StyledInputWrapper>
