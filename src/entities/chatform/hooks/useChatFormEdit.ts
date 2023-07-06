@@ -1,4 +1,4 @@
-import { selectChatForm, resetState } from '@/entities/chatform'
+import { selectChatForm, resetState } from '@/entities/chatForm'
 import { useAppSelector, useAppDispatch } from '@/shared/lib/hooks/redux'
 import { useFile } from '@/shared/lib/hooks/useFile'
 import {

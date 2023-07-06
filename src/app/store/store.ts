@@ -8,7 +8,7 @@ import { fileApi } from '@/shared/api/fileApi'
 import { userApi } from '@/entities/user'
 import chatSlice from '@/entities/chat/model/chatSlice'
 import { chatMiddleWare } from '@/entities/chat/model/chatMiddleware'
-import chatFormSlice from '@/entities/chatform/model/chatFormSlice'
+import chatFormSlice from '@/entities/chatForm/model/chatFormSlice'
 
 export const store = configureStore({
 	reducer: {

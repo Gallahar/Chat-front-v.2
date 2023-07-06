@@ -1,6 +1,6 @@
 import { selectUser } from '@/entities/user'
 import { useAppSelector, useAppDispatch } from '@/shared/lib/hooks/redux'
-import { useRef, FormEvent, RefObject, Dispatch, ChangeEvent } from 'react'
+import { useRef, FormEvent, RefObject, ChangeEvent } from 'react'
 import { useParams } from 'react-router-dom'
 import { sendNewMessage } from '../../chat'
 import { useFile } from '@/shared/lib/hooks/useFile'

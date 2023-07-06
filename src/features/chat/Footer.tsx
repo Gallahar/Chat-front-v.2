@@ -1,4 +1,4 @@
-import { selectChatForm } from '@/entities/chatform'
+import { selectChatForm } from '@/entities/chatForm'
 import { useAppSelector } from '@/shared/lib/hooks/redux'
 import { styled } from '@mui/material'
 import { FC } from 'react'

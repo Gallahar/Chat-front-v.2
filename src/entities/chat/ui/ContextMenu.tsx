@@ -3,7 +3,7 @@ import { Message } from '@/shared/types/message.interface'
 import { styled } from '@mui/material'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { deleteMessage } from '..'
-import { setMode } from '@/entities/chatform'
+import { setMode } from '@/entities/chatForm'
 import { selectUser } from '@/entities/user'
 
 type Coords = { x: number; y: number }

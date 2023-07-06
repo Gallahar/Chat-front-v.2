@@ -38,13 +38,13 @@ const chatSlice = createSlice({
 	name: 'chatSlice',
 	initialState,
 	reducers: {
-		openConnection: (state, action: PayloadAction<CreateConnection>) => {
+		openConnection: (state, _action: PayloadAction<CreateConnection>) => {
 			state.isConnected = true
 		},
 		closeConnection: (state) => {
 			state.isConnected = false
 		},
-		startNewChat: (state, action: PayloadAction<ChatStart>) => {
+		startNewChat: (state, _action: PayloadAction<ChatStart>) => {
 			state.isConnected = true
 		},
 		receiveNewChat: (state, action: PayloadAction<Chat>) => {
@@ -56,7 +56,7 @@ const chatSlice = createSlice({
 			state.currentChat = action.payload
 			setCurrentChat(action.payload)
 		},
-		sendNewMessage: (state, action: PayloadAction<CreateMessage>) => {
+		sendNewMessage: (state, _action: PayloadAction<CreateMessage>) => {
 			state.isConnected = true
 		},
 		receiveNewMessage: (state, action: PayloadAction<Message>) => {
@@ -137,8 +137,7 @@ const chatSlice = createSlice({
 								attachedFiles: payload.attachedFiles,
 								editedByUser: new Date()
 									.toLocaleTimeString()
-									.slice(0, 5),
-						  }
+									.slice(0, 5), }
 						: message
 			)
 
