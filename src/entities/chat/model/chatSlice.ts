@@ -34,7 +34,7 @@ const initialState: ChatState = {
 	},
 }
 
-const chatSlice = createSlice({
+export const chatSlice = createSlice({
 	name: 'chatSlice',
 	initialState,
 	reducers: {
@@ -202,7 +202,7 @@ const chatSlice = createSlice({
 	},
 })
 
-export default chatSlice.reducer
+
 
 export const {
 	openConnection,

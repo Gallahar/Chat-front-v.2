@@ -2,13 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
 import { baseApi } from '@/shared/api/baseApi'
 import { authApi } from '@/entities/auth'
-import authSlice from '@/entities/auth/model/authSlice'
-import userSlice from '@/entities/user/model/userSlice'
+import { authSlice } from '@/entities/auth'
+import { userSlice } from '@/entities/user'
 import { fileApi } from '@/shared/api/fileApi'
 import { userApi } from '@/entities/user'
-import chatSlice from '@/entities/chat/model/chatSlice'
+import { chatSlice } from '@/entities/chat'
 import { chatMiddleWare } from '@/entities/chat/model/chatMiddleware'
-import chatFormSlice from '@/entities/chatForm/model/chatFormSlice'
+import { chatFormSlice } from '@/entities/chatForm'
 
 export const store = configureStore({
 	reducer: {
@@ -16,10 +16,10 @@ export const store = configureStore({
 		[authApi.reducerPath]: authApi.reducer,
 		[fileApi.reducerPath]: fileApi.reducer,
 		[userApi.reducerPath]: userApi.reducer,
-		authState: authSlice,
-		userState: userSlice,
-		chatState: chatSlice,
-		chatFormState: chatFormSlice
+		authState: authSlice.reducer,
+		userState: userSlice.reducer,
+		chatState: chatSlice.reducer,
+		chatFormState: chatFormSlice.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({}).concat(baseApi.middleware, chatMiddleWare),

@@ -21,8 +21,8 @@ const initialState: UserState = {
 		avatar: '',
 	},
 }
-
-const userSlice = createSlice({
+ 
+export const userSlice = createSlice({
 	name: 'userSlice',
 	initialState: { user: getUser() ?? initialState.user } as UserState,
 	reducers: {
@@ -69,4 +69,4 @@ const userSlice = createSlice({
 	},
 })
 
-export default userSlice.reducer
+

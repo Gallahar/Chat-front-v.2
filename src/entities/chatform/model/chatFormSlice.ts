@@ -15,7 +15,7 @@ const initialState: chatFormState = {
 	mode: 'send',
 }
 
-const chatFormSlice = createSlice({
+export const chatFormSlice = createSlice({
 	name: 'chatFormSlice',
 	initialState,
 	reducers: {
@@ -35,6 +35,6 @@ const chatFormSlice = createSlice({
 	},
 })
 
-export default chatFormSlice.reducer
+
 
 export const { setMode, resetState } = chatFormSlice.actions
