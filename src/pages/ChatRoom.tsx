@@ -4,11 +4,11 @@ import { MessagesList } from '@/widgets/chat/MessagesList'
 import { Ellipse } from '@/shared/ui'
 
 const ChatRoomWrapper = styled('div')`
-	position: 'relative';
+	position: relative;
 	background: url(${backgroundImage});
 	border-radius: 20px;
-	height: 485px;
-	overflow-y: auto;
+	max-height: 480px;
+	overflow-y: hidden;
 	z-index: 0;
 `
 

@@ -31,7 +31,7 @@ export const useAuthForm = (isRegisterForm?: boolean): AuthFormReturn => {
 		formState: { errors },
 	} = useForm<AuthData>({ reValidateMode: 'onChange', mode: 'onChange' })
 	const [registerRequest, { isSuccess: isRegisterSuccess }] =
-		useRegisterMutation() // todo: use toast notification about error/ success
+		useRegisterMutation()
 	const [loginRequest, { isSuccess: isLoginSuccess }] = useLoginMutation()
 
 	useEffect(() => {

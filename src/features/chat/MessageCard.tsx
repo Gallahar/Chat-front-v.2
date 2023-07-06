@@ -55,6 +55,7 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}
 				onContextMenu={handleContextMenu}
+				onDoubleClick={handleLike}
 				Position={userId !== friendId}
 			>
 				{userId !== friendId && (

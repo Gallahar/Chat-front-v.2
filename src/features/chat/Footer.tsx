@@ -15,14 +15,12 @@ const StyledFooter = styled('footer')`
 export const Footer: FC = () => {
 	const mode = useAppSelector(selectChatForm).mode
 
-	console.log(mode)
-
 	return (
 		<StyledFooter>
 			{mode === 'send' ? (
-				<ChatFormSend key={'send'} />
+				<ChatFormSend  />
 			) : (
-				<ChatFormEdit key={'edit'} />
+				<ChatFormEdit  />
 			)}
 		</StyledFooter>
 	)

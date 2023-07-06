@@ -23,10 +23,6 @@ export interface EditMessage {
 	attachedFiles: string[]
 }
 
-export interface DeleteMessageResponse {
-	messageId: string
-	chatId: string
-}
 
 export interface LikeMessage {
 	messageId: string

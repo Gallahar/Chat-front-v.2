@@ -6,6 +6,7 @@ import { Ellipse } from '@/shared/ui'
 import { Outlet } from 'react-router-dom'
 import { Header } from '@/features/header'
 import { SpeechBlock } from '@/entities/auth/ui/SpeechBlock'
+import { ToastContainer } from 'react-toastify'
 
 const LayoutWrapper = styled('section')`
 	overflow: hidden;
@@ -47,6 +48,7 @@ const Container = styled('div')`
 export const AuthLayout = () => {
 	return (
 		<LayoutWrapper>
+			<ToastContainer />
 			<Ellipse size={84} top={10} right={70} />
 			<Ellipse size={60} top={1} right={40} />
 			<Ellipse size={332} top={-1} right={22} blur={150} />

@@ -2,7 +2,7 @@ import { selectUser } from '@/entities/user'
 import { useAppSelector, useAppDispatch } from '@/shared/lib/hooks/redux'
 import { useRef, FormEvent, RefObject, Dispatch, ChangeEvent } from 'react'
 import { useParams } from 'react-router-dom'
-import { sendNewMessage } from '..'
+import { sendNewMessage } from '../../chat'
 import { useFile } from '@/shared/lib/hooks/useFile'
 
 interface UseChatFormSendReturn {
@@ -12,11 +12,12 @@ interface UseChatFormSendReturn {
 	formRef: RefObject<HTMLFormElement>
 	chatId: string | undefined
 	onChangeInputFile: (e: ChangeEvent<HTMLInputElement>) => Promise<void>
+	deleteFile: (url: string) => Promise<void>
 	fileList: string[]
 }
 
 export const useChatFormSend = (): UseChatFormSendReturn => {
-	const { fileList, onChangeInputFile, setFileList } = useFile(
+	const { fileList, onChangeInputFile, setFileList,onDeleteInputFile } = useFile(
 		'message',
 		'chat'
 	)
@@ -53,6 +54,7 @@ export const useChatFormSend = (): UseChatFormSendReturn => {
 		formRef,
 		fileList,
 		onChangeInputFile,
+		deleteFile: onDeleteInputFile,
 		chatId,
 	}
 }

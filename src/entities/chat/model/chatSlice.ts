@@ -10,7 +10,6 @@ import {
 } from '@/shared/types/chat.interface'
 import {
 	CreateMessage,
-	DeleteMessageResponse,
 	EditMessage,
 	LikeMessage,
 	Message,
@@ -80,17 +79,16 @@ const chatSlice = createSlice({
 				chat._id === state.currentChat._id ? state.currentChat : chat
 			)
 		},
-		receiveDeletedMessage: (
-			state,
-			action: PayloadAction<DeleteMessageResponse>
-		) => {
-			const chatIndex = state.chats.findIndex(
-				(chat) => chat._id === action.payload.chatId
-			)
+		receiveDeletedMessage: (state, { payload }: PayloadAction<Message>) => {
 			state.currentChat.messages = state.currentChat.messages.filter(
-				(message) => message._id !== action.payload.messageId
+				(message) => message._id !== payload._id
 			)
-			state.chats[chatIndex].messages = state.currentChat.messages
+			state.chats.forEach((chat) =>
+				chat._id === payload.chatId
+					? (chat.messages = chat.messages.filter(
+							(message) => message._id !== payload._id  ))
+					: chat
+			)
 		},
 
 		likeMessage: (state, { payload }: PayloadAction<LikeMessage>) => {

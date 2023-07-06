@@ -68,7 +68,7 @@ export const useMessageCard = (messageId: string): UseMessageCardReturn => {
 		setMessageHovered(true)
 	}
 
-    const handleMouseLeave = () => {
+	const handleMouseLeave = () => {
 		setMessageHovered(false)
 	}
 
@@ -80,7 +80,7 @@ export const useMessageCard = (messageId: string): UseMessageCardReturn => {
 		handleOpenModal,
 		handleLike,
 		handleMouseEnter,
-        handleMouseLeave,
+		handleMouseLeave,
 		messageHovered,
 		modalAvatar,
 		setSnackBarAppearance,

@@ -16,7 +16,6 @@ import {
 } from './chatSlice'
 import { Chat, ChatActions } from '@/shared/types/chat.interface'
 import {
-	DeleteMessageResponse,
 	Message,
 	MessageActions,
 } from '@/shared/types/message.interface'
@@ -42,7 +41,7 @@ export const chatMiddleWare: Middleware = ({ dispatch }) => {
 
 			socket.on(
 				MessageActions.receive_delete,
-				(response: DeleteMessageResponse) => {
+				(response: Message) => {
 					dispatch(receiveDeletedMessage(response))
 				}
 			)

@@ -1,29 +1,18 @@
-import { useChatFormSend } from '@/entities/chat'
-import { IconRocket, IconRobot, IconAttach } from '@/shared/assets/icons'
+import {
+	AttachmentFilePreview,
+	AttachmentFilesWrapper,
+	FormWrapper,
+	StyledForm,
+	useChatFormSend,
+} from '@/entities/chatForm'
+import {
+	IconRocket,
+	IconRobot,
+	IconAttach,
+	IconUndo,
+} from '@/shared/assets/icons'
 import { ChatInput } from '@/shared/ui'
-import { ButtonBase, styled } from '@mui/material'
-
-const StyledForm = styled('form')`
-	position: relative;
-	display: flex;
-	align-items: center;
-	gap: 19px;
-`
-
-const AttachmentFilesWrapper = styled('div')`
-	position: absolute;
-	top: -130px;
-	left: -20px;
-	display: flex;
-	gap: 5 px;
-`
-
-const AttachmentFilePreview = styled('img')`
-	border: 2px solid grey;
-	border-radius: 20px;
-	width: 100px;
-	height: 100px;
-`
+import { ButtonBase } from '@mui/material'
 
 export const ChatFormSend = () => {
 	const {
@@ -31,35 +20,41 @@ export const ChatFormSend = () => {
 		fileList,
 		formRef,
 		onChangeInputFile,
+		deleteFile,
 		onSubmit,
 		textInputRef,
 		chatId,
 	} = useChatFormSend()
 
 	return (
-		<StyledForm ref={formRef} onSubmit={onSubmit}>
-			<IconRobot />
-			<ButtonBase
-				disabled={chatId === undefined}
-				onClick={() => fileInputRef?.current?.click()}
-			>
-				<IconAttach />
-			</ButtonBase>
-			<input
-				type="file"
-				ref={fileInputRef}
-				hidden
-				onChange={onChangeInputFile}
-			/>
-			<ChatInput ref={textInputRef} />
-			<ButtonBase disabled={chatId === undefined} type="submit">
-				<IconRocket />
-			</ButtonBase>
-			<AttachmentFilesWrapper>
+		<FormWrapper>
+			<AttachmentFilesWrapper files={fileList.length > 0}>
 				{fileList.map((file) => (
-					<AttachmentFilePreview key={file} src={file} />
+					<AttachmentFilePreview key={file}>
+						<img src={file} />
+						<IconUndo onClick={() => deleteFile(file)} />
+					</AttachmentFilePreview>
 				))}
 			</AttachmentFilesWrapper>
-		</StyledForm>
+			<StyledForm ref={formRef} onSubmit={onSubmit}>
+				<IconRobot />
+				<ButtonBase
+					disabled={chatId === undefined}
+					onClick={() => fileInputRef?.current?.click()}
+				>
+					<IconAttach />
+				</ButtonBase>
+				<input
+					type="file"
+					ref={fileInputRef}
+					hidden
+					onChange={onChangeInputFile}
+				/>
+				<ChatInput ref={textInputRef} />
+				<ButtonBase disabled={chatId === undefined} type="submit">
+					<IconRocket />
+				</ButtonBase>
+			</StyledForm>
+		</FormWrapper>
 	)
 }

@@ -20,14 +20,19 @@ export const MessageWrapper = styled('div')<{ Position: boolean }>`
 	gap: 12px;
 	max-width: 611px;
 	justify-self: ${(props) => (props.Position ? 'start' : 'end')};
+
+	> button {
+		align-self: start;
+	}
+
+	user-select: none;
 `
 
 export const StyledMessage = styled('div')<{ Position: boolean }>`
 	position: relative;
 	display: grid;
 	grid-template-columns: minmax(min-content, max-content) max-content;
-	grid-auto-rows: max-content;
-	gap: 20px;
+	gap: 5px 20px;
 	padding: 7px 12px;
 	background: rgba(255, 255, 255, 0.7);
 	border-radius: ${(props) =>

@@ -10,7 +10,7 @@ import {
 	useRef,
 } from 'react'
 import { useForm } from 'react-hook-form'
-import { editMessage } from '..'
+import { deleteMessage, editMessage } from '../../chat'
 
 interface ChatFormValues {
 	text: string
@@ -18,6 +18,7 @@ interface ChatFormValues {
 
 interface UseChatFormEditReturn {
 	onChangeInputFile: (e: ChangeEvent<HTMLInputElement>) => Promise<void>
+	deleteFile:(url:string)=>Promise<void>
 	fileList: string[]
 	textFieldProps: InputHTMLAttributes<HTMLInputElement>
 	onSubmit: FormEventHandler<HTMLFormElement>
@@ -30,7 +31,7 @@ export const useChatFormEdit = (): UseChatFormEditReturn => {
 	const dispatch = useAppDispatch()
 	const { register, handleSubmit, setFocus } = useForm<ChatFormValues>()
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const { fileList, onChangeInputFile } = useFile(
+	const { fileList, onChangeInputFile,onDeleteInputFile } = useFile(
 		'message',
 		'chat',
 		defaultValue.attachedFiles
@@ -45,6 +46,10 @@ export const useChatFormEdit = (): UseChatFormEditReturn => {
 	}
 
 	const handleEdit = handleSubmit((data) => {
+		if (!data.text && !fileList.length) {
+			dispatch(deleteMessage({ messageId: defaultValue._id }))
+		}
+
 		dispatch(
 			editMessage({
 				...data,
@@ -68,5 +73,6 @@ export const useChatFormEdit = (): UseChatFormEditReturn => {
 		handleUndo,
 		textFieldProps,
 		onSubmit: handleEdit,
+		deleteFile: onDeleteInputFile,
 	}
 }

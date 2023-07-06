@@ -4,7 +4,7 @@ import { Text } from '@/shared/ui/Typography/Text'
 import { Ellipse } from '@/shared/ui'
 
 const ChatWrapper = styled('div')`
-	position: 'relative';
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;

@@ -20,17 +20,30 @@ export const useControls = (threshold?: number): UseControlsReturn => {
 	const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
 		undefined
 	)
+	const animationFrameRef =
+		useRef<ReturnType<typeof requestAnimationFrame>>(0)
 
 	const onActionStartUp = () => {
-		intervalRef.current = setInterval(handleClickUp, threshold ?? 100)
+		intervalRef.current = setInterval(
+			() =>
+				(animationFrameRef.current =
+					requestAnimationFrame(handleClickUp)),
+			threshold ?? 100
+		)
 	}
 
 	const onActionStartDown = () => {
-		intervalRef.current = setInterval(handleClickDown, threshold ?? 100)
+		intervalRef.current = setInterval(
+			() =>
+				(animationFrameRef.current =
+					requestAnimationFrame(handleClickDown)),
+			threshold ?? 100
+		)
 	}
 
 	const onActionEnd = () => {
 		clearInterval(intervalRef.current)
+		cancelAnimationFrame(animationFrameRef.current)
 	}
 
 	const handleClickDown = () => {

@@ -1,3 +1,5 @@
+import { onlyNumberRegexp } from '@/shared/lib/constants/regexp'
+
 interface GetScrollValuesReturn {
 	currentScroll: number
 	gap: number
@@ -12,11 +14,10 @@ export const getScrollValues = (
 	const gap = +window
 		.getComputedStyle(refElement)
 		.getPropertyValue(property)
-		.replace(/[^0-9]*/gi, '')
+		.replace(onlyNumberRegexp, '')
 
 	const currentScroll = refElement.scrollTop
 
-	console.log(amount, gap, currentScroll)
 
 	return { amount, gap, currentScroll }
 }

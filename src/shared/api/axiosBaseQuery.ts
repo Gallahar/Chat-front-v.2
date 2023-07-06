@@ -1,8 +1,9 @@
 import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { axios } from './axiosInstance'
-import Axios from 'axios'
+import Axios, { isAxiosError } from 'axios'
 import { AuthResponse } from '../types/auth.interface'
+import { toast } from 'react-toastify'
 
 export const axiosBaseQuery = <
 	Args extends AxiosRequestConfig,
@@ -50,6 +51,10 @@ export const axiosBaseQuery = <
 				} catch (e) {
 					console.log(e)
 				}
+			}
+
+			if (isAxiosError(err)) {
+				toast.error(err.response?.data.message)
 			}
 
 			return {

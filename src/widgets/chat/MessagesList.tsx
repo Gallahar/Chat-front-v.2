@@ -7,10 +7,13 @@ import { MessageCard } from '@/features/chat'
 import { useEffect, useRef } from 'react'
 
 const ListWrapper = styled('div')`
+	position: absolute;
+	inset: 0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	display: grid;
 	grid-template-columns: 1fr;
+	grid-auto-rows: max-content;
 	gap: 12px;
 	padding: 0 20px 40px;
 `
