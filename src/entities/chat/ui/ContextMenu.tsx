@@ -5,6 +5,7 @@ import { Dispatch, FC, SetStateAction } from 'react'
 import { deleteMessage } from '..'
 import { setMode } from '@/entities/chatForm'
 import { selectUser } from '@/entities/user'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 type Coords = { x: number; y: number }
 
@@ -18,6 +19,10 @@ const ContextMenuWrapper = styled('div')<Coords>`
 	background-color: var(--bg-white);
 	color: var(--text-black);
 	border-radius: 10px;
+
+	@media ${mobileXS} {
+		padding: 8px 0;
+	}
 `
 
 const ContextMenuItem = styled('button')`
@@ -29,6 +34,11 @@ const ContextMenuItem = styled('button')`
 	transition: background 0.2s ease-in-out;
 	&:hover {
 		background-color: #a09c9c;
+	}
+
+	@media ${mobileXS} {
+		font-size: 14px;
+		padding: 8px 18px;
 	}
 `
 

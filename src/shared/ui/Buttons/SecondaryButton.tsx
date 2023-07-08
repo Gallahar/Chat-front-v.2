@@ -1,3 +1,4 @@
+import { mobileXS } from '@/shared/lib/constants/media'
 import { styled } from '@mui/material'
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 
@@ -35,6 +36,11 @@ const StyledButton = styled('button')<{ isAuth?: boolean }>`
 		background-size: 100%;
 		box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.2);
 		color: var(--text-black);
+	}
+
+	@media ${mobileXS} {
+		font-size: ${(props) => (props.isAuth ? 14 : 20)}px;
+		padding: ${(props) => (props.isAuth ? 8 : 16)}px;
 	}
 `
 

@@ -1,3 +1,4 @@
+import { mobileXS } from '@/shared/lib/constants/media'
 import { styled, keyframes, ButtonBase } from '@mui/material'
 import { FC } from 'react'
 
@@ -19,11 +20,10 @@ const MenuWrapper = styled('div')<{ isAuth: boolean }>`
 	position: absolute;
 	color: #fff;
 	gap: 18px;
-	background-color: rgba(255, 255, 255, 0.1);
-	background-blend-mode: soft-light;
-	box-shadow: inset 0px 4px 4px rgba(255, 255, 255, 0.15),
-		inset 0px 0px 68px rgba(255, 255, 255, 0.05);
-	backdrop-filter: contrast(120%) brightness(150%) blur(20px);
+	background: rgba(61, 85, 255, 0.1);
+	box-shadow: 0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset,
+		0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset;
+	backdrop-filter: blur(20px);
 	border-radius: 20px;
 	width: 100%;
 	max-width: 200px;
@@ -34,6 +34,16 @@ const MenuWrapper = styled('div')<{ isAuth: boolean }>`
 		line-height: 150%;
 	}
 	z-index: 1;
+	@media ${mobileXS} {
+		bottom: -125px;
+		right: ${(props) => (props.isAuth ? 25 : 0)}px;
+		gap: 8px;
+		padding: 20 0;
+		max-width: 154px;
+		> button {
+			font-size: 18px;
+		}
+	}
 `
 
 interface HeaderMenuProps {

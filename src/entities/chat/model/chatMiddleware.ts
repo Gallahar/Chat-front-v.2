@@ -15,10 +15,7 @@ import {
 	editMessage,
 } from './chatSlice'
 import { Chat, ChatActions } from '@/shared/types/chat.interface'
-import {
-	Message,
-	MessageActions,
-} from '@/shared/types/message.interface'
+import { Message, MessageActions } from '@/shared/types/message.interface'
 import { router } from '@/app/router/router'
 
 export const chatMiddleWare: Middleware = ({ dispatch }) => {
@@ -39,12 +36,9 @@ export const chatMiddleWare: Middleware = ({ dispatch }) => {
 				dispatch(receiveNewMessage(message))
 			})
 
-			socket.on(
-				MessageActions.receive_delete,
-				(response: Message) => {
-					dispatch(receiveDeletedMessage(response))
-				}
-			)
+			socket.on(MessageActions.receive_delete, (response: Message) => {
+				dispatch(receiveDeletedMessage(response))
+			})
 
 			socket.on(MessageActions.receive_like, (response: Message) => {
 				dispatch(receiveLike(response))

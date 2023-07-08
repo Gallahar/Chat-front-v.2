@@ -4,20 +4,28 @@ import { useLazyFindUsersQuery } from '@/entities/user/api/userApi'
 import { SearchBar } from '@/features/user/SearchBar'
 import { SearchControls } from '@/features/user/SearchControls'
 import { UserCardList } from '@/features/user/UserCardList'
+import { mobileXS } from '@/shared/lib/constants/media'
 import { useAppSelector } from '@/shared/lib/hooks/redux'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { Box, CircularProgress, styled } from '@mui/material'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-const StyledSideBar = styled('aside')`
+const StyledSideBar = styled('aside')<{ route: boolean }>`
 	display: grid;
 	grid-area: sidebar;
 	padding: 0 28px 28px;
 	grid-template: max-content 1fr max-content / 1fr;
 	gap: 28px;
+
+	@media ${mobileXS} {
+		display: ${(props) => (props.route ? 'none' : 'grid')};
+		gap: 20px;
+	}
 `
 
 export const SideBar: FC = () => {
+	const { id } = useParams()
 	const chats = useAppSelector(selectChats)
 	const [value, setValue] = useState('')
 	const debouncedValue = useDebounce(value)
@@ -34,7 +42,7 @@ export const SideBar: FC = () => {
 	}, [chats, debouncedValue, fetchUsers])
 
 	return (
-		<StyledSideBar>
+		<StyledSideBar route={id !== undefined}>
 			<SearchBar onChange={handleChange} />
 			{isLoading && (
 				<Box sx={{ display: 'flex', justifyContent: 'center' }}>

@@ -3,20 +3,24 @@ import { IconLogo, IconAstronaut } from '@/shared/assets/icons'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { useDelayedNavigate } from '@/shared/lib/hooks/useDelayedNavigate'
 import { Avatar } from '@mui/material'
-import { ButtonBase } from '@mui/material'
 import { Text } from '../../shared/ui/Typography/Text'
 import { FC, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { logout, selectAuth } from '@/entities/auth/model'
 import { selectUser } from '@/entities/user/model'
 import {
+	AstronautButton,
+	NavButton,
 	StyledHeader,
 	UserActionWrapper,
 	UserInfoContainer,
-} from './header.style.ts'
+	UserInfoContainerMobile,
+} from './headerStyle'
 import { SettingsForm } from '../user/SettingsForm'
+import { IconBack } from '@/shared/assets/icons/IconBack'
 
 export const Header: FC = () => {
+	const { id } = useParams()
 	const dispatch = useAppDispatch()
 	const [showSettings, setShowSettings] = useState(false)
 	const { closed, delayedNavigateHandler, setClosed } = useDelayedNavigate()
@@ -59,20 +63,32 @@ export const Header: FC = () => {
 
 	const renderUser = () =>
 		isAuth && (
-			<UserInfoContainer>
-				<Avatar src={avatar} />
-				<Text Size={18} text={username} />
-			</UserInfoContainer>
+			<>
+				<UserInfoContainer>
+					<Avatar src={avatar} />
+					<Text Size={18} text={username} />
+				</UserInfoContainer>
+				<UserInfoContainerMobile onClick={toggleMenu}>
+					<Avatar src={avatar} />
+					<Text Size={18} text={username} />
+				</UserInfoContainerMobile>
+			</>
 		)
 
 	return (
 		<StyledHeader isAuth={isAuth}>
 			{renderLogo()}
+			<NavButton
+				onClick={() => delayedNavigateHandler('/chat')}
+				route={id !== undefined}
+			>
+				<IconBack />
+			</NavButton>
 			<UserActionWrapper>
 				{renderUser()}
-				<ButtonBase onClick={toggleMenu}>
+				<AstronautButton isAuth={isAuth} onClick={toggleMenu}>
 					<IconAstronaut />
-				</ButtonBase>
+				</AstronautButton>
 			</UserActionWrapper>
 			{closed && (
 				<HeaderMenu
@@ -83,7 +99,9 @@ export const Header: FC = () => {
 					isAuth={isAuth}
 				/>
 			)}
-			{showSettings && <SettingsForm />}
+			{showSettings && (
+				<SettingsForm handleToggleSettings={handleToggleSettings} />
+			)}
 		</StyledHeader>
 	)
 }

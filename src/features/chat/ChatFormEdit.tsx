@@ -6,6 +6,7 @@ import {
 	InfoWrapper,
 	StyledForm,
 	StyledText,
+	Wrapper,
 	useChatFormEdit,
 } from '@/entities/chatForm'
 import {
@@ -41,32 +42,39 @@ export const ChatFormEdit = () => {
 				))}
 			</AttachmentFilesWrapper>
 			<StyledForm mode="edit" onSubmit={onSubmit}>
-				<IconRobot />
-				<ButtonBase onClick={() => fileInputRef?.current?.click()}>
-					<IconAttach />
-				</ButtonBase>
-				<input
-					type="file"
-					ref={fileInputRef}
-					hidden
-					onChange={onChangeInputFile}
-				/>
-				<ChatInput {...textFieldProps}>
-					<EditInfoWrapper>
-						<InfoWrapper>
-							<IconEdit />
-							<StyledText>
-								{textFieldProps.defaultValue}
-							</StyledText>
-						</InfoWrapper>
-						<ButtonBase onClick={handleUndo}>
-							<IconUndo />
-						</ButtonBase>
-					</EditInfoWrapper>
-				</ChatInput>
-				<ButtonBase type="submit">
-					<IconChecked />
-				</ButtonBase>
+				<Wrapper>
+					<IconRobot />
+					<ButtonBase
+						type="button"
+						onClick={() => fileInputRef?.current?.click()}
+					>
+						<IconAttach />
+					</ButtonBase>
+					<input
+						type="file"
+						ref={fileInputRef}
+						hidden
+						onChange={onChangeInputFile}
+					/>
+				</Wrapper>
+				<Wrapper>
+					<ChatInput {...textFieldProps}>
+						<EditInfoWrapper>
+							<InfoWrapper>
+								<IconEdit />
+								<StyledText>
+									{textFieldProps.defaultValue}
+								</StyledText>
+							</InfoWrapper>
+							<ButtonBase onClick={handleUndo}>
+								<IconUndo />
+							</ButtonBase>
+						</EditInfoWrapper>
+					</ChatInput>
+					<ButtonBase type="submit">
+						<IconChecked />
+					</ButtonBase>
+				</Wrapper>
 			</StyledForm>
 		</FormWrapper>
 	)

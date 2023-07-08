@@ -1,3 +1,4 @@
+import { mobileXS } from '@/shared/lib/constants/media'
 import { styled } from '@mui/material'
 
 export const FormWrapper = styled('div')`
@@ -8,9 +9,26 @@ export const FormWrapper = styled('div')`
 
 export const StyledForm = styled('form')<{ mode?: 'edit' | 'read' }>`
 	padding-top: ${(props) => (props.mode === 'edit' ? 20 : 0)}px;
+	display: grid;
+	grid-template-columns: 72px 1fr;
+	gap: 20px 12px;
+
+	@media ${mobileXS} {
+		grid-template-columns: 1fr;
+		padding-top: 0;
+		svg {
+			width: 28px;
+			height: 28px;
+		}
+	}
+`
+export const Wrapper = styled('div')`
 	display: flex;
-	align-items: center;
-	gap: 19px;
+	gap: 12px;
+
+	@media ${mobileXS} {
+		gap: 10px;
+	}
 `
 
 export const EditInfoWrapper = styled('div')`
@@ -20,6 +38,16 @@ export const EditInfoWrapper = styled('div')`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	@media ${mobileXS} {
+		top: -43px;
+		left: 100px;
+		max-width: 70%;
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
 `
 
 export const InfoWrapper = styled('div')`
@@ -39,6 +67,11 @@ export const StyledText = styled('p')`
 	white-space: nowrap;
 	width: calc(100%);
 	max-width: 480px;
+	@media ${mobileXS} {
+		width: calc(75%);
+		max-width: 132px;
+		font-size: 12px;
+	}
 `
 
 export const AttachmentFilesWrapper = styled('div')<{ files: boolean }>`

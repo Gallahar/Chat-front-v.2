@@ -2,12 +2,14 @@ import backgroundImage from '@/shared/assets/images/auth/background.png'
 import { styled } from '@mui/material'
 import { Text } from '@/shared/ui/Typography/Text'
 import { Ellipse } from '@/shared/ui'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const ChatWrapper = styled('div')`
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	grid-area: chat;
 	background: url(${backgroundImage});
 	border-radius: 20px;
 	z-index: 0;
@@ -15,6 +17,10 @@ const ChatWrapper = styled('div')`
 
 	> p {
 		opacity: 0.6;
+	}
+
+	@media ${mobileXS} {
+		display: none;
 	}
 `
 

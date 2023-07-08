@@ -1,3 +1,4 @@
+import { mobileXS } from '@/shared/lib/constants/media'
 import { styled, keyframes } from '@mui/material'
 
 const appear = keyframes`
@@ -21,10 +22,15 @@ export const StyledForm = styled('form')<{ hidden: boolean }>`
 	padding: 30px;
 	display: flex;
 	flex-direction: column;
-	gap: 30px;
+	gap: 40px;
 	margin: 0 auto;
 	transition: all 0.2s ease-in-out;
 	animation: ${appear} 0.3s ease-in-out;
 	transform: translateY(${(props) => (props.hidden ? '100%' : 0)});
 	opacity: ${(props) => (props.hidden ? 0 : 1)};
+
+	@media ${mobileXS} {
+		padding: 40px 20px;
+		gap: 36px;
+	}
 `

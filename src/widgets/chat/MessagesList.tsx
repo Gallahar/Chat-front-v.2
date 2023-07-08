@@ -4,7 +4,8 @@ import { Avatar, styled } from '@mui/material'
 import { Text } from '@/shared/ui'
 import { selectCurrentChat, selectFriend } from '@/entities/chat'
 import { MessageCard } from '@/features/chat'
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const ListWrapper = styled('div')`
 	position: absolute;
@@ -16,6 +17,11 @@ const ListWrapper = styled('div')`
 	grid-auto-rows: max-content;
 	gap: 12px;
 	padding: 0 20px 40px;
+
+	@media ${mobileXS} {
+		gap: 27px;
+		padding: 0 10px 20px;
+	}
 `
 
 const ListHeadingWrapper = styled('div')`
@@ -25,15 +31,27 @@ const ListHeadingWrapper = styled('div')`
 	align-items: center;
 	gap: 6px;
 	padding: 40px 0;
+
+	@media ${mobileXS} {
+		padding: 40px 0 0 0;
+		gap: 5px;
+		> p {
+			font-size: 16px;
+		}
+	}
 `
 const StyledSpeech = styled('span')`
 	color: rgba(255, 255, 255, 0.6);
 	font-size: 13px;
 	line-height: 150%;
 	letter-spacing: 0.02em;
+
+	@media ${mobileXS} {
+		font-size: 12px;
+	}
 `
 
-export const MessagesList = () => {
+export const MessagesList = forwardRef<HTMLDivElement>((_, ref) => {
 	const { messages } = useAppSelector(selectCurrentChat)
 	const currentUserId = useAppSelector(selectUser)._id
 	const { avatar, username } = useAppSelector((state) =>
@@ -47,7 +65,7 @@ export const MessagesList = () => {
 	}, [messages.length])
 
 	return (
-		<ListWrapper>
+		<ListWrapper ref={ref}>
 			<ListHeadingWrapper>
 				<Avatar sx={{ width: 100, height: 100 }} src={avatar} />
 				<Text Size={18} text={username} />
@@ -63,4 +81,4 @@ export const MessagesList = () => {
 			<div ref={lastMessageRef} />
 		</ListWrapper>
 	)
-}
+})

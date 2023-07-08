@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom'
 import { Header } from '@/features/header'
 import { SpeechBlock } from '@/entities/auth/ui/SpeechBlock'
 import { ToastContainer } from 'react-toastify'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const LayoutWrapper = styled('section')`
 	overflow: hidden;
@@ -25,9 +26,16 @@ const Planet = styled('img')`
 	bottom: -100px;
 	right: 0;
 	left: 0;
-	margin: auto;
+	margin: 0 auto;
 	z-index: -1;
 	user-select: none;
+	@media ${mobileXS} {
+		width: 1600px;
+		height: 650px;
+		max-width: none;
+		left: -180%;
+		bottom: -200px;
+	}
 `
 
 const BgCosmic = styled('img')`
@@ -36,6 +44,12 @@ const BgCosmic = styled('img')`
 	right: 20%;
 	z-index: -1;
 	user-select: none;
+
+	@media ${mobileXS} {
+		width: 160px;
+		height: 109px;
+		left: 0;
+	}
 `
 
 const Container = styled('div')`
@@ -43,6 +57,9 @@ const Container = styled('div')`
 	max-width: 1106px;
 	margin: 0 auto;
 	padding: 20px 10px 40px 10px;
+	@media ${mobileXS} {
+		max-width: 330px;
+	}
 `
 
 export const AuthLayout = () => {

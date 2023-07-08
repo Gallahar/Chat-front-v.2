@@ -15,35 +15,25 @@ interface UseControlsReturn {
 	downHandlers: HookHandlers
 }
 
-export const useControls = (threshold?: number): UseControlsReturn => {
+export const useControls = (): UseControlsReturn => {
 	const listRef = useRef<HTMLDivElement>(null)
-	const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
-		undefined
-	)
 	const animationFrameRef =
 		useRef<ReturnType<typeof requestAnimationFrame>>(0)
 
 	const onActionStartUp = () => {
-		intervalRef.current = setInterval(
-			() =>
-				(animationFrameRef.current =
-					requestAnimationFrame(handleClickUp)),
-			threshold ?? 100
-		)
+		handleClickUp()
+		animationFrameRef.current = requestAnimationFrame(onActionStartUp)
 	}
 
 	const onActionStartDown = () => {
-		intervalRef.current = setInterval(
-			() =>
-				(animationFrameRef.current =
-					requestAnimationFrame(handleClickDown)),
-			threshold ?? 100
-		)
+		handleClickDown()
+		animationFrameRef.current = requestAnimationFrame(onActionStartDown)
 	}
 
 	const onActionEnd = () => {
-		clearInterval(intervalRef.current)
 		cancelAnimationFrame(animationFrameRef.current)
+
+		console.log(animationFrameRef.current)
 	}
 
 	const handleClickDown = () => {

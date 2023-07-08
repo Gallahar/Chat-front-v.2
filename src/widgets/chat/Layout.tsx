@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import backgroundImage from '@/shared/assets/images/auth/background.png'
 import { Footer } from '@/features/chat/Footer'
 import { SideBar } from '@/widgets/user/SideBar'
@@ -12,6 +12,7 @@ import { selectUser } from '@/entities/user'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { useEffect } from 'react'
 import { Ellipse } from '@/shared/ui'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const LayoutWrapper = styled('section')`
 	overflow: hidden;
@@ -31,25 +32,40 @@ const Container = styled('div')`
 	max-height: 680px;
 	margin: 0 auto;
 	padding: 20px 10px 40px 10px;
+
+	@media ${mobileXS} {
+		max-width: 340px;
+	}
 `
 
-const Layout = styled('div')`
+const Layout = styled('div')<{ route: boolean }>`
 	min-height: 620px;
 	display: grid;
 	grid-template:
-		'header header header header' max-content
-		'sidebar chat chat rightBorder' 1fr
-		'sidebar footer footer footer' max-content / 1fr 2fr 24px;
+		'header header header' max-content
+		'sidebar chat borderRight' 1fr
+		'sidebar footer footer' max-content / 1fr 2fr 24px;
 	border-radius: 20px;
 	color: #fff;
-	background-color: rgba(255, 255, 255, 0.1);
-	background-blend-mode: soft-light;
-	box-shadow: inset 0px 4px 4px rgba(255, 255, 255, 0.15),
-		inset 0px 0px 68px rgba(255, 255, 255, 0.05);
-	backdrop-filter: contrast(120%) brightness(150%) blur(20px);
+	background: rgba(61, 85, 255, 0.1);
+	box-shadow: 0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset,
+		0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset;
+	backdrop-filter: blur(20px);
+
+	@media ${mobileXS} {
+		grid-template: ${(props) =>
+			props.route
+				? `'header header header' max-content
+			'borderLeft chat borderRight' 1fr
+			'footer footer footer' max-content / 20px 1fr 20px`
+				: `'header' max-content
+			'sidebar' 1fr
+			'sidebar' max-content / 1fr`};
+	}
 `
 
 export const ChatLayout = () => {
+	const { id } = useParams()
 	const dispatch = useAppDispatch()
 	const userId = useAppSelector(selectUser)._id
 
@@ -69,7 +85,7 @@ export const ChatLayout = () => {
 			<Ellipse right={65} top={40} size={332} blur={150} />
 			<Ellipse right={18} top={60} size={200} blur={100} />
 			<Container>
-				<Layout>
+				<Layout route={id !== undefined}>
 					<Header />
 					<SideBar />
 					<Outlet />

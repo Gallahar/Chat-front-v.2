@@ -6,6 +6,7 @@ import {
 	useUpdateUsernameMutation,
 } from '../api/userApi'
 import { isAxiosError } from 'axios'
+import { toast } from 'react-toastify'
 
 interface SettingsFormReturn {
 	username: string
@@ -14,7 +15,10 @@ interface SettingsFormReturn {
 	onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
 }
 
-export const useSettingsForm = (avatar: string): SettingsFormReturn => {
+export const useSettingsForm = (
+	avatar: string,
+	closeSettings: () => void
+): SettingsFormReturn => {
 	const [updateAvatar] = useUpdateAvatarMutation()
 	const [updateUsername] = useUpdateUsernameMutation()
 	const initialName = useAppSelector(selectUser).username
@@ -37,9 +41,11 @@ export const useSettingsForm = (avatar: string): SettingsFormReturn => {
 				updateAvatar({ avatar }),
 				updateUsername({ username }),
 			])
+			closeSettings()
 		} catch (err) {
 			if (isAxiosError(err)) {
-				setError(err.message)
+				setError(err.response?.data.message)
+				toast.error(err.response?.data.message)
 			}
 		}
 	}

@@ -17,10 +17,8 @@ interface UseChatFormSendReturn {
 }
 
 export const useChatFormSend = (): UseChatFormSendReturn => {
-	const { fileList, onChangeInputFile, setFileList,onDeleteInputFile } = useFile(
-		'message',
-		'chat'
-	)
+	const { fileList, onChangeInputFile, setFileList, onDeleteInputFile } =
+		useFile('message', 'chat')
 	const user = useAppSelector(selectUser)._id
 	const { id: chatId } = useParams()
 	const dispatch = useAppDispatch()
@@ -29,10 +27,11 @@ export const useChatFormSend = (): UseChatFormSendReturn => {
 	const formRef = useRef<HTMLFormElement>(null)
 
 	const sendMessage = (e: FormEvent<HTMLFormElement>) => {
-		if (!chatId || (!textInputRef.current && !fileList.length)) {
+		e.preventDefault()
+
+		if (!chatId || (!textInputRef.current?.value && !fileList.length)) {
 			return
 		}
-		e.preventDefault()
 
 		dispatch(
 			sendNewMessage({

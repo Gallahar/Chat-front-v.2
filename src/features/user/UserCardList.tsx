@@ -1,28 +1,29 @@
 import { UserCard } from '@/entities/user/ui/UserCard'
+import { mobileXS } from '@/shared/lib/constants/media'
 import { UserData } from '@/shared/types/user.interface'
 import { styled } from '@mui/material'
-import { forwardRef} from 'react'
+import { forwardRef } from 'react'
 
 const CardList = styled('div')`
-	max-height: 400px;
+	max-height: 345px;
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-auto-rows: max-content;
 	gap: 29px;
 	overflow-y: auto;
 	overflow-x: hidden;
+
+	@media ${mobileXS} {
+		gap: 16px;
+	}
 `
 
 interface UserCardListProps {
 	users: UserData[]
-	
 }
 
 export const UserCardList = forwardRef<HTMLDivElement, UserCardListProps>(
-	({ users}, ref) => {
-
-	
-
+	({ users }, ref) => {
 		return (
 			<CardList ref={ref}>
 				{users.map((userData) => (

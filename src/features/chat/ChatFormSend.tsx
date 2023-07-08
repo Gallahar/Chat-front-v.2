@@ -3,6 +3,7 @@ import {
 	AttachmentFilesWrapper,
 	FormWrapper,
 	StyledForm,
+	Wrapper,
 	useChatFormSend,
 } from '@/entities/chatForm'
 import {
@@ -37,23 +38,28 @@ export const ChatFormSend = () => {
 				))}
 			</AttachmentFilesWrapper>
 			<StyledForm ref={formRef} onSubmit={onSubmit}>
-				<IconRobot />
-				<ButtonBase
-					disabled={chatId === undefined}
-					onClick={() => fileInputRef?.current?.click()}
-				>
-					<IconAttach />
-				</ButtonBase>
-				<input
-					type="file"
-					ref={fileInputRef}
-					hidden
-					onChange={onChangeInputFile}
-				/>
-				<ChatInput ref={textInputRef} />
-				<ButtonBase disabled={chatId === undefined} type="submit">
-					<IconRocket />
-				</ButtonBase>
+				<Wrapper>
+					<IconRobot />
+					<ButtonBase
+						type="button"
+						disabled={chatId === undefined}
+						onClick={() => fileInputRef?.current?.click()}
+					>
+						<IconAttach />
+					</ButtonBase>
+					<input
+						type="file"
+						ref={fileInputRef}
+						hidden
+						onChange={onChangeInputFile}
+					/>
+				</Wrapper>
+				<Wrapper>
+					<ChatInput ref={textInputRef} />
+					<ButtonBase disabled={chatId === undefined} type="submit">
+						<IconRocket />
+					</ButtonBase>
+				</Wrapper>
 			</StyledForm>
 		</FormWrapper>
 	)

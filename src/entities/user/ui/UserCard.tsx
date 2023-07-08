@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { UserData } from '@/shared/types/user.interface'
-import { Avatar, Typography, styled } from '@mui/material'
+import { Avatar, styled } from '@mui/material'
 import { Text } from '@/shared/ui/Typography/Text'
 import { FC } from 'react'
 import { selectUser } from '../model'
 import { useNavigate, useParams } from 'react-router-dom'
 import { chooseChat, startNewChat } from '@/entities/chat'
 import { getRelativeCalendarTime } from '@/shared/lib/utils/getRelativeCalendarTime'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const CardWrapper = styled('div')<{ selected: boolean }>`
 	transition: background-size 0.7s ease-in-out;
@@ -14,12 +15,24 @@ const CardWrapper = styled('div')<{ selected: boolean }>`
 	background-repeat: no-repeat;
 	background-size: ${(props) => (props.selected ? 100 : 0)}%;
 	display: grid;
-	grid-template-columns: 58px minmax(max-content,1fr) auto;
+	grid-template-columns: 58px minmax(max-content, 1fr) auto;
 	grid-template-rows: 30px 26px;
 	align-items: center;
 	gap: 0 12px;
 	cursor: pointer;
 	padding-right: 4px;
+
+	@media ${mobileXS} {
+		grid-template-columns: 50px minmax(max-content, 1fr) auto;
+		gap: 0 10px;
+		.MuiAvatar-root {
+			height: 50px;
+			width: 50px;
+		}
+		p {
+			font-size: 16px;
+		}
+	}
 `
 
 const StyledDate = styled('span')`
@@ -27,6 +40,29 @@ const StyledDate = styled('span')`
 	align-self: start;
 	justify-self: end;
 	font-size: 13px;
+
+	@media ${mobileXS} {
+		font-size: 12px;
+		line-height: 250%;
+	}
+`
+
+const StyledLastMessage = styled('span')`
+	grid-column: 2/4;
+	text-overflow: ellipsis;
+	line-height: 150%;
+	letter-spacing: 0.3px;
+	font-size: 15px;
+	overflow: hidden;
+	white-space: nowrap;
+	width: calc(100%);
+	max-width: 175px;
+	margin: 0;
+
+	@media ${mobileXS} {
+		font-size: 13px;
+		width: calc(80%);
+	}
 `
 
 interface UserCardProps {
@@ -66,20 +102,9 @@ export const UserCard: FC<UserCardProps> = ({ userData }) => {
 					{getRelativeCalendarTime(lastMessage.createdAt)}
 				</StyledDate>
 			)}
-			<Typography
-				sx={{
-					gridColumn: '2/4',
-					textOverflow: 'ellipsis',
-					overflow: 'hidden',
-					whiteSpace: 'nowrap',
-					width: 'calc(100%)',
-					maxWidth: '175px',
-					margin: 0,
-				}}
-				paragraph={true}
-			>
+			<StyledLastMessage>
 				{lastMessage ? lastMessage.text : null}
-			</Typography>
+			</StyledLastMessage>
 		</CardWrapper>
 	)
 }

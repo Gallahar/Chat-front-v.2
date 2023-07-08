@@ -15,8 +15,7 @@ import {
 	StyledDate,
 	StyledFile,
 	LikeHandler,
-} from './Message.style'
-
+} from './messageStyle'
 
 interface MessageCardProps {
 	message: Message
@@ -122,8 +121,9 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 						sx={{
 							width: 384,
 							height: 384,
+							maxWidth: '100%',
 							position: 'absolute',
-							top: '50%',
+							top: '40%',
 							left: '50%',
 							transform: 'translate(-50%, -50%)',
 						}}

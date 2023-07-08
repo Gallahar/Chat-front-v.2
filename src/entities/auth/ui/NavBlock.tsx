@@ -20,7 +20,7 @@ const StyledText = styled('p')`
 	padding: 8px;
 	font-size: 20px;
 	line-height: 150%;
-	color: var(--text-grey);
+	color: #424242;
 `
 
 export const NavBlock: FC<NavBlockProps> = ({

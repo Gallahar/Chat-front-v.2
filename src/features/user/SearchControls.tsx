@@ -2,10 +2,15 @@ import { styled } from '@mui/material'
 import { IconControlDown, IconControlUp } from '@/shared/assets/icons'
 import { FC } from 'react'
 import { HookHandlers } from '@/entities/user/hooks/useControls'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const ControlsWrapper = styled('div')`
 	display: flex;
 	gap: 12px;
+
+	@media ${mobileXS} {
+		gap: 10px;
+	}
 `
 
 const StyledControl = styled('button')`
@@ -26,19 +31,28 @@ const StyledControl = styled('button')`
 			}
 		}
 	}
+
+	@media ${mobileXS} {
+		> svg {
+			width: 36px;
+			height: 36px;
+		}
+	}
 `
 
 interface SearchControlsProps {
 	upHandlers: HookHandlers
 	downHandlers: HookHandlers
+	className?: string
 }
 
 export const SearchControls: FC<SearchControlsProps> = ({
 	upHandlers,
 	downHandlers,
+	className,
 }) => {
 	return (
-		<ControlsWrapper>
+		<ControlsWrapper className={className}>
 			<StyledControl {...upHandlers}>
 				<IconControlUp />
 			</StyledControl>

@@ -1,4 +1,5 @@
 import { styled, keyframes } from '@mui/material'
+import { mobileXS } from '@/shared/lib/constants/media'
 
 const appear = keyframes`
 0%{
@@ -26,6 +27,11 @@ export const MessageWrapper = styled('div')<{ Position: boolean }>`
 	}
 
 	user-select: none;
+
+	@media ${mobileXS} {
+		gap: 10px;
+		max-width: 250px;
+	}
 `
 
 export const StyledMessage = styled('div')<{ Position: boolean }>`
@@ -37,6 +43,11 @@ export const StyledMessage = styled('div')<{ Position: boolean }>`
 	background: rgba(255, 255, 255, 0.7);
 	border-radius: ${(props) =>
 		props.Position ? '0px 10px 10px 10px' : '10px 0px 10px 10px'};
+
+	@media ${mobileXS} {
+		grid-template-columns: repeat(auto-fill, minmax(50px, 186px));
+		padding: 6px 10px;
+	}
 `
 
 export const MessageContent = styled('p')`
@@ -46,6 +57,11 @@ export const MessageContent = styled('p')`
 	font-size: 16px;
 	line-height: 150%;
 	letter-spacing: 0.02em;
+
+	@media ${mobileXS} {
+		max-width: fit-content;
+		font-size: 14px;
+	}
 `
 
 export const DateWrapper = styled('div')`
@@ -54,10 +70,18 @@ export const DateWrapper = styled('div')`
 	gap: 3px;
 	align-self: end;
 	justify-self: end;
+	align-items: center;
 
 	> svg {
 		cursor: pointer;
 		flex-shrink: 0;
+	}
+
+	@media ${mobileXS} {
+		> svg {
+			width: 13px;
+			height: 13px;
+		}
 	}
 `
 
@@ -66,18 +90,32 @@ export const LikeCount = styled('span')`
 	position: absolute;
 	left: 5px;
 	top: 4px;
+
+	@media ${mobileXS} {
+		font-size: 5px;
+		left: 5px;
+		top: 5px;
+	}
 `
 
 export const StyledDate = styled('span')`
 	font-size: 13px;
 	line-height: 150%;
 	color: rgba(0, 0, 0, 0.5);
+
+	@media ${mobileXS} {
+		font-size: 12px;
+	}
 `
 
 export const StyledFile = styled('img')`
 	max-height: 200px;
 	max-width: 200px;
 	border-radius: 10px;
+	@media ${mobileXS} {
+		max-width: 150px;
+		max-height: 150px;
+	}
 `
 
 export const LikeHandler = styled('div')`
@@ -97,5 +135,19 @@ export const LikeHandler = styled('div')`
 
 	&:hover {
 		transform: scale(1.5);
+	}
+
+	@media ${mobileXS} {
+		right: -5px;
+		padding: 3px;
+
+		> svg {
+			width: 13px;
+			height: 13px;
+		}
+
+		&:hover {
+			transform: scale(1.3);
+		}
 	}
 `

@@ -12,7 +12,7 @@ export const useDelayedNavigate = (): useCloseFormReturn => {
 	const nav = useNavigate()
 
 	const delayedNavigateHandler = (path: string, delay?: number) => {
-		setClosed((prev) => !prev)
+		setClosed(false)
 		setTimeout(() => {
 			nav(path)
 		}, delay || 0)

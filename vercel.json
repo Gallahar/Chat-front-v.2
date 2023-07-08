@@ -1,6 +1,10 @@
 {
 	"rewrites": [
 		{
+			"source": "/uploads/:path*",
+			"destination": "https://chat-nest-mongo-production.up.railway.app/uploads/:path*"
+		},
+		{
 			"source": "/(.*)",
 			"destination": "/"
 		}

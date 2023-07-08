@@ -1,3 +1,4 @@
+import { mobileXS } from '@/shared/lib/constants/media'
 import { styled } from '@mui/material'
 import { FC, PropsWithChildren } from 'react'
 
@@ -12,10 +13,21 @@ const CardWrapper = styled('div')`
 	justify-content: center;
 	align-items: center;
 	gap: 24px;
+
+	@media ${mobileXS} {
+		> svg {
+			width: 54px;
+			height: 54px;
+		}
+	}
 `
 const CardTitle = styled('p')`
 	font-size: 20px;
 	line-height: 150%;
+
+	@media ${mobileXS} {
+		font-size: 18px;
+	}
 `
 
 interface titleCardProps {
