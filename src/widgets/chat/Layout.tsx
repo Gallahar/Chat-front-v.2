@@ -39,18 +39,29 @@ const Container = styled('div')`
 `
 
 const Layout = styled('div')<{ route: boolean }>`
+	position: relative;
 	min-height: 620px;
 	display: grid;
 	grid-template:
 		'header header header' max-content
 		'sidebar chat borderRight' 1fr
 		'sidebar footer footer' max-content / 1fr 2fr 24px;
-	border-radius: 20px;
+
 	color: #fff;
-	background: rgba(61, 85, 255, 0.1);
-	box-shadow: 0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset,
-		0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset;
-	backdrop-filter: blur(20px);
+	&:before {
+		content: '';
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: rgba(61, 85, 255, 0.1);
+		box-shadow: 0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset,
+			0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset;
+		backdrop-filter: blur(20px);
+		border-radius: 20px;
+		z-index: -1;
+	}
 
 	@media ${mobileXS} {
 		grid-template: ${(props) =>

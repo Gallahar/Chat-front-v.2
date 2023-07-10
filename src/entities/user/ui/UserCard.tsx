@@ -15,12 +15,13 @@ const CardWrapper = styled('div')<{ selected: boolean }>`
 	background-repeat: no-repeat;
 	background-size: ${(props) => (props.selected ? 100 : 0)}%;
 	display: grid;
-	grid-template-columns: 58px minmax(max-content, 1fr) auto;
+	grid-template-columns: 58px max-content auto;
 	grid-template-rows: 30px 26px;
 	align-items: center;
 	gap: 0 12px;
 	cursor: pointer;
 	padding-right: 4px;
+	width: 100%;
 
 	@media ${mobileXS} {
 		grid-template-columns: 50px minmax(max-content, 1fr) auto;
@@ -42,8 +43,7 @@ const StyledDate = styled('span')`
 	font-size: 13px;
 
 	@media ${mobileXS} {
-		font-size: 12px;
-		line-height: 250%;
+		font-size: 11px;
 	}
 `
 

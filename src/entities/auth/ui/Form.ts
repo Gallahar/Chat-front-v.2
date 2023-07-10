@@ -32,5 +32,6 @@ export const StyledForm = styled('form')<{ hidden: boolean }>`
 	@media ${mobileXS} {
 		padding: 40px 20px;
 		gap: 36px;
+		border-radius: 12px;
 	}
 `

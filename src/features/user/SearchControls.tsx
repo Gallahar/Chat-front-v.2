@@ -3,6 +3,8 @@ import { IconControlDown, IconControlUp } from '@/shared/assets/icons'
 import { FC } from 'react'
 import { HookHandlers } from '@/entities/user/hooks/useControls'
 import { mobileXS } from '@/shared/lib/constants/media'
+import { IconControlUpGr } from '@/shared/assets/icons/IconControlUpGr'
+import { IconControlDownGr } from '@/shared/assets/icons/IconControlDownGr'
 
 const ControlsWrapper = styled('div')`
 	display: flex;
@@ -44,20 +46,22 @@ interface SearchControlsProps {
 	upHandlers: HookHandlers
 	downHandlers: HookHandlers
 	className?: string
+	filled?: boolean
 }
 
 export const SearchControls: FC<SearchControlsProps> = ({
 	upHandlers,
 	downHandlers,
 	className,
+	filled,
 }) => {
 	return (
 		<ControlsWrapper className={className}>
 			<StyledControl {...upHandlers}>
-				<IconControlUp />
+				{filled ? <IconControlUpGr /> : <IconControlUp />}
 			</StyledControl>
 			<StyledControl {...downHandlers}>
-				<IconControlDown />
+				{filled ? <IconControlDownGr /> : <IconControlDown />}
 			</StyledControl>
 		</ControlsWrapper>
 	)

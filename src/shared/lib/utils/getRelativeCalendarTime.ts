@@ -5,8 +5,8 @@ dayjs.extend(calendar)
 
 export const getRelativeCalendarTime = (date: string) => {
 	return dayjs(date).calendar(undefined, {
-		sameDay: 'h:mm A',
-		lastDay: '[Yesterday] h:mm',
+		sameDay: '[TD] h:mm ',
+		lastDay: '[YD] h:mm ',
 		lastWeek: 'ddd',
 		sameElse: function () {
 			return Math.floor(Date.now() / 1000) -

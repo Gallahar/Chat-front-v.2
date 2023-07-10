@@ -15,6 +15,7 @@ const CardWrapper = styled('div')`
 	gap: 24px;
 
 	@media ${mobileXS} {
+		border-radius: 12px;
 		> svg {
 			width: 54px;
 			height: 54px;

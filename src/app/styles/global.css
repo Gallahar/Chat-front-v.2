@@ -31,7 +31,6 @@
 		rgba(0, 255, 26, 0.2) 78.65%,
 		rgba(0, 255, 26, 0) 100%
 	);
-	--media-mobile: '(max-width: 800px)';
 }
 
 body {
@@ -59,4 +58,11 @@ body {
 	background-color: #00f0ff;
 	border-radius: 20px;
 	box-shadow: 0 0 4px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 800px) {
+	.MuiModal-root > .MuiAvatar-root {
+		width: 250px;
+		height: 250px;
+	}
 }

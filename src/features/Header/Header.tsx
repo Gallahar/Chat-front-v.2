@@ -79,7 +79,7 @@ export const Header: FC = () => {
 		<StyledHeader isAuth={isAuth}>
 			{renderLogo()}
 			<NavButton
-				onClick={() => delayedNavigateHandler('/chat')}
+				onClick={() => delayedNavigateHandler('/chat', 0, 'mobile')}
 				route={id !== undefined}
 			>
 				<IconBack />

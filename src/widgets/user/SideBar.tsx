@@ -50,7 +50,7 @@ export const SideBar: FC = () => {
 				</Box>
 			)}
 			{data && <UserCardList ref={listRef} users={data} />}
-			<SearchControls
+			<SearchControls 
 				downHandlers={downHandlers}
 				upHandlers={upHandlers}
 			/>

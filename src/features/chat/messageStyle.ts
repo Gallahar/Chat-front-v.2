@@ -52,7 +52,7 @@ export const StyledMessage = styled('div')<{ Position: boolean }>`
 
 export const MessageContent = styled('p')`
 	max-width: 492px;
-	word-break: break-all;
+	word-break: break-word;
 	color: var(--text-black);
 	font-size: 16px;
 	line-height: 150%;

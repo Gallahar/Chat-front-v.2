@@ -16,7 +16,7 @@ const StyledForm = styled('form')`
 	max-width: 266px;
 	position: absolute;
 	right: 30px;
-	top: 100px;
+	top: 90px;
 	background: rgba(61, 85, 255, 0.1);
 	box-shadow: 0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset,
 		0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset;
@@ -29,7 +29,6 @@ const StyledForm = styled('form')`
 		top: 65px;
 		gap: 15px;
 		gap: 18px 16px;
-		z-index: 5;
 	}
 `
 

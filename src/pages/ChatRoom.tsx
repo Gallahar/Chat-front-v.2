@@ -48,7 +48,11 @@ export const ChatRoom = () => {
 
 	return (
 		<ChatRoomWrapper>
-			<ChatControls downHandlers={downHandlers} upHandlers={upHandlers} />
+			<ChatControls
+				filled={true}
+				downHandlers={downHandlers}
+				upHandlers={upHandlers}
+			/>
 			<Ellipse size={300} blur={150} top={10} right={0} />
 			<MessagesList ref={listRef} />
 			{domReady &&

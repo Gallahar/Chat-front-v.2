@@ -21,21 +21,30 @@ const LayoutWrapper = styled('section')`
 	z-index: 1;
 `
 
-const Planet = styled('img')`
+const PlanetEllipse = styled('div')`
 	position: absolute;
-	bottom: -100px;
-	right: 0;
-	left: 0;
+	width: 100%;
+	height: 100%;
+	inset: 0;
+	border-radius: 1600px;
+	background: rgba(255, 255, 255, 0.44);
+	filter: blur(100px);
+	z-index: -1;
+`
+
+const Planet = styled('div')`
+	position: absolute;
+	background-image: url(${planet});
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	bottom: -45%;
+	max-width: none;
 	margin: 0 auto;
 	z-index: -1;
 	user-select: none;
-	@media ${mobileXS} {
-		width: 1600px;
-		height: 650px;
-		max-width: none;
-		left: -180%;
-		bottom: -200px;
-	}
 `
 
 const BgCosmic = styled('img')`
@@ -75,7 +84,9 @@ export const AuthLayout = () => {
 				<SpeechBlock />
 				<Outlet />
 			</Container>
-			<Planet draggable={false} src={planet} />
+			<Planet>
+				<PlanetEllipse />
+			</Planet>
 		</LayoutWrapper>
 	)
 }

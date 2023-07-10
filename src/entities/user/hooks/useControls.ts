@@ -1,5 +1,6 @@
 import { RefObject, useRef } from 'react'
 import { getScrollValues } from '../utils/getScrollValues'
+import type { MouseEvent as ReactMouseEvent } from 'react'
 
 export interface HookHandlers {
 	onClick: () => void
@@ -7,6 +8,7 @@ export interface HookHandlers {
 	onMouseUp: () => void
 	onTouchStart: () => void
 	onTouchEnd: () => void
+	onContextMenu: (e: ReactMouseEvent<HTMLButtonElement>) => void
 }
 
 interface UseControlsReturn {
@@ -15,25 +17,35 @@ interface UseControlsReturn {
 	downHandlers: HookHandlers
 }
 
-export const useControls = (): UseControlsReturn => {
+export const useControls = (threshold?: number): UseControlsReturn => {
 	const listRef = useRef<HTMLDivElement>(null)
+	const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
+		undefined
+	)
 	const animationFrameRef =
 		useRef<ReturnType<typeof requestAnimationFrame>>(0)
 
 	const onActionStartUp = () => {
-		handleClickUp()
-		animationFrameRef.current = requestAnimationFrame(onActionStartUp)
+		intervalRef.current = setInterval(
+			() =>
+				(animationFrameRef.current =
+					requestAnimationFrame(handleClickUp)),
+			threshold ?? 100
+		)
 	}
 
 	const onActionStartDown = () => {
-		handleClickDown()
-		animationFrameRef.current = requestAnimationFrame(onActionStartDown)
+		intervalRef.current = setInterval(
+			() =>
+				(animationFrameRef.current =
+					requestAnimationFrame(handleClickDown)),
+			threshold ?? 100
+		)
 	}
 
 	const onActionEnd = () => {
+		clearInterval(intervalRef.current)
 		cancelAnimationFrame(animationFrameRef.current)
-
-		console.log(animationFrameRef.current)
 	}
 
 	const handleClickDown = () => {
@@ -57,6 +69,10 @@ export const useControls = (): UseControlsReturn => {
 		listRef.current?.scrollTo(0, currentScroll - (amount + gap))
 	}
 
+	const handleContextMenu = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		e.preventDefault()
+	}
+
 	return {
 		listRef,
 		upHandlers: {
@@ -65,6 +81,7 @@ export const useControls = (): UseControlsReturn => {
 			onMouseUp: onActionEnd,
 			onTouchStart: onActionStartUp,
 			onTouchEnd: onActionEnd,
+			onContextMenu: handleContextMenu,
 		},
 		downHandlers: {
 			onClick: handleClickDown,
@@ -72,6 +89,7 @@ export const useControls = (): UseControlsReturn => {
 			onMouseUp: onActionEnd,
 			onTouchStart: onActionStartDown,
 			onTouchEnd: onActionEnd,
+			onContextMenu: handleContextMenu,
 		},
 	}
 }

@@ -26,8 +26,10 @@ const ImageContainer = styled('div')<{ animated?: boolean }>`
 	position: relative;
 	transition: margin 0.3s ease-in-out;
 	@media ${mobileXS} {
+		margin-top: 20px;
 		align-self: end;
 		margin-right: ${(props) => (props.animated ? 30 : 20)}px;
+		margin-bottom: -50px;
 		z-index: -1;
 	}
 `

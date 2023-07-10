@@ -35,8 +35,8 @@ const MenuWrapper = styled('div')<{ isAuth: boolean }>`
 	}
 	z-index: 1;
 	@media ${mobileXS} {
-		bottom: -125px;
-		right: ${(props) => (props.isAuth ? 25 : 0)}px;
+		bottom: ${(props) => (props.isAuth ? -115 : -125)}px;
+		right: ${(props) => (props.isAuth ? 20 : 0)}px;
 		gap: 8px;
 		padding: 20 0;
 		max-width: 154px;

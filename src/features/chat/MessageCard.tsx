@@ -36,9 +36,7 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 		clicked,
 		coordinates,
 		handleCloseModal,
-		handleContextMenu,
-		handleMouseEnter,
-		handleMouseLeave,
+		handlers,
 		handleLike,
 		handleOpenModal,
 		modalAvatar,
@@ -51,10 +49,7 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 	return (
 		<>
 			<MessageWrapper
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				onContextMenu={handleContextMenu}
-				onDoubleClick={handleLike}
+				{...handlers}
 				Position={userId !== friendId}
 			>
 				{userId !== friendId && (

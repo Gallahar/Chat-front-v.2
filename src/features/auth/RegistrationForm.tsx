@@ -1,6 +1,7 @@
 import { useAuthForm } from '@/entities/auth/lib/hooks'
 import { StyledForm } from '@/entities/auth/ui/Form'
 import { AuthInput, PrimaryButton } from '@/shared/ui'
+import { ProcessLoader } from '@/shared/ui/Loaders/ProcessLoader'
 import { FC } from 'react'
 
 interface RegistrationFormProps {
@@ -8,8 +9,9 @@ interface RegistrationFormProps {
 }
 
 export const RegistrationForm: FC<RegistrationFormProps> = ({ hidden }) => {
-	const { errors, fields, onSubmit } = useAuthForm(true)
+	const { errors, fields, onSubmit, loadings } = useAuthForm(true)
 	const { email, password, username } = fields
+	const { registerLoading } = loadings
 
 	return (
 		<StyledForm hidden={hidden} onSubmit={onSubmit}>
@@ -28,7 +30,9 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({ hidden }) => {
 				label="Password"
 				error={errors.password?.message}
 			/>
-			<PrimaryButton type="submit">Register</PrimaryButton>
+			<PrimaryButton disabled={registerLoading} type="submit">
+				{registerLoading ? <ProcessLoader /> : 'Register'}
+			</PrimaryButton>
 		</StyledForm>
 	)
 }

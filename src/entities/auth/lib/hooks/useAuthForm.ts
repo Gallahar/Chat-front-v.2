@@ -12,6 +12,11 @@ interface AuthFieldValues {
 	username: string
 }
 
+type Loadings = {
+	loginLoading: boolean
+	registerLoading: boolean
+}
+
 interface AuthFormReturn {
 	fields: {
 		email: InputProps
@@ -21,6 +26,7 @@ interface AuthFormReturn {
 	errors: FieldErrors<AuthFieldValues>
 
 	onSubmit: FormEventHandler<HTMLFormElement>
+	loadings: Loadings
 }
 
 export const useAuthForm = (isRegisterForm?: boolean): AuthFormReturn => {
@@ -30,9 +36,14 @@ export const useAuthForm = (isRegisterForm?: boolean): AuthFormReturn => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<AuthData>({ reValidateMode: 'onChange', mode: 'onChange' })
-	const [registerRequest, { isSuccess: isRegisterSuccess }] =
-		useRegisterMutation()
-	const [loginRequest, { isSuccess: isLoginSuccess }] = useLoginMutation()
+	const [
+		registerRequest,
+		{ isSuccess: isRegisterSuccess, isLoading: registerLoading },
+	] = useRegisterMutation()
+	const [
+		loginRequest,
+		{ isSuccess: isLoginSuccess, isLoading: loginLoading },
+	] = useLoginMutation()
 
 	useEffect(() => {
 		if (isRegisterSuccess || isLoginSuccess) {
@@ -81,7 +92,7 @@ export const useAuthForm = (isRegisterForm?: boolean): AuthFormReturn => {
 			password: passwordFieldProps,
 		},
 		errors,
-
+		loadings: { registerLoading, loginLoading },
 		onSubmit,
 	}
 

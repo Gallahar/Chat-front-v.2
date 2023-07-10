@@ -15,17 +15,22 @@ type Coordinates = {
 	y: number
 }
 
-interface UseMessageCardReturn {
-	handleContextMenu: (
+interface MessageHandlers {
+	onMouseEnter: () => void
+	onMouseLeave: () => void
+	onContextMenu: (
 		e: TouchEventReact<HTMLDivElement> | MouseEventReact<HTMLDivElement>
 	) => void
+	onDoubleClick: () => void
+}
+
+interface UseMessageCardReturn {
 	clicked: boolean
 	coordinates: Coordinates
 	handleCloseModal: () => void
 	handleOpenModal: () => void
 	handleLike: () => void
-	handleMouseEnter: () => void
-	handleMouseLeave: () => void
+	handlers: MessageHandlers
 	modalAvatar: boolean
 	setSnackBarAppearance: Dispatch<SetStateAction<boolean>>
 	snackBarAppearance: boolean
@@ -64,6 +69,10 @@ export const useMessageCard = (messageId: string): UseMessageCardReturn => {
 		dispatch(likeMessage({ userId, messageId }))
 	}
 
+	const handleDoubleClick = () => {
+		handleLike()
+	}
+
 	const handleMouseEnter = () => {
 		setMessageHovered(true)
 	}
@@ -73,14 +82,17 @@ export const useMessageCard = (messageId: string): UseMessageCardReturn => {
 	}
 
 	return {
-		handleContextMenu,
+		handlers: {
+			onMouseEnter: handleMouseEnter,
+			onMouseLeave: handleMouseLeave,
+			onContextMenu: handleContextMenu,
+			onDoubleClick: handleDoubleClick,
+		},
 		clicked,
 		coordinates,
 		handleCloseModal,
 		handleOpenModal,
 		handleLike,
-		handleMouseEnter,
-		handleMouseLeave,
 		messageHovered,
 		modalAvatar,
 		setSnackBarAppearance,

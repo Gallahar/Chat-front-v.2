@@ -1,6 +1,7 @@
 import { useAuthForm } from '@/entities/auth/lib/hooks'
 import { StyledForm } from '@/entities/auth/ui/Form'
 import { PrimaryButton, AuthInput } from '@/shared/ui'
+import { ProcessLoader } from '@/shared/ui/Loaders/ProcessLoader'
 import { FC } from 'react'
 
 interface LoginFormProps {
@@ -8,8 +9,9 @@ interface LoginFormProps {
 }
 
 export const LoginForm: FC<LoginFormProps> = ({ hidden }) => {
-	const { fields, errors, onSubmit } = useAuthForm()
+	const { fields, errors, onSubmit, loadings } = useAuthForm()
 	const { email, password } = fields
+	const { loginLoading } = loadings
 
 	return (
 		<StyledForm hidden={hidden} onSubmit={onSubmit}>
@@ -23,7 +25,9 @@ export const LoginForm: FC<LoginFormProps> = ({ hidden }) => {
 				label="Password"
 				error={errors.password?.message}
 			/>
-			<PrimaryButton type="submit">Log in</PrimaryButton>
+			<PrimaryButton disabled={loginLoading} type="submit">
+				{loginLoading ? <ProcessLoader/> : 'Log in'}
+			</PrimaryButton>
 		</StyledForm>
 	)
 }

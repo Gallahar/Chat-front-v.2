@@ -6,14 +6,6 @@ export const StyledHeader = styled('header')<{ isAuth: boolean }>`
 	width: 100%;
 	padding: 22px 28px;
 	grid-area: header;
-	background-color: ${(props) =>
-		props.isAuth ? 'transparent' : 'rgba(61, 85, 255, 0.10)'};
-	box-shadow: ${(props) =>
-		props.isAuth
-			? 'none'
-			: `0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset, 0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset`};
-	backdrop-filter: ${(props) => (props.isAuth ? 'none' : 'blur(20px)')};
-	border-radius: ${(props) => (props.isAuth ? '20px 20px 0 0' : '20px')};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -21,6 +13,24 @@ export const StyledHeader = styled('header')<{ isAuth: boolean }>`
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	&:before {
+		content: '';
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: ${(props) =>
+			props.isAuth ? 'transparent' : 'rgba(61, 85, 255, 0.10)'};
+		box-shadow: ${(props) =>
+			props.isAuth
+				? 'none'
+				: `0px 0px 68px 0px rgba(255, 255, 255, 0.05) inset, 0px 4px 4px 0px rgba(255, 255, 255, 0.15) inset`};
+		backdrop-filter: ${(props) => (props.isAuth ? 'none' : 'blur(20px)')};
+		border-radius: ${(props) => (props.isAuth ? '20px 20px 0 0' : '20px')};
+		z-index: -1;
 	}
 
 	@media ${mobileXS} {
@@ -83,8 +93,7 @@ export const NavButton = styled(ButtonBase)<{ route: boolean }>`
 
 	@media ${mobileXS} {
 		display: ${(props) => (props.route ? 'block' : 'none')};
-		> svg {
-			margin-left: 20px;
-		}
+
+		margin-left: 20px;
 	}
 `
