@@ -3,9 +3,14 @@ import { selectUser } from '@/entities/user/model'
 import { mobileXS } from '@/shared/lib/constants/media'
 import { useAppSelector } from '@/shared/lib/hooks/redux'
 import { useFile } from '@/shared/lib/hooks/useFile'
-import { ChatInput, PrimaryButton, SecondaryButton } from '@/shared/ui'
-import { Avatar, Box, styled } from '@mui/material'
-import { FC, useRef, useState } from 'react'
+import {
+	ChatInput,
+	CustomAvatar,
+	PrimaryButton,
+	SecondaryButton,
+} from '@/shared/ui'
+import { Box, styled } from '@mui/material'
+import { FC } from 'react'
 
 const StyledForm = styled('form')`
 	display: flex;
@@ -45,17 +50,20 @@ export const SettingsForm: FC<SettingsFormProps> = ({
 		'settings',
 		initialUrl
 	)
-	const { error, onChangeUserName, onSubmit, username } = useSettingsForm(
-		fileUrl,
-		handleToggleSettings
-	)
-	const inputRef = useRef<HTMLInputElement>(null)
-	const [showInput, setShowInput] = useState(false)
+	const {
+		error,
+		onChangeUserName,
+		onSubmit,
+		username,
+		inputRef,
+		setShowInput,
+		showInput,
+	} = useSettingsForm(fileUrl, handleToggleSettings)
 
 	return (
 		<StyledForm onSubmit={onSubmit}>
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Avatar
+				<CustomAvatar
 					src={fileUrl}
 					sx={{ width: '218px', height: '218px' }}
 				/>

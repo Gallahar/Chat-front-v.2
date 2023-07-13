@@ -38,7 +38,7 @@ export const SideBar: FC = () => {
 	const [fetchUsers, { isLoading, data }] = useLazyFindUsersQuery()
 
 	useEffect(() => {
-		fetchUsers({ value: debouncedValue, param: 'username' })
+		fetchUsers({ value: debouncedValue })
 	}, [chats, debouncedValue, fetchUsers])
 
 	return (
@@ -50,7 +50,7 @@ export const SideBar: FC = () => {
 				</Box>
 			)}
 			{data && <UserCardList ref={listRef} users={data} />}
-			<SearchControls 
+			<SearchControls
 				downHandlers={downHandlers}
 				upHandlers={upHandlers}
 			/>

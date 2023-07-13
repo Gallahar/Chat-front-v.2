@@ -86,7 +86,7 @@ export const chatSlice = createSlice({
 			state.chats.forEach((chat) =>
 				chat._id === payload.chatId
 					? (chat.messages = chat.messages.filter(
-							(message) => message._id !== payload._id  ))
+							(message) => message._id !== payload._id ))
 					: chat
 			)
 		},
@@ -96,18 +96,16 @@ export const chatSlice = createSlice({
 				(message) => message._id === payload.messageId
 			)
 			if (
-				state.currentChat.messages[messageIdx].likedBy.includes(
-					payload.userId
+				state.currentChat.messages[messageIdx].likedBy.find(
+					(likedByObj) => likedByObj.userId === payload.userId
 				)
 			) {
 				state.currentChat.messages[messageIdx].likedBy =
 					state.currentChat.messages[messageIdx].likedBy.filter(
-						(id) => id !== payload.userId
+						(item) => item.userId !== payload.userId
 					)
 			} else {
-				state.currentChat.messages[messageIdx].likedBy.push(
-					payload.userId
-				)
+				state.currentChat.messages[messageIdx].likedBy.push(payload)
 			}
 			state.chats = state.chats.map((chat) =>
 				chat._id === state.currentChat._id ? state.currentChat : chat
@@ -201,8 +199,6 @@ export const chatSlice = createSlice({
 			)
 	},
 })
-
-
 
 export const {
 	openConnection,

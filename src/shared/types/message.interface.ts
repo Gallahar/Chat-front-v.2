@@ -3,7 +3,7 @@ export interface Message {
 	chatId: string
 	user: string
 	text: string
-	likedBy: string[]
+	likedBy: Omit<LikeMessage,'messageId'>[]
 	attachedFiles: string[]
 	createdAt: string
 	updatedAt: string
@@ -23,10 +23,11 @@ export interface EditMessage {
 	attachedFiles: string[]
 }
 
-
 export interface LikeMessage {
 	messageId: string
 	userId: string
+	avatarUrl: string
+	username: string
 }
 
 export const enum MessageActions {

@@ -16,24 +16,6 @@ const ControlsWrapper = styled('div')`
 `
 
 const StyledControl = styled('button')`
-	> svg {
-		> path,
-		rect {
-			transition: stroke 0.2s ease-in-out;
-		}
-	}
-
-	&:hover {
-		> svg {
-			> path {
-				stroke: #00f0ff;
-			}
-			> rect {
-				stroke: #00ff1a;
-			}
-		}
-	}
-
 	@media ${mobileXS} {
 		> svg {
 			width: 36px;
@@ -47,6 +29,7 @@ interface SearchControlsProps {
 	downHandlers: HookHandlers
 	className?: string
 	filled?: boolean
+	gradientId?: number
 }
 
 export const SearchControls: FC<SearchControlsProps> = ({
@@ -54,14 +37,23 @@ export const SearchControls: FC<SearchControlsProps> = ({
 	downHandlers,
 	className,
 	filled,
+	gradientId,
 }) => {
 	return (
 		<ControlsWrapper className={className}>
 			<StyledControl {...upHandlers}>
-				{filled ? <IconControlUpGr /> : <IconControlUp />}
+				{filled ? (
+					<IconControlUpGr gradientId={gradientId} />
+				) : (
+					<IconControlUp />
+				)}
 			</StyledControl>
 			<StyledControl {...downHandlers}>
-				{filled ? <IconControlDownGr /> : <IconControlDown />}
+				{filled ? (
+					<IconControlDownGr gradientId={gradientId} />
+				) : (
+					<IconControlDown />
+				)}
 			</StyledControl>
 		</ControlsWrapper>
 	)

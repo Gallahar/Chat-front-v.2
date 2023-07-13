@@ -35,6 +35,9 @@ const ChatControlsMobile = styled(SearchControls)<{ mode: 'edit' | 'send' }>`
 	z-index: 10;
 	right: 25px;
 	top: 25px;
+	svg {
+		flex-shrink: none;
+	}
 
 	@media ${mobileXS} {
 		display: ${(props) => (props.mode === 'send' ? 'flex' : 'none')};
@@ -58,9 +61,11 @@ export const ChatRoom = () => {
 			{domReady &&
 				createPortal(
 					<ChatControlsMobile
+						filled={true}
 						mode={mode}
 						downHandlers={downHandlers}
 						upHandlers={upHandlers}
+						gradientId={5}
 					/>,
 					document.getElementById('footer') as HTMLElement
 				)}

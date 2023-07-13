@@ -1,20 +1,20 @@
 import { Message } from '@/shared/types/message.interface'
 import { FC } from 'react'
-import { Avatar, Snackbar, Modal } from '@mui/material'
+import { Snackbar, Modal, AvatarGroup } from '@mui/material'
 import { getDate } from '@/shared/lib/utils/getDate'
 import { ContextMenu, useMessageCard } from '@/entities/chat'
 import { createPortal } from 'react-dom'
-import { Text } from '@/shared/ui'
+import { CustomAvatar, Text } from '@/shared/ui'
 import { IconHeart } from '@/shared/assets/icons/IconHeart'
 import {
 	MessageWrapper,
 	StyledMessage,
 	MessageContent,
 	DateWrapper,
-	LikeCount,
 	StyledDate,
 	StyledFile,
 	LikeHandler,
+	LikeWrapper,
 } from './messageStyle'
 
 interface MessageCardProps {
@@ -48,13 +48,10 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 
 	return (
 		<>
-			<MessageWrapper
-				{...handlers}
-				Position={userId !== friendId}
-			>
+			<MessageWrapper {...handlers} Position={userId !== friendId}>
 				{userId !== friendId && (
 					<button onClick={handleOpenModal}>
-						<Avatar src={avatar} />
+						<CustomAvatar src={avatar} />
 					</button>
 				)}
 				<StyledMessage Position={userId !== friendId}>
@@ -63,24 +60,27 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 							<IconHeart width={15} height={15} />
 						</LikeHandler>
 					)}
-					<MessageContent>{text}</MessageContent>
-					<DateWrapper>
-						{likedBy.length > 0 && (
-							<IconHeart
-								onClick={handleLike}
-								width={15}
-								height={15}
-							/>
-						)}
-						{likedBy.length > 1 && (
-							<LikeCount>{likedBy.length}</LikeCount>
-						)}
-						<StyledDate>{getDate(createdAt, 'time')}</StyledDate>
-					</DateWrapper>
 					{attachedFiles.length > 0 &&
 						attachedFiles.map((file) => (
 							<StyledFile key={file} src={file} />
 						))}
+					<MessageContent>{text}</MessageContent>
+					<DateWrapper>
+						{likedBy.length > 0 && (
+							<LikeWrapper onClick={handleLike}>
+								<IconHeart  />
+								<AvatarGroup spacing={'medium'}>
+									{likedBy.map(({ avatarUrl, userId }) => (
+										<CustomAvatar
+											key={userId}
+											src={avatarUrl}
+										/>
+									))}
+								</AvatarGroup>
+							</LikeWrapper>
+						)}
+						<StyledDate>{getDate(createdAt, 'time')}</StyledDate>
+					</DateWrapper>
 				</StyledMessage>
 			</MessageWrapper>
 			{clicked &&
@@ -111,7 +111,7 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 			)}
 			{createPortal(
 				<Modal open={modalAvatar} onClose={handleCloseModal}>
-					<Avatar
+					<CustomAvatar
 						src={avatar}
 						sx={{
 							width: 384,

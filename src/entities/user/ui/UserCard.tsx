@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { UserData } from '@/shared/types/user.interface'
-import { Avatar, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { Text } from '@/shared/ui/Typography/Text'
 import { FC } from 'react'
 import { selectUser } from '../model'
@@ -8,6 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { chooseChat, startNewChat } from '@/entities/chat'
 import { getRelativeCalendarTime } from '@/shared/lib/utils/getRelativeCalendarTime'
 import { mobileXS } from '@/shared/lib/constants/media'
+import { CustomAvatar } from '@/shared/ui'
+import { getLastMessageContent } from '../utils/getLastMessageContent'
 
 const CardWrapper = styled('div')<{ selected: boolean }>`
 	transition: background-size 0.7s ease-in-out;
@@ -22,6 +24,12 @@ const CardWrapper = styled('div')<{ selected: boolean }>`
 	cursor: pointer;
 	padding-right: 4px;
 	width: 100%;
+
+	.MuiAvatar-root {
+		width: 56px;
+		height: 56px;
+		grid-row: span 2;
+	}
 
 	@media ${mobileXS} {
 		grid-template-columns: 50px minmax(max-content, 1fr) auto;
@@ -92,10 +100,7 @@ export const UserCard: FC<UserCardProps> = ({ userData }) => {
 			selected={selectedUser && id !== undefined}
 			onClick={handleClickCard}
 		>
-			<Avatar
-				sx={{ width: '56px', height: '56px', gridRow: 'span 2' }}
-				src={avatar}
-			/>
+			<CustomAvatar src={avatar} />
 			<Text Size={18} text={username} />
 			{lastMessage && (
 				<StyledDate>
@@ -103,7 +108,7 @@ export const UserCard: FC<UserCardProps> = ({ userData }) => {
 				</StyledDate>
 			)}
 			<StyledLastMessage>
-				{lastMessage ? lastMessage.text : null}
+				{getLastMessageContent(lastMessage)}
 			</StyledLastMessage>
 		</CardWrapper>
 	)

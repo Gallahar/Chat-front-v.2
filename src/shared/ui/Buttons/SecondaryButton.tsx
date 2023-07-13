@@ -12,7 +12,7 @@ const StyledButton = styled('button')<{ isAuth?: boolean }>`
 	background-image: var(--gr-primary);
 	border-radius: ${(props) => (props.isAuth ? 10 : 20)}px;
 	background-repeat: no-repeat;
-	transition: background-size 0.5s ease-in-out, box-shadow 0.5s ease,
+	transition: background-size 0.3s ease-in-out, box-shadow 0.3s ease,
 		color 0.5s ease;
 	background-size: 0%;
 

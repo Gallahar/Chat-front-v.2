@@ -43,7 +43,11 @@ export const useMessageCard = (messageId: string): UseMessageCardReturn => {
 	const [messageHovered, setMessageHovered] = useState(false)
 	const [snackBarAppearance, setSnackBarAppearance] = useState(false)
 	const [modalAvatar, setModalAvatar] = useState(false)
-	const userId = useAppSelector(selectUser)._id
+	const {
+		_id: userId,
+		avatar: avatarUrl,
+		username,
+	} = useAppSelector(selectUser)
 
 	const { clicked, coordinates, setClicked, setCoordinates } =
 		useContextMenu()
@@ -66,7 +70,7 @@ export const useMessageCard = (messageId: string): UseMessageCardReturn => {
 	}
 
 	const handleLike = () => {
-		dispatch(likeMessage({ userId, messageId }))
+		dispatch(likeMessage({ userId, messageId, avatarUrl, username }))
 	}
 
 	const handleDoubleClick = () => {

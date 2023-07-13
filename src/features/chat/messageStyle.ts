@@ -36,8 +36,8 @@ export const MessageWrapper = styled('div')<{ Position: boolean }>`
 
 export const StyledMessage = styled('div')<{ Position: boolean }>`
 	position: relative;
-	display: grid;
-	grid-template-columns: minmax(min-content, max-content) max-content;
+	display: flex;
+	flex-wrap: wrap;
 	gap: 5px 20px;
 	padding: 7px 12px;
 	background: rgba(255, 255, 255, 0.7);
@@ -45,7 +45,6 @@ export const StyledMessage = styled('div')<{ Position: boolean }>`
 		props.Position ? '0px 10px 10px 10px' : '10px 0px 10px 10px'};
 
 	@media ${mobileXS} {
-		grid-template-columns: repeat(auto-fill, minmax(50px, 186px));
 		padding: 6px 10px;
 	}
 `
@@ -65,36 +64,51 @@ export const MessageContent = styled('p')`
 `
 
 export const DateWrapper = styled('div')`
-	position: relative;
 	display: flex;
-	gap: 3px;
+	gap: 5px;
+	width: fit-content;
+	margin-left: auto;
 	align-self: end;
-	justify-self: end;
-	align-items: center;
-
-	> svg {
-		cursor: pointer;
+	svg {
 		flex-shrink: 0;
 	}
+`
 
-	@media ${mobileXS} {
-		> svg {
+export const LikeWrapper = styled('div')`
+	cursor: pointer;
+	display: flex;
+	gap: 5px;
+	padding: 5px;
+	align-items: center;
+	background-color: rgba(110, 110, 110, 0.4);
+	backdrop-filter: blur(10px);
+	border-radius: 15px;
+
+	> svg {
+		width: 15px;
+		height: 15px;
+		@media ${mobileXS} {
 			width: 13px;
 			height: 13px;
 		}
 	}
-`
 
-export const LikeCount = styled('span')`
-	font-size: 7px;
-	position: absolute;
-	left: 5px;
-	top: 4px;
+	.MuiAvatarGroup-root {
+		.MuiAvatar-root {
+			border: none;
+			width: 15px;
+			height: 15px;
+
+			@media ${mobileXS} {
+				width: 13px;
+				height: 13px;
+			}
+		}
+	}
 
 	@media ${mobileXS} {
-		font-size: 5px;
-		left: 5px;
-		top: 5px;
+		gap: 3px;
+		padding: 3px;
 	}
 `
 
@@ -102,6 +116,7 @@ export const StyledDate = styled('span')`
 	font-size: 13px;
 	line-height: 150%;
 	color: rgba(0, 0, 0, 0.5);
+	align-self: end;
 
 	@media ${mobileXS} {
 		font-size: 12px;
@@ -109,11 +124,11 @@ export const StyledDate = styled('span')`
 `
 
 export const StyledFile = styled('img')`
+	max-width: calc(50% - 20px);
 	max-height: 200px;
-	max-width: 200px;
 	border-radius: 10px;
 	@media ${mobileXS} {
-		max-width: 150px;
+		max-width: calc(50% - 10px);
 		max-height: 150px;
 	}
 `

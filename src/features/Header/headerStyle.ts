@@ -66,12 +66,12 @@ export const UserActionWrapper = styled('div')`
 	}
 `
 
-export const UserInfoContainerMobile = styled('div')`
+export const UserInfoContainerMobile = styled('div')<{ Active?: string }>`
 	display: none;
 	align-items: center;
 	flex-direction: row-reverse;
 	gap: 10px;
-	cursor: pointer;
+	cursor: ${(props) => (props.Active ? 'pointer' : 'initial')};
 
 	@media ${mobileXS} {
 		display: flex;
@@ -93,7 +93,5 @@ export const NavButton = styled(ButtonBase)<{ route: boolean }>`
 
 	@media ${mobileXS} {
 		display: ${(props) => (props.route ? 'block' : 'none')};
-
-		margin-left: 20px;
 	}
 `

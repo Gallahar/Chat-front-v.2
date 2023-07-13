@@ -27,7 +27,7 @@ const PlanetEllipse = styled('div')`
 	height: 100%;
 	inset: 0;
 	border-radius: 1600px;
-	background: rgba(255, 255, 255, 0.44);
+	background: rgba(255, 255, 255, 0.33);
 	filter: blur(100px);
 	z-index: -1;
 `

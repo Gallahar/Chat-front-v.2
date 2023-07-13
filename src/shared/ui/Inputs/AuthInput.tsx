@@ -32,8 +32,14 @@ const StyledInput = styled('input')`
 	color: inherit;
 	border-radius: 16px;
 	padding: 22px 10px;
-
 	background: var(--bg-white);
+
+	&:-webkit-autofill,
+	&:-webkit-autofill:hover,
+	&:-webkit-autofill:focus,
+	&:-webkit-autofill:active {
+		box-shadow: 0 0 0 50px var(--bg-white) inset;
+	}
 
 	@media ${mobileXS} {
 		padding: 18px 10px;
@@ -45,7 +51,10 @@ const StyledError = styled('p')`
 	position: absolute;
 	color: var(--text-danger);
 	padding-top: 5px;
-	font-size: 10px;
+	font-size: 12px;
+	@media ${mobileXS} {
+		font-size: 10px;
+	}
 `
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -58,7 +67,7 @@ export const AuthInput = forwardRef<HTMLInputElement, InputProps>(
 		return (
 			<StyledInputWrapper>
 				{label && <StyledLabel>{label}</StyledLabel>}
-				<StyledInput autoComplete="off" {...rest} ref={ref} />
+				<StyledInput {...rest} ref={ref} />
 				{error && <StyledError>{error}</StyledError>}
 			</StyledInputWrapper>
 		)

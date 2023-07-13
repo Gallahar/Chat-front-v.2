@@ -1,7 +1,7 @@
 import { selectUser } from '@/entities/user'
 import { useAppSelector } from '@/shared/lib/hooks/redux'
-import { Avatar, styled } from '@mui/material'
-import { Text } from '@/shared/ui'
+import {  styled } from '@mui/material'
+import { CustomAvatar, Text } from '@/shared/ui'
 import { selectCurrentChat, selectFriend } from '@/entities/chat'
 import { MessageCard } from '@/features/chat'
 import { forwardRef, useEffect, useRef } from 'react'
@@ -67,7 +67,7 @@ export const MessagesList = forwardRef<HTMLDivElement>((_, ref) => {
 	return (
 		<ListWrapper ref={ref}>
 			<ListHeadingWrapper>
-				<Avatar sx={{ width: 100, height: 100 }} src={avatar} />
+				<CustomAvatar sx={{ width: 100, height: 100 }} src={avatar} />
 				<Text Size={18} text={username} />
 				<StyledSpeech>Write something</StyledSpeech>
 			</ListHeadingWrapper>

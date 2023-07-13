@@ -2,7 +2,6 @@ import {
 	FindUserDto,
 	UpdateAvatar,
 	UpdateUsername,
-	User,
 	UserData,
 } from '@/shared/types/user.interface'
 import { baseApi } from '../../../shared/api/baseApi'
@@ -10,15 +9,8 @@ import { baseApi } from '../../../shared/api/baseApi'
 export const userApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
 		findUsers: builder.query<UserData[], FindUserDto>({
-			query: ({ value, param }) => ({
-				url: `/user/find?value=${value}&search_by=${param}`,
-				method: 'GET',
-			}),
-			providesTags: ['User'],
-		}),
-		findUserById: builder.query<User, string>({
-			query: (id) => ({
-				url: `/user/${id}`,
+			query: ({ value }) => ({
+				url: `/user/find?value=${value}`,
 				method: 'GET',
 			}),
 			providesTags: ['User'],
@@ -44,7 +36,6 @@ export const userApi = baseApi.injectEndpoints({
 
 export const {
 	useLazyFindUsersQuery,
-	useFindUserByIdQuery,
 	useUpdateAvatarMutation,
 	useUpdateUsernameMutation,
 } = userApi

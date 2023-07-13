@@ -21,5 +21,4 @@ export interface UpdateUsername {
 
 export interface FindUserDto {
 	value: string
-	param: string
 }

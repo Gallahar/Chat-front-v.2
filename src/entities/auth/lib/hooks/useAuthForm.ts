@@ -47,7 +47,7 @@ export const useAuthForm = (isRegisterForm?: boolean): AuthFormReturn => {
 
 	useEffect(() => {
 		if (isRegisterSuccess || isLoginSuccess) {
-			nav('/chat')
+			nav('/chat', { replace: true })
 		}
 	}, [isRegisterSuccess, isLoginSuccess, nav])
 

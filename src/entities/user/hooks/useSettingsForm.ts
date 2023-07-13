@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/shared/lib/hooks/redux'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useRef, useState } from 'react'
 import { selectUser } from '../model'
 import {
 	useUpdateAvatarMutation,
@@ -13,6 +13,9 @@ interface SettingsFormReturn {
 	onChangeUserName: (e: ChangeEvent<HTMLInputElement>) => void
 	error: string
 	onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
+	inputRef: RefObject<HTMLInputElement>
+	setShowInput: Dispatch<SetStateAction<boolean>>
+	showInput: boolean
 }
 
 export const useSettingsForm = (
@@ -24,6 +27,9 @@ export const useSettingsForm = (
 	const initialName = useAppSelector(selectUser).username
 	const [error, setError] = useState('')
 	const [username, setUsername] = useState(initialName)
+
+	const inputRef = useRef<HTMLInputElement>(null)
+	const [showInput, setShowInput] = useState(false)
 
 	const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
 		setUsername(e.target.value)
@@ -50,5 +56,13 @@ export const useSettingsForm = (
 		}
 	}
 
-	return { username, error, onSubmit, onChangeUserName }
+	return {
+		username,
+		error,
+		onSubmit,
+		onChangeUserName,
+		inputRef,
+		setShowInput,
+		showInput
+	}
 }

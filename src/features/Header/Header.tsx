@@ -2,7 +2,6 @@ import { HeaderMenu } from './HeaderMenu'
 import { IconLogo, IconAstronaut } from '@/shared/assets/icons'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { useDelayedNavigate } from '@/shared/lib/hooks/useDelayedNavigate'
-import { Avatar } from '@mui/material'
 import { Text } from '../../shared/ui/Typography/Text'
 import { FC, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -18,6 +17,8 @@ import {
 } from './headerStyle'
 import { SettingsForm } from '../user/SettingsForm'
 import { IconBack } from '@/shared/assets/icons/IconBack'
+import { CustomAvatar } from '@/shared/ui'
+import { selectFriend } from '@/entities/chat'
 
 export const Header: FC = () => {
 	const { id } = useParams()
@@ -25,7 +26,11 @@ export const Header: FC = () => {
 	const [showSettings, setShowSettings] = useState(false)
 	const { closed, delayedNavigateHandler, setClosed } = useDelayedNavigate()
 	const isAuth = useAppSelector(selectAuth)
-	const { avatar, username } = useAppSelector(selectUser)
+	const { avatar, username, _id } = useAppSelector(selectUser)
+
+	const { avatar: friendAvatar, username: friendUserName } = useAppSelector(
+		(state) => selectFriend(state, _id)
+	)
 
 	const toggleMenu = () => {
 		if (showSettings) {
@@ -65,13 +70,20 @@ export const Header: FC = () => {
 		isAuth && (
 			<>
 				<UserInfoContainer>
-					<Avatar src={avatar} />
+					<CustomAvatar src={avatar} />
 					<Text Size={18} text={username} />
 				</UserInfoContainer>
-				<UserInfoContainerMobile onClick={toggleMenu}>
-					<Avatar src={avatar} />
-					<Text Size={18} text={username} />
-				</UserInfoContainerMobile>
+				{id ? (
+					<UserInfoContainerMobile>
+						<CustomAvatar src={friendAvatar} />
+						<Text Size={18} text={friendUserName} />
+					</UserInfoContainerMobile>
+				) : (
+					<UserInfoContainerMobile Active="true" onClick={toggleMenu}>
+						<CustomAvatar src={avatar} />
+						<Text Size={18} text={username} />
+					</UserInfoContainerMobile>
+				)}
 			</>
 		)
 
