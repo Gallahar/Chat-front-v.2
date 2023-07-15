@@ -1,18 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks/redux'
 import { UserData } from '@/shared/types/user.interface'
 import { styled } from '@mui/material'
 import { Text } from '@/shared/ui/Typography/Text'
 import { FC } from 'react'
-import { selectUser } from '../model'
-import { useNavigate, useParams } from 'react-router-dom'
-import { chooseChat, startNewChat } from '@/entities/chat'
 import { getRelativeCalendarTime } from '@/shared/lib/utils/getRelativeCalendarTime'
 import { mobileXS } from '@/shared/lib/constants/media'
 import { CustomAvatar } from '@/shared/ui'
-import { getLastMessageContent } from '../utils/getLastMessageContent'
+
+import { useUserCard } from '../hooks/useUserCard'
 
 const CardWrapper = styled('div')<{ selected: boolean }>`
-	transition: background-size 0.7s ease-in-out;
+	transition: background-size 0.3s ease-in-out;
 	background-image: var(--bg-selectedMessage);
 	background-repeat: no-repeat;
 	background-size: ${(props) => (props.selected ? 100 : 0)}%;
@@ -78,26 +75,13 @@ interface UserCardProps {
 }
 
 export const UserCard: FC<UserCardProps> = ({ userData }) => {
-	const { id } = useParams()
-	const nav = useNavigate()
-	const dispatch = useAppDispatch()
-	const { _id: fromUserId } = useAppSelector(selectUser)
 	const { _id: toUserId, avatar, username, chat } = userData
-	const selectedUser = chat?._id === id
-	const lastMessage = chat?.messages[chat.messages.length - 1] || null
-
-	const handleClickCard = () => {
-		if (chat) {
-			dispatch(chooseChat(chat))
-			return nav(`/chat/${chat._id}`)
-		}
-
-		dispatch(startNewChat({ fromUserId, toUserId }))
-	}
+	const { handleClickCard, lastMessageContent, selectedChat, lastMessage,selectedChatMobile } =
+		useUserCard({ chat, toUserId })
 
 	return (
 		<CardWrapper
-			selected={selectedUser && id !== undefined}
+			selected={selectedChat || selectedChatMobile}
 			onClick={handleClickCard}
 		>
 			<CustomAvatar src={avatar} />
@@ -107,9 +91,7 @@ export const UserCard: FC<UserCardProps> = ({ userData }) => {
 					{getRelativeCalendarTime(lastMessage.createdAt)}
 				</StyledDate>
 			)}
-			<StyledLastMessage>
-				{getLastMessageContent(lastMessage)}
-			</StyledLastMessage>
+			<StyledLastMessage>{lastMessageContent}</StyledLastMessage>
 		</CardWrapper>
 	)
 }

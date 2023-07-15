@@ -74,7 +74,11 @@ export const Header: FC = () => {
 					<Text Size={18} text={username} />
 				</UserInfoContainer>
 				{id ? (
-					<UserInfoContainerMobile>
+					<UserInfoContainerMobile
+						onClick={() =>
+							delayedNavigateHandler('/chat', 0, 'mobile')
+						}
+					>
 						<CustomAvatar src={friendAvatar} />
 						<Text Size={18} text={friendUserName} />
 					</UserInfoContainerMobile>
