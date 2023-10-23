@@ -1,6 +1,6 @@
 import { mobileXS } from '@/shared/lib/constants/media'
 import { styled, keyframes, ButtonBase } from '@mui/material'
-import { FC } from 'react'
+import {forwardRef } from 'react'
 
 const appear = keyframes`
 	from{
@@ -54,25 +54,39 @@ interface HeaderMenuProps {
 	isAuth: boolean
 }
 
-export const HeaderMenu: FC<HeaderMenuProps> = ({
-	isAuth,
-	handleLoginClick,
-	handleRegisterClick,
-	handleLogout,
-	handleToggleSettings,
-}) => {
-	const renderButtons = () =>
-		isAuth ? (
-			<>
-				<ButtonBase onClick={handleToggleSettings}>Settings</ButtonBase>
-				<ButtonBase onClick={handleLogout}>Log out</ButtonBase>
-			</>
-		) : (
-			<>
-				<ButtonBase onClick={handleLoginClick}>Sign in</ButtonBase>
-				<ButtonBase onClick={handleRegisterClick}>Sign up</ButtonBase>
-			</>
-		)
+export const HeaderMenu = forwardRef<HTMLDivElement, HeaderMenuProps>(
+	(
+		{
+			isAuth,
+			handleLoginClick,
+			handleRegisterClick,
+			handleLogout,
+			handleToggleSettings,
+		},
+		ref
+	) => {
+		const renderButtons = () =>
+			isAuth ? (
+				<>
+					<ButtonBase onClick={handleToggleSettings}>
+						Settings
+					</ButtonBase>
+					<ButtonBase onClick={handleLogout}>Log out</ButtonBase>
+				</>
+			) : (
+				<>
+					<ButtonBase onClick={handleLoginClick}>Sign in</ButtonBase>
+					<ButtonBase onClick={handleRegisterClick}>
+						Sign up
+					</ButtonBase>
+				</>
+			)
 
-	return <MenuWrapper isAuth={isAuth}>{renderButtons()}</MenuWrapper>
-}
+		return (
+			<MenuWrapper ref={ref} isAuth={isAuth}>
+				{renderButtons()}
+			</MenuWrapper>
+		)
+	}
+)
+HeaderMenu.displayName = 'HeaderMenu'

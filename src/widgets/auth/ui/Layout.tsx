@@ -36,11 +36,11 @@ const Planet = styled('div')`
 	position: absolute;
 	background-image: url(${planet});
 	background-size: cover;
-	background-position: center;
+	background-position: 50% 0%;
 	background-repeat: no-repeat;
 	width: 100%;
-	height: 100%;
-	bottom: -45%;
+	height: 55%;
+	bottom: 0;
 	max-width: none;
 	margin: 0 auto;
 	z-index: -1;

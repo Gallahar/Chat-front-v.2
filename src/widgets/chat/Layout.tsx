@@ -29,7 +29,7 @@ const LayoutWrapper = styled('section')`
 const Container = styled('div')`
 	width: 100%;
 	max-width: 1106px;
-	max-height: 680px;
+	height: 100%;
 	margin: 0 auto;
 	padding: 20px 10px 40px 10px;
 

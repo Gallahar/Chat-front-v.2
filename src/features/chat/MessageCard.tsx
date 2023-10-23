@@ -1,7 +1,6 @@
 import { Message } from '@/shared/types/message.interface'
 import { FC } from 'react'
 import { Snackbar, Modal, AvatarGroup } from '@mui/material'
-import { getDate } from '@/shared/lib/utils/getDate'
 import { ContextMenu, useMessageCard } from '@/entities/chat'
 import { createPortal } from 'react-dom'
 import { CustomAvatar, Text } from '@/shared/ui'
@@ -15,7 +14,9 @@ import {
 	StyledFile,
 	LikeHandler,
 	LikeWrapper,
+	FilesContainer,
 } from './messageStyle'
+import { getRelativeCalendarTime } from '@/shared/lib/utils/getRelativeCalendarTime'
 
 interface MessageCardProps {
 	message: Message
@@ -61,14 +62,16 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 						</LikeHandler>
 					)}
 					{attachedFiles.length > 0 &&
-						attachedFiles.map((file) => (
+					<FilesContainer>
+						{attachedFiles.map((file) => (
 							<StyledFile key={file} src={file} />
-						))}
+						))
+					}</FilesContainer>}
 					<MessageContent>{text}</MessageContent>
 					<DateWrapper>
 						{likedBy.length > 0 && (
 							<LikeWrapper onClick={handleLike}>
-								<IconHeart  />
+								<IconHeart />
 								<AvatarGroup spacing={'medium'}>
 									{likedBy.map(({ avatarUrl, userId }) => (
 										<CustomAvatar
@@ -79,7 +82,9 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 								</AvatarGroup>
 							</LikeWrapper>
 						)}
-						<StyledDate>{getDate(createdAt, 'time')}</StyledDate>
+						<StyledDate>
+							{getRelativeCalendarTime(createdAt)}
+						</StyledDate>
 					</DateWrapper>
 				</StyledMessage>
 			</MessageWrapper>
@@ -109,23 +114,25 @@ export const MessageCard: FC<MessageCardProps> = ({ message, avatar }) => {
 				/>,
 				document.getElementById('root') as HTMLElement
 			)}
-			{createPortal(
-				<Modal open={modalAvatar} onClose={handleCloseModal}>
-					<CustomAvatar
-						src={avatar}
-						sx={{
-							width: 384,
-							height: 384,
-							maxWidth: '100%',
-							position: 'absolute',
-							top: '40%',
-							left: '50%',
-							transform: 'translate(-50%, -50%)',
-						}}
-					/>
-				</Modal>,
-				document.getElementById('root') as HTMLElement
-			)}
+			<Modal
+				style={{ position: 'absolute', inset: 0 }}
+				container={document.getElementById('room') as HTMLElement}
+				open={modalAvatar}
+				onClose={handleCloseModal}
+			>
+				<CustomAvatar
+					src={avatar}
+					sx={{
+						width: 384,
+						height: 384,
+						maxWidth: '100%',
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+					}}
+				/>
+			</Modal>
 		</>
 	)
 }

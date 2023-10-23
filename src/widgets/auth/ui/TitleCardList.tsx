@@ -16,7 +16,7 @@ const appear = keyframes`
 `
 
 const StyledList = styled('div')<{ hidden: boolean }>`
-	margin-top: 70px;
+	margin-top: 30px;
 	width: 100%;
 	display: grid;
 	grid-template-columns: repeat(3, minmax(154px, 340px));

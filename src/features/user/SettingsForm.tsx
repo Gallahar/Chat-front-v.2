@@ -10,7 +10,7 @@ import {
 	SecondaryButton,
 } from '@/shared/ui'
 import { Box, styled } from '@mui/material'
-import { FC } from 'react'
+import { forwardRef } from 'react'
 
 const StyledForm = styled('form')`
 	display: flex;
@@ -41,64 +41,65 @@ interface SettingsFormProps {
 	handleToggleSettings: () => void
 }
 
-export const SettingsForm: FC<SettingsFormProps> = ({
-	handleToggleSettings,
-}) => {
-	const initialUrl = useAppSelector(selectUser).avatar
-	const { fileUrl, onChangeInputFile } = useFile(
-		'avatar',
-		'settings',
-		initialUrl
-	)
-	const {
-		error,
-		onChangeUserName,
-		onSubmit,
-		username,
-		inputRef,
-		setShowInput,
-		showInput,
-	} = useSettingsForm(fileUrl, handleToggleSettings)
+export const SettingsForm = forwardRef<HTMLFormElement, SettingsFormProps>(
+	({ handleToggleSettings }, ref) => {
+		const initialUrl = useAppSelector(selectUser).avatar
+		const { fileUrl, onChangeInputFile } = useFile(
+			'avatar',
+			'settings',
+			initialUrl
+		)
+		const {
+			error,
+			onChangeUserName,
+			onSubmit,
+			username,
+			inputRef,
+			setShowInput,
+			showInput,
+		} = useSettingsForm(fileUrl, handleToggleSettings)
 
-	return (
-		<StyledForm onSubmit={onSubmit}>
-			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<CustomAvatar
-					src={fileUrl}
-					sx={{ width: '218px', height: '218px' }}
-				/>
-			</Box>
-			<SecondaryButton
-				onClick={() => inputRef?.current?.click()}
-				type="button"
-				isAuth={true}
-			>
-				Change Avatar
-			</SecondaryButton>
-			<input
-				ref={inputRef}
-				type="file"
-				onChange={onChangeInputFile}
-				hidden
-			/>
-			{showInput ? (
-				<ChatInput
-					value={username}
-					error={error}
-					onChange={onChangeUserName}
-				/>
-			) : (
+		return (
+			<StyledForm ref={ref} onSubmit={onSubmit}>
+				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+					<CustomAvatar
+						src={fileUrl}
+						sx={{ width: '218px', height: '218px' }}
+					/>
+				</Box>
 				<SecondaryButton
-					onClick={() => setShowInput(true)}
+					onClick={() => inputRef?.current?.click()}
 					type="button"
 					isAuth={true}
 				>
-					Change username
+					Change Avatar
 				</SecondaryButton>
-			)}
-			<PrimaryButton type="submit" isAuth={true}>
-				Save Changes
-			</PrimaryButton>
-		</StyledForm>
-	)
-}
+				<input
+					ref={inputRef}
+					type="file"
+					onChange={onChangeInputFile}
+					hidden
+				/>
+				{showInput ? (
+					<ChatInput
+						value={username}
+						error={error}
+						onChange={onChangeUserName}
+					/>
+				) : (
+					<SecondaryButton
+						onClick={() => setShowInput(true)}
+						type="button"
+						isAuth={true}
+					>
+						Change username
+					</SecondaryButton>
+				)}
+				<PrimaryButton type="submit" isAuth={true}>
+					Save Changes
+				</PrimaryButton>
+			</StyledForm>
+		)
+	}
+)
+SettingsForm.displayName = 'SettingsForm'

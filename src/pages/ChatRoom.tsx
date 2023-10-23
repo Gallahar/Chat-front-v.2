@@ -12,7 +12,7 @@ const ChatRoomWrapper = styled('div')`
 	position: relative;
 	background: url(${backgroundImage});
 	border-radius: 20px;
-	max-height: 480px;
+	max-height: 440px;
 	overflow-y: hidden;
 	grid-area: chat;
 	z-index: 0;
@@ -50,7 +50,7 @@ export const ChatRoom = () => {
 	const { downHandlers, listRef, upHandlers } = useControls()
 
 	return (
-		<ChatRoomWrapper>
+		<ChatRoomWrapper id="room">
 			<ChatControls
 				filled={true}
 				downHandlers={downHandlers}

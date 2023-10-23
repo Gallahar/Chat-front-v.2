@@ -13,7 +13,7 @@ const ChatWrapper = styled('div')`
 	background: url(${backgroundImage});
 	border-radius: 20px;
 	z-index: 0;
-	min-height: 485px;
+	min-height: 440px;
 
 	> p {
 		opacity: 0.6;

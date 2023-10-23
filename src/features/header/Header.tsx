@@ -19,6 +19,7 @@ import { SettingsForm } from '../user/SettingsForm'
 import { IconBack } from '@/shared/assets/icons/IconBack'
 import { CustomAvatar } from '@/shared/ui'
 import { selectFriend } from '@/entities/chat'
+import { ClickAwayListener } from '@mui/material'
 
 export const Header: FC = () => {
 	const { id } = useParams()
@@ -107,16 +108,20 @@ export const Header: FC = () => {
 				</AstronautButton>
 			</UserActionWrapper>
 			{closed && (
-				<HeaderMenu
-					handleLoginClick={handleLoginClick}
-					handleRegisterClick={handleRegisterClick}
-					handleToggleSettings={handleToggleSettings}
-					handleLogout={handleLogout}
-					isAuth={isAuth}
-				/>
+				<ClickAwayListener onClickAway={() => setClosed(false)}>
+					<HeaderMenu
+						handleLoginClick={handleLoginClick}
+						handleRegisterClick={handleRegisterClick}
+						handleToggleSettings={handleToggleSettings}
+						handleLogout={handleLogout}
+						isAuth={isAuth}
+					/>
+				</ClickAwayListener>
 			)}
 			{showSettings && (
-				<SettingsForm handleToggleSettings={handleToggleSettings} />
+				<ClickAwayListener onClickAway={() => setShowSettings(false)}>
+					<SettingsForm handleToggleSettings={handleToggleSettings} />
+				</ClickAwayListener>
 			)}
 		</StyledHeader>
 	)

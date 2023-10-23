@@ -76,11 +76,16 @@ interface UserCardProps {
 
 export const UserCard: FC<UserCardProps> = ({ userData }) => {
 	const { _id: toUserId, avatar, username, chat } = userData
-	const { handleClickCard, lastMessageContent, selectedChat, lastMessage,selectedChatMobile } =
-		useUserCard({ chat, toUserId })
+	const {
+		handleClickCard,
+		lastMessageContent,
+		selectedChat,
+		lastMessage,
+		selectedChatMobile,
+	} = useUserCard({ chat, toUserId })
 
 	return (
-		<CardWrapper
+		<CardWrapper 
 			selected={selectedChat || selectedChatMobile}
 			onClick={handleClickCard}
 		>

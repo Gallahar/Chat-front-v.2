@@ -123,14 +123,18 @@ export const StyledDate = styled('span')`
 	}
 `
 
+export const FilesContainer = styled('div')`
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+	gap: 10px;
+`
+
 export const StyledFile = styled('img')`
-	max-width: calc(50% - 20px);
-	max-height: 200px;
-	border-radius: 10px;
-	@media ${mobileXS} {
-		max-width: calc(50% - 10px);
-		max-height: 150px;
-	}
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	object-fit: cover;
 `
 
 export const LikeHandler = styled('div')`

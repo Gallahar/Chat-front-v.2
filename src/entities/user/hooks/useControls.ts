@@ -1,14 +1,19 @@
 import { RefObject, useRef } from 'react'
 import { getScrollValues } from '../utils/getScrollValues'
-import type { MouseEvent as ReactMouseEvent } from 'react'
+import type {
+	TouchEvent as ReactTouchEvent,
+	MouseEvent as ReactMouseEvent,
+} from 'react'
 
 export interface HookHandlers {
-	onClick: () => void
 	onMouseDown: () => void
 	onMouseUp: () => void
+	onMouseMove: () => void
 	onTouchStart: () => void
 	onTouchEnd: () => void
-	onContextMenu: (e: ReactMouseEvent<HTMLButtonElement>) => void
+	onContextMenu: (
+		e: ReactMouseEvent<HTMLButtonElement> | ReactTouchEvent<HTMLButtonElement>
+	) => void
 }
 
 interface UseControlsReturn {
@@ -17,35 +22,46 @@ interface UseControlsReturn {
 	downHandlers: HookHandlers
 }
 
-export const useControls = (threshold?: number): UseControlsReturn => {
+export const useControls = (speed?: number): UseControlsReturn => {
 	const listRef = useRef<HTMLDivElement>(null)
-	const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
-		undefined
-	)
-	const animationFrameRef =
-		useRef<ReturnType<typeof requestAnimationFrame>>(0)
+	const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+	const isScrolled = useRef<boolean>(false)
+
+	const setIsMoved = (state: boolean) => (isScrolled.current = state)
+
+	const holdScrollUp = () => {
+		if (!listRef.current) return
+
+		if (isScrolled.current) {
+			listRef.current.scrollTop = listRef.current.scrollTop - (speed ?? 10)
+			requestAnimationFrame(holdScrollUp)
+		}
+	}
+
+	const holdScrollDown = () => {
+		if (!listRef.current) return
+
+		if (isScrolled.current) {
+			listRef.current.scrollTop = listRef.current.scrollTop + (speed ?? 10)
+			requestAnimationFrame(holdScrollDown)
+		}
+	}
 
 	const onActionStartUp = () => {
-		intervalRef.current = setInterval(
-			() =>
-				(animationFrameRef.current =
-					requestAnimationFrame(handleClickUp)),
-			threshold ?? 100
-		)
+		handleClickUp()
+		setIsMoved(true)
+		timeoutRef.current = setTimeout(holdScrollUp, 100)
 	}
 
 	const onActionStartDown = () => {
-		intervalRef.current = setInterval(
-			() =>
-				(animationFrameRef.current =
-					requestAnimationFrame(handleClickDown)),
-			threshold ?? 100
-		)
+		handleClickDown()
+		setIsMoved(true)
+		timeoutRef.current = setTimeout(holdScrollDown, 100)
 	}
 
 	const onActionEnd = () => {
-		clearInterval(intervalRef.current)
-		cancelAnimationFrame(animationFrameRef.current)
+		setIsMoved(false)
+		clearTimeout(timeoutRef.current)
 	}
 
 	const handleClickDown = () => {
@@ -54,39 +70,43 @@ export const useControls = (threshold?: number): UseControlsReturn => {
 			listRef.current,
 			'gap'
 		)
+		const quantity = currentScroll + (amount + gap)
 
-		listRef.current?.scrollTo(0, currentScroll + amount + gap)
+		listRef.current.scrollTo({ behavior: 'smooth', top: quantity })
 	}
 
 	const handleClickUp = () => {
 		if (!listRef.current) return
-
 		const { amount, currentScroll, gap } = getScrollValues(
 			listRef.current,
 			'gap'
 		)
+		const quantity = currentScroll - (amount + gap)
 
-		listRef.current?.scrollTo(0, currentScroll - (amount + gap))
+		listRef.current.scrollTo({ behavior: 'smooth', top: quantity })
 	}
 
-	const handleContextMenu = (e: ReactMouseEvent<HTMLButtonElement>) => {
+	const handleContextMenu = (
+		e: ReactMouseEvent<HTMLButtonElement> | ReactTouchEvent<HTMLButtonElement>
+	) => {
 		e.preventDefault()
+		e.stopPropagation()
 	}
 
 	return {
 		listRef,
 		upHandlers: {
-			onClick: handleClickUp,
 			onMouseDown: onActionStartUp,
 			onMouseUp: onActionEnd,
+			onMouseMove: onActionEnd,
 			onTouchStart: onActionStartUp,
 			onTouchEnd: onActionEnd,
 			onContextMenu: handleContextMenu,
 		},
 		downHandlers: {
-			onClick: handleClickDown,
 			onMouseDown: onActionStartDown,
 			onMouseUp: onActionEnd,
+			onMouseMove: onActionEnd,
 			onTouchStart: onActionStartDown,
 			onTouchEnd: onActionEnd,
 			onContextMenu: handleContextMenu,
